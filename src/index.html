@@ -12,4 +12,20 @@
 <body class="mat-typography">
   <app-root></app-root>
 </body>
+<script>
+  function decodeJWTToken(token){
+    return JSON.parse(atob(token.split(".")[1]))
+  }
+
+  function handOauthResponse(response){
+    const cred = decodeJWTToken(response.credential);
+    sessionStorage.setItem('loggedInUser',JSON.stringify(cred));
+    if(cred.email.endsWith('@bitsathy.ac.in')){
+      window.location.href = '/user';
+    }
+    else {
+      alert("Lavade gabal yara nee");
+    }
+  }
+</script>
 </html>

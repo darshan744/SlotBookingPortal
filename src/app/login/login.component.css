@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200..900&display=swap');
+/* rgb(0, 185, 240); buttoncolor */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu' ,sans-serif;
+}
+body{
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-color: rgb(238, 242, 246);
+}
+.loginbox{
+    width: 420px;
+    background-color: #fff;
+    border: 2px solid rgba(255, 255, 255);
+    position:relative;
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px 10px rgb(156, 175, 194);
+}
+ .User-input{
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    width: 100%;
+    align-items: center;
+}
+.inputbox-user,.inputbox-pass{
+    align-items: center;
+    padding: 15px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    height: 62px;
+    width: 115%;
+    font-size: 15px;
+    /* border-radius: 15px; */
+    border: 2px solid rgb(230, 240, 250);
+    border-color: rgb(255, 255, 255);
+    background-color: rgb(238, 242, 246);
+}
+.inputbox-pass{
+    /* padding: 20px; */
+    margin-top: 20px;
+}
+.loginbox h1{
+    text-align: center;
+    font-size: 30px;
+    color: rgb(64, 56, 102);
+}
+.loginbox h2{
+    text-align: center;
+    font-weight: bold;
+}
+
+.loginbox .Sign-in ,.loginbox #Register{
+    text-align: center;
+    font-size: 17px;
+    
+}
+.loginbox .Sign-in{
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+.loginbox img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.loginbox #G-btn{
+    padding-left: 80px;
+    width: 75%;
+}
+
