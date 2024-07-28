@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
-import { MatCard, MatCardContent, MatCardImage } from '@angular/material/card';
+import { MatCard, MatCardContent, MatCardHeader, MatCardImage } from '@angular/material/card';
 @Component({
   selector: 'app-user',
   standalone: true,
@@ -8,7 +8,8 @@ import { MatCard, MatCardContent, MatCardImage } from '@angular/material/card';
     HeaderComponent,
     MatCard,
     MatCardContent,
-    MatCardImage
+    MatCardImage,
+    MatCardHeader
   ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'

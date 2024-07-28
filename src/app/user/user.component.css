@@ -1,0 +1,20 @@
+body{
+    background-color: #eef2f6;
+}
+.cards{
+   margin-top: 0px;
+    width: 300px;
+    height: 300px;
+    align-items: center; 
+    cursor:pointer;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    gap: 90px;
+    translate: 0% 50%
+}
+img{
+    background-size: cover;
+    width: 300px;
+}

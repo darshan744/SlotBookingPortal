@@ -14,7 +14,7 @@ body{
     align-items: center;
     background-size: cover;
     background-position: center;
-    background-color: rgb(238, 242, 246);
+    background-color: #eef2f6;
 }
 .loginbox{
     width: 420px;
@@ -58,6 +58,7 @@ body{
 .loginbox h2{
     text-align: center;
     font-weight: bold;
+    font-size: xx-large;
 }
 
 .loginbox .Sign-in ,.loginbox #Register{
