@@ -7,14 +7,19 @@ body{
     height: 300px;
     align-items: center; 
     cursor:pointer;
+    box-shadow: 10px 10px 10px 10px lightblue;
 }
 .container{
     display: flex;
     justify-content: center;
     gap: 90px;
-    translate: 0% 50%
+    translate: 0% 50%;
+    min-width: 50%;
 }
 img{
     background-size: cover;
     width: 300px;
+}
+.cards:active{
+    opacity: 0.6;
 }
