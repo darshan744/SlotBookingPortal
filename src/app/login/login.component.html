@@ -3,20 +3,26 @@
   content="772453149406-40ctg1aupn8hok7uttrquur55tfd313g.apps.googleusercontent.com.apps.googleusercontent.com">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 <body>
-  <div action="" class="loginbox" >
-    <h1>Login</h1>
-    <!-- <img src="assets\BIT_LOGO-removebg-preview.png" alt="BitLogo" id="Logo"> -->
-    <form>
-      <div class="User-input">
-      <input type="text" placeholder="Reg-number" class="inputbox-user">
-      <input type="password" placeholder="Passoword" class="inputbox-pass">
-    </div>
-    </form>
-    <h2>Slot-booking Portal</h2>
-    <p class="Sign-in">Sign-in using Bitsathy Account
-    </p>
-    <div id="g_id_onload" data-client_id="772453149406-abjsh6ajdo61sr3rcsfqav4u3mj6b5ap.apps.googleusercontent.com"
-      data-context="signin" data-ux_mode="popup" data-callback="handleOauthResponse" data-auto_prompt="false"></div>
-    <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="filled_white" data-text="signin_with"
-      data-size="medium" data-logo_alignment="left" id="G-btn">
-    </div>
+  <mat-card class="loginbox">
+    <mat-card-content style="display: flex; flex-direction: column; padding: 24px;">
+      <h4>Slot-booking Portal</h4>
+      <mat-form-field appearance="outline" style="margin-bottom: 16px;">
+        <mat-label>UserName</mat-label>
+        <input type="text" matInput style="border-radius: 4px;width: 100%;">
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="margin-bottom: 16px;">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput style="border-radius: 4px;width: 100%;">
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions style="display: flex; margin-top: -32px; flex-direction: column;">
+      <button mat-fab extended type="submit" class="submit-btn">Submit</button>
+      <p class="Sign-in" style="margin-top: 20px;font-size: large; font-weight: bold;">OR</p>
+      <div id="g_id_onload" data-client_id="772453149406-abjsh6ajdo61sr3rcsfqav4u3mj6b5ap.apps.googleusercontent.com"
+    data-context="signin" data-ux_mode="popup" data-callback="handleOauthResponse" data-auto_prompt="false" style="width: 300px;"></div>
+  <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="filled_white" data-text="signin_with"
+    data-size="medium" data-logo_alignment="left" id="G-btn">
+  </div>
+    </mat-card-actions>
+    
+  </mat-card>

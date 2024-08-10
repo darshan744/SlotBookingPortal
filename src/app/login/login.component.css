@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200..900&display=swap');
 /* rgb(0, 185, 240); buttoncolor */
 
-*{
+/* *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Ubuntu' ,sans-serif;
-}
+}*/
 body{
     display: flex;
     min-height: 100vh;
@@ -15,7 +15,7 @@ body{
     background-size: cover;
     background-position: center;
     background-color: #eef2f6;
-}
+} 
 .loginbox{
     width: 420px;
     background-color: #fff;
@@ -23,9 +23,10 @@ body{
     position:relative;
     padding: 30px 40px;
     border-radius: 20px;
-    box-shadow: 10px 10px 10px 10px rgb(156, 175, 194);
+    box-shadow: 10px 10px 8px #c5cdd5;
+    
 }
- .User-input{
+ /* .User-input{
     display: flex;
     flex-direction: column;
     padding: 30px;
@@ -41,13 +42,11 @@ body{
     height: 62px;
     width: 115%;
     font-size: 15px;
-    /* border-radius: 15px; */
     border: 2px solid rgb(230, 240, 250);
     border-color: rgb(255, 255, 255);
     background-color: rgb(238, 242, 246);
 }
 .inputbox-pass{
-    /* padding: 20px; */
     margin-top: 20px;
 }
 .loginbox h1{
@@ -79,4 +78,13 @@ body{
     padding-left: 80px;
     width: 75%;
 }
+ */
 
+.submit-btn{
+    background-color:#5755FE;
+    font-weight: bold;
+    color: white;
+    font-size: large;
+    width: 300px;
+    border-radius: 10px;
+}
