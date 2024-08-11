@@ -3,6 +3,11 @@
         <mat-icon>today</mat-icon>
         <span style="cursor: default;">SlotBooking Portal</span>
     </div>
-    <img [src]="userdetails.picture" alt="" class="profile">
-    whatsa
+    <div class="dropdown" style="position: relative;">
+        <img [src]="userdetails.picture" alt="" class="profile" id="me">
+        <div class="items" id="items">
+         <button [routerLink] = "['/dashboard']"id="Dashboard">Dashboard</button>
+         <button href="" id="Logout">Logout</button> 
+        </div>
+    </div>
 </mat-toolbar>

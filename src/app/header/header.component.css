@@ -12,8 +12,47 @@
 .profile{
     width: 60px;
     border-radius: 30px;
-    margin-right: 30px;
+    margin-top: 10px;
+    margin-right: 60px;
     margin-bottom: 6px;
     cursor: pointer;
 }
+#Dashboard{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 14px;
+}
 
+#Logout{
+    border-top: none;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+#Dashboard,#Logout{
+    border-color: #b1b1be;
+    text-decoration: none;
+    font-family: monospace;
+    background-color: #eef2f6;
+    padding: 8px 8px 8px 8px;
+    border-width: 2px;
+    border-style: solid;
+    color: black;
+    text-align: center;
+    font-size: 19px;
+    cursor: pointer;
+}
+#items{
+    display: none;
+    flex-direction: column;
+    margin-top: 10px;
+    position: absolute;
+    right: 30px;
+    width: 120px;
+    height: 55px;
+}
+#Logout:hover{
+    background-color: rgba(162, 177, 192, 0.585);
+    
+}
+#Dashboard:hover{
+    background-color: rgba(162, 177, 192, 0.585);
+}

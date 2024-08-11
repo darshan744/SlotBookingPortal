@@ -26,60 +26,6 @@ body{
     box-shadow: 10px 10px 8px #c5cdd5;
     
 }
- /* .User-input{
-    display: flex;
-    flex-direction: column;
-    padding: 30px;
-    width: 100%;
-    align-items: center;
-}
-.inputbox-user,.inputbox-pass{
-    align-items: center;
-    padding: 15px;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    height: 62px;
-    width: 115%;
-    font-size: 15px;
-    border: 2px solid rgb(230, 240, 250);
-    border-color: rgb(255, 255, 255);
-    background-color: rgb(238, 242, 246);
-}
-.inputbox-pass{
-    margin-top: 20px;
-}
-.loginbox h1{
-    text-align: center;
-    font-size: 30px;
-    color: rgb(64, 56, 102);
-}
-.loginbox h2{
-    text-align: center;
-    font-weight: bold;
-    font-size: xx-large;
-}
-
-.loginbox .Sign-in ,.loginbox #Register{
-    text-align: center;
-    font-size: 17px;
-    
-}
-.loginbox .Sign-in{
-    margin-top: 50px;
-    margin-bottom: 20px;
-}
-.loginbox img{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-.loginbox #G-btn{
-    padding-left: 80px;
-    width: 75%;
-}
- */
-
 .submit-btn{
     background-color:#5755FE;
     font-weight: bold;
