@@ -1,0 +1,22 @@
+body{
+   margin: 0px;
+   background-color: #eef2f6;
+}
+.container {
+   height: 100vh;
+   background-color: #eef2f6;
+
+ }
+
+#togglebtn{
+   margin-left: 18px;
+   margin-top: 30px;
+   background-color: transparent;
+   border: none;
+   padding: 0;
+   position: relative;
+}
+
+.list-items:hover{
+   background-color: default;
+}
