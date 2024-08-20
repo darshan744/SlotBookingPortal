@@ -4,7 +4,7 @@ import { MatCard, MatCardContent, MatCardHeader, MatCardImage } from '@angular/m
 import { LoginService } from '../login.service';
 import { MatIcon } from '@angular/material/icon';
 import {MatToolbar} from '@angular/material/toolbar'
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { MatDrawer, MatDrawerContainer, MatDrawerContent, MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { MatListItem, MatNavList } from '@angular/material/list';
@@ -21,7 +21,7 @@ import { CommonModule, NgFor } from '@angular/common';
     MatCardHeader,
     MatDrawer, MatDrawerContainer, MatDrawerContent, MatSidenav, MatSidenavContainer, MatSidenavContent,
     MatListItem, MatNavList,
-    DashboardComponent, MatAnchor, MatIconButton, RouterLink, RouterOutlet,MatToolbar,MatIcon
+    DashboardComponent, MatAnchor, MatIconButton, RouterLink, RouterOutlet,MatToolbar,MatIcon,RouterLinkActive
     ,CommonModule,NgFor
   ],
   templateUrl: './user.component.html',
@@ -32,9 +32,9 @@ export class UserComponent {
   constructor(){}
   list = [
     {name:"Dashboard",path:'dashboard'},
-    {name:"MockInterview",path:'header'},
-    {name:"SelfIntroduction",path:'header'},
-    {name:"GroupDiscussion",path:'header'}
+    {name:"MockInterview",path:'Mi'},
+    {name:"SelfIntroduction",path:'Si'},
+    {name:"GroupDiscussion",path:'Gd'}
   ]
   }
 

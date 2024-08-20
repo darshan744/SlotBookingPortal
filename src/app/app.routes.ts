@@ -4,6 +4,9 @@ import { UserComponent } from './user/user.component';
 import { AdminComponent } from './admin/admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeaderComponent } from './header/header.component';
+import { MiComponent } from './mi/mi.component';
+import { SiComponent } from './si/si.component';
+import { GDComponent } from './gd/gd.component';
 
 export const routes: Routes = [
     {
@@ -19,6 +22,15 @@ export const routes: Routes = [
             {
                 path:'header',
                 component:HeaderComponent
+            },
+            {
+                path:'Si',component:SiComponent
+            },
+            {
+                path:'Mi',component:MiComponent
+            },
+            {
+                path:'Gd',component:GDComponent
             }
         ]
         

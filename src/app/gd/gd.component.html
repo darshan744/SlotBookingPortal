@@ -1,1 +1,24 @@
-<p>gd works!</p>
+<div class="date-picker-container">
+    <div class="date-picker">
+      <div 
+        *ngFor="let date of dates"
+        class="date-item"
+        [class.selected]="selectedDate === date"
+        (click)="selectDate(date)"
+      >
+        {{ date }}
+      </div>
+    </div>
+  </div>
+  
+  <div class="timings-container" *ngIf="selectedDate">
+    <h3>Available Timings for {{ selectedDate }}</h3>
+    <div 
+      class="timing-item" 
+      *ngFor="let time of availableTimings"
+      (click)="bookTime(time)"
+    >
+      {{ time }}
+    </div>
+  </div>
+  

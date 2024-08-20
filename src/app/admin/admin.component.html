@@ -1,1 +1,26 @@
-<p>admin works!</p>
+
+
+<mat-toolbar class="toolbar">
+    <div>
+        <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+    </div>
+    <div style="display:flex; align-items: center; gap: 10px;">
+        <mat-icon>today</mat-icon>
+        <span style="cursor: default;">SlotBooking Portal</span>
+    </div>
+</mat-toolbar>
+
+<mat-sidenav-container style="height: 89vh; background-color: white;">
+    <mat-sidenav #sidenav mode="side" opened style="width: 235px;">
+        <mat-nav-list >
+                <a style="margin-bottom: 10px;" class="routes" mat-list-item *ngFor="let item of list" 
+                routerLink='{{item.path}}' routerLinkActive="selected-route" 
+                #rla="routerLinkActive"  [routerLinkActiveOptions]="{exact:true}">
+                <span>{{item.name}}</span>
+            </a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content style="background-color: #eef2f6;">
+        <router-outlet/>
+    </mat-sidenav-content>
+</mat-sidenav-container>

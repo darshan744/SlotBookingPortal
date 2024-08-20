@@ -1,0 +1,10 @@
+.selected-route{
+   background-color: black;
+    color: white;
+    border-left: 3px solid;
+    border-left-color: red;
+}
+
+.routes{
+    border-radius: 0px;
+}
