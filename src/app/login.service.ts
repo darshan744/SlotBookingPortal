@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class LoginService {
 
+   user:any=null;
+
   constructor() { }
 
    decodeJWTToken(token:string){
@@ -12,14 +14,18 @@ export class LoginService {
   }
 
    handleOauthResponse(response:any){
-    const cred = this.decodeJWTToken(response.credential);
-    sessionStorage.setItem('loggedInUser',JSON.stringify(cred));
-    if(cred.email.endsWith('@bitsathy.ac.in')){
+     this.user = this.decodeJWTToken(response.credential);
+    if(this.user){
+      this.user = this.user;
+    }
+    sessionStorage.setItem('loggedInUser',JSON.stringify(this.user));
+    if(this.user.email.endsWith('@bitsathy.ac.in')){
       window.location.href = '/user';
     }
     else {
       alert("Lavade gabal yara nee");
     }
+    
   }
-
+   
 }

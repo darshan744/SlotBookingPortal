@@ -1,13 +1,20 @@
-<mat-toolbar class="toolbar">
-    <div style="display:flex; align-items: center; gap: 10px;">
-        <mat-icon>today</mat-icon>
-        <span style="cursor: default;">SlotBooking Portal</span>
-    </div>
-    <div class="dropdown" style="position: relative;">
-        <img [src]="userdetails.picture" alt="" class="profile" id="me">
-        <div class="items" id="items">
-         <button [routerLink] = "['/dashboard']"id="Dashboard">Dashboard</button>
-         <button href="" id="Logout">Logout</button> 
-        </div>
-    </div>
-</mat-toolbar>
+<div class="container">
+    <mat-card class="cards">
+        <img mat-card-image src="/images (1).jpeg" alt="">
+        <mat-card-content>
+            <h6>Mock Interview</h6>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="cards">
+        <img mat-card-image src="/GroupDiscussion.jpeg" alt="" style="height: 70%;">
+        <mat-card-content >
+            <h6>Group-Discussion</h6>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="cards">
+        <img mat-card-image src="/SelfIntroduction.png" alt="">
+        <mat-card-content>
+            <h6 >Self-Introduction</h6>
+        </mat-card-content>
+    </mat-card>
+</div>

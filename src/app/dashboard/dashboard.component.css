@@ -1,22 +1,31 @@
-body{
-   margin: 0px;
-   background-color: #eef2f6;
-}
-.container {
-   height: 100vh;
-   background-color: #eef2f6;
-
- }
-
-#togglebtn{
-   margin-left: 18px;
-   margin-top: 30px;
-   background-color: transparent;
-   border: none;
-   padding: 0;
-   position: relative;
+.Uevetns{
+   width: 300px;
+background-color: blue;
+   margin-left: 30px;
+   text-align: center;
+   color: white;
+   font-weight: bold;
+   padding-top: 15px;
+   padding-bottom: 9px;
+   border-radius: 20px;
+   box-shadow: 8px 8px 8px 8px rgb(215, 215, 229);
 }
 
-.list-items:hover{
-   background-color: default;
+.table-container{
+   margin-right: 50px;
+   margin-left: 40px;
+   margin-top: 40px;
+}
+
+.progress-fill {
+   height: 100%;
+   background-color: #28a745;
+}
+.progress-bar {
+   height: 20px;
+   background-color: #ddd;
+   border-radius: 10px;
+   overflow: hidden;
+   margin-bottom: 5px;
+   width: 300px;
 }
