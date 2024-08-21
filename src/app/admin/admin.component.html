@@ -2,7 +2,7 @@
 
 <mat-toolbar class="toolbar">
     <div>
-        <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+        <button mat-icon-button (click)="collapsed.set(!collapsed())"><mat-icon>menu</mat-icon></button>
     </div>
     <div style="display:flex; align-items: center; gap: 10px;">
         <mat-icon>today</mat-icon>
@@ -11,16 +11,21 @@
 </mat-toolbar>
 
 <mat-sidenav-container style="height: 89vh; background-color: white;">
-    <mat-sidenav #sidenav mode="side" opened style="width: 235px;">
+    <mat-sidenav #sidenav mode="side" opened [style.width]="sidenavwidth()">
         <mat-nav-list >
-                <a style="margin-bottom: 10px;" class="routes" mat-list-item *ngFor="let item of list" 
+                <a  style="margin-bottom: 10px; border-radius: 0%;" class="routes" mat-list-item *ngFor="let item of list" 
                 routerLink='{{item.path}}' routerLinkActive="selected-route" 
-                #rla="routerLinkActive"  [routerLinkActiveOptions]="{exact:true}">
+                #rla="routerLinkActive" [activated]="rla.isActive" [routerLinkActiveOptions]="{exact:true}">
+                <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
                 <span>{{item.name}}</span>
             </a>
+            <div style="margin-top:auto; margin-bottom: 10px;">
+                <a href="" mat-list-item  
+                (click)="handleSignOut()"><mat-icon matListItemIcon>logout</mat-icon> Logout</a>
+            </div>
         </mat-nav-list>
     </mat-sidenav>
-    <mat-sidenav-content style="background-color: #eef2f6;">
+    <mat-sidenav-content style="background-color: #eef2f6;" [style.margin-left]="sidenavwidth()">
         <router-outlet/>
     </mat-sidenav-content>
 </mat-sidenav-container>

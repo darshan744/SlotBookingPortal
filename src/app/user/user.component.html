@@ -12,11 +12,15 @@
 <mat-sidenav-container style="height: 89vh; background-color: white;">
     <mat-sidenav #sidenav mode="side" opened style="width: 235px;">
         <mat-nav-list >
-                <a style="margin-bottom: 10px;" class="routes" mat-list-item *ngFor="let item of list" 
+                <a style="margin-bottom: 10px; border-radius: 0%;" class="routes" mat-list-item *ngFor="let item of list" 
                 routerLink='{{item.path}}' routerLinkActive="selected-route" 
                 #rla="routerLinkActive" [activated]="rla.isActive" [routerLinkActiveOptions]="{exact:true}">
                 <span>{{item.name}}</span>
             </a>
+            <div style="margin-top:auto; margin-bottom: 10px;">
+                <a href="" mat-list-item  
+                (click)="handleSignOut()"><mat-icon matListItemIcon>logout</mat-icon> Logout</a>
+            </div>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content style="background-color: #eef2f6;">

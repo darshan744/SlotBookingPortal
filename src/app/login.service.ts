@@ -20,10 +20,16 @@ export class LoginService {
     }
     sessionStorage.setItem('loggedInUser',JSON.stringify(this.user));
     if(this.user.email.endsWith('@bitsathy.ac.in')){
-      window.location.href = '/user';
+      window.location.href = '/user/dashboard';
+    }
+    else if(this.user.email==='darshankumaravelk@gmail.com'){
+      window.location.href = '/superAdmin'
+    }
+    else if(this.user.email==='darshan07042004@gmail.com'){
+      window.location.href = '/admin/Home'
     }
     else {
-      alert("Lavade gabal yara nee");
+      alert("Sign in with Bisathy mail only");
     }
     
   }

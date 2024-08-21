@@ -7,12 +7,20 @@ import { HeaderComponent } from './header/header.component';
 import { MiComponent } from './mi/mi.component';
 import { SiComponent } from './si/si.component';
 import { GDComponent } from './gd/gd.component';
+import { AdminEventsComponent } from './admin-events/admin-events.component';
+import { AdminStudentSearchComponent } from './admin-student-search/admin-student-search.component';
+import { AdminHomeComponent } from './admin-home/admin-home.component';
+import { SuperadminComponent } from './superadmin/superadmin.component';
 
 export const routes: Routes = [
     {
         path:'',
         component:LoginComponent,
         
+    },
+    {
+        path:'superAdmin',
+        component:SuperadminComponent
     },
     {
         path:'user',
@@ -37,7 +45,18 @@ export const routes: Routes = [
     },
     {
         path:'admin',
-        component:AdminComponent
+        component:AdminComponent,
+        children:[
+            {
+                path:'Home',component:AdminHomeComponent
+            },
+            {
+                path:'Events',component:AdminEventsComponent
+            },
+            {
+                path:'studentSearch',component:AdminStudentSearchComponent
+            }
+        ]
     },
     
    

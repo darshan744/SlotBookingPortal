@@ -6,6 +6,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { LoginService } from '../login.service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,7 +25,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor(private service:LoginService){}
+  constructor(private service:LoginService,private router:Router){}
 
  
   ngOnInit():void{
@@ -36,7 +37,11 @@ export class LoginComponent {
     password:String
   };
 
-
+  navigate(){
+    
+      
+      this.router.navigate(['/user'])
+  }
   handleOauthResponse(response:any):void{
     this.service.handleOauthResponse(response)
   }

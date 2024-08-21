@@ -1,27 +1,36 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { MatAnchor, MatIconButton } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListItem, MatNavList } from '@angular/material/list';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatListItem, MatListItemIcon, MatNavList } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {  MatToolbarModule } from '@angular/material/toolbar';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
   imports: [MatToolbarModule,MatIconModule,MatSidenavModule,
     MatNavList,RouterLink,RouterOutlet,RouterLinkActive,MatAnchor,CommonModule,
-    MatListItem,MatIconButton
+    MatListItem,MatIconButton,MatListItemIcon
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
 export class AdminComponent {
-
+  collapsed = signal(false);
+ constructor(private router:Router){}
+  sidenavwidth = computed(()=> this.collapsed()?'65px':'250px')
   list  = [
-    {name:'Home',path:'Home'},
-    {name:'Students',path:'search'},
-    {name:'Your Events',path:'Events'},
+    {name:'Home',path:'Home',icon:'home'},
+    {name:'Students',path:'studentSearch',icon:'dashboard'},
+    {name:'Your Events',path:'Events',icon:'event'},
   ]
+
+  handleSignOut(){
+    sessionStorage.removeItem('loggedInUser');
+    this.router.navigate(['/']).then(()=>{
+      window.location.reload();
+    })
+  }
 }

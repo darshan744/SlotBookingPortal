@@ -7,7 +7,7 @@ import {MatToolbar} from '@angular/material/toolbar'
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { MatDrawer, MatDrawerContainer, MatDrawerContent, MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
-import { MatListItem, MatNavList } from '@angular/material/list';
+import { MatListItem, MatListItemIcon, MatNavList } from '@angular/material/list';
 import { MatAnchor, MatIconButton } from '@angular/material/button';
 import { CommonModule, NgFor } from '@angular/common';
 @Component({
@@ -22,19 +22,25 @@ import { CommonModule, NgFor } from '@angular/common';
     MatDrawer, MatDrawerContainer, MatDrawerContent, MatSidenav, MatSidenavContainer, MatSidenavContent,
     MatListItem, MatNavList,
     DashboardComponent, MatAnchor, MatIconButton, RouterLink, RouterOutlet,MatToolbar,MatIcon,RouterLinkActive
-    ,CommonModule,NgFor
+    ,CommonModule,NgFor,MatListItemIcon
   ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
 export class UserComponent {
 
-  constructor(){}
+  constructor(private router:Router){}
   list = [
     {name:"Dashboard",path:'dashboard'},
     {name:"MockInterview",path:'Mi'},
     {name:"SelfIntroduction",path:'Si'},
     {name:"GroupDiscussion",path:'Gd'}
   ]
+  handleSignOut(){
+    sessionStorage.removeItem('loggedInUser');
+    this.router.navigate(['/']).then(()=>{
+      window.location.reload();
+    })
+  }
   }
 
