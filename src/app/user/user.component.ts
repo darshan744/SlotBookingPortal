@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { MatCard, MatCardContent, MatCardHeader, MatCardImage } from '@angular/material/card';
-import { LoginService } from '../login.service';
 import { MatIcon } from '@angular/material/icon';
 import {MatToolbar} from '@angular/material/toolbar'
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { DashboardComponent } from '../dashboard/dashboard.component';
-import { MatDrawer, MatDrawerContainer, MatDrawerContent, MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
+import {  MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { MatListItem, MatListItemIcon, MatNavList } from '@angular/material/list';
 import { MatAnchor, MatIconButton } from '@angular/material/button';
 import { CommonModule, NgFor } from '@angular/common';
@@ -19,7 +18,7 @@ import { CommonModule, NgFor } from '@angular/common';
     MatCardContent,
     MatCardImage,
     MatCardHeader,
-    MatDrawer, MatDrawerContainer, MatDrawerContent, MatSidenav, MatSidenavContainer, MatSidenavContent,
+    MatSidenav, MatSidenavContainer, MatSidenavContent,
     MatListItem, MatNavList,
     DashboardComponent, MatAnchor, MatIconButton, RouterLink, RouterOutlet,MatToolbar,MatIcon,RouterLinkActive
     ,CommonModule,NgFor,MatListItemIcon
@@ -29,12 +28,16 @@ import { CommonModule, NgFor } from '@angular/common';
 })
 export class UserComponent {
 
+  collapsed = signal(false);
+  
+  width = computed(()=>this.collapsed()?'65px':'225px')
+  
   constructor(private router:Router){}
   list = [
-    {name:"Dashboard",path:'dashboard'},
-    {name:"MockInterview",path:'Mi'},
-    {name:"SelfIntroduction",path:'Si'},
-    {name:"GroupDiscussion",path:'Gd'}
+    {name:"Dashboard",path:'dashboard',icon:'dashboard'},
+    {name:"MockInterview",path:'Mi',icon:'business_center'},
+    {name:"SelfIntroduction",path:'Si',icon:'account_circle'},
+    {name:"GroupDiscussion",path:'Gd',icon:'group'}
   ]
   handleSignOut(){
     sessionStorage.removeItem('loggedInUser');

@@ -1,4 +1,4 @@
-<mat-toolbar class="toolbar">
+<mat-toolbar class="toolbar" class="mat-elevated-z8">
     <div>
         <!--  (click)="sidenav.toggle()" -->
         <button mat-icon-button (click)="collapsed.set(!collapsed())"><mat-icon>menu</mat-icon></button>
@@ -12,7 +12,7 @@
 <mat-sidenav-container style="height: 89vh; background-color: white;">
     <mat-sidenav #sidenav mode="side" opened  [style.width]="sidenavwidth()">
         <mat-nav-list >
-                <a (click)="switchView(item.name)" style="margin-bottom: 10px;" class="routes" mat-list-item *ngFor="let item of routes" 
+                <a (click)="switchView(item.name)" style="margin-bottom: 10px;border-radius: 0%;" class="routes" mat-list-item *ngFor="let item of routes" 
                  routerLinkActive="selected-route" 
                 #rla="routerLinkActive" [activated]="rla.isActive" [routerLinkActiveOptions]="{exact:true}">
                 <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
