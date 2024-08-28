@@ -12,6 +12,7 @@ import { AdminStudentSearchComponent } from './Admin/admin-student-search/admin-
 import { AdminHomeComponent } from './Admin/admin-home/admin-home.component';
 import { SuperadminComponent } from './SuperAdmin/superadmin/superadmin.component';
 import { SearchComponent } from './SuperAdmin/search/search.component';
+import { CreateComponent } from './SuperAdmin/create/create.component';
 
 export const routes: Routes = [
    
@@ -26,7 +27,8 @@ export const routes: Routes = [
         path:'superAdmin',
         component:SuperadminComponent
         ,children:[
-            {path:'Search',component:SearchComponent}
+            {path:'Search',component:SearchComponent},
+            {path:'Create',component:CreateComponent}
         ]
     },
     //User

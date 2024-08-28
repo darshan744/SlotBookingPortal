@@ -1,0 +1,42 @@
+
+<div>
+    <div  style="margin-left: 50px;margin-top: 50px; display: flex;align-items: center; gap: 15px;">
+        <mat-form-field appearance="outline">
+            <mat-label>EventName</mat-label>
+            <mat-select [(ngModel)]="EventName" required >
+                <mat-option *ngFor="let item of events"[value]="item" >{{item}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>SeletBatch</mat-label>
+            <mat-select [(ngModel)]="Batch" required >
+                <mat-option *ngFor="let item of batches"[value]="item" >{{item}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-flat-button>CreateEvent</button>
+    </div>
+    <h4 style="margin-top: 100px;margin-left: 50px;">Venues & Instructors</h4>
+    <div *ngFor="let venue of venue; let i = index" style="margin-left: 50px;">
+        <mat-form-field appearance="outline">
+          <mat-label>Venue {{i + 1}}</mat-label>
+          <input [(ngModel)]="venue.name" matInput type="text" required>
+        </mat-form-field>
+        <div style="display: flex; flex-direction: row; gap: 15px;">
+            <div *ngFor="let instructor of venue.instructor; let j = index">
+                <mat-form-field appearance="outline">
+                  <mat-label>Instructor {{j + 1}} for Venue {{i + 1}}</mat-label>
+                  <input [(ngModel)]="instructor.name" matInput type="text" required>
+                </mat-form-field>
+              </div>
+          
+              <!-- Button to add new instructor -->
+              <button mat-icon-button (click)="addInstructor(i)">
+                <mat-icon>add</mat-icon>
+              </button>
+        </div>
+        
+    </div>
+</div>
+
+
+

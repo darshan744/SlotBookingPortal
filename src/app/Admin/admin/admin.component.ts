@@ -6,13 +6,14 @@ import { MatListItem, MatListItemIcon, MatNavList } from '@angular/material/list
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {  MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { SidenavComponent } from '../../sidenav/sidenav.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
   imports: [MatToolbarModule,MatIconModule,MatSidenavModule,
     MatNavList,RouterLink,RouterOutlet,RouterLinkActive,MatAnchor,CommonModule,
-    MatListItem,MatIconButton,MatListItemIcon
+    MatListItem,MatIconButton,MatListItemIcon,SidenavComponent
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
@@ -33,4 +34,5 @@ export class AdminComponent {
       window.location.reload();
     })
   }
+  role:string='Admin';
 }

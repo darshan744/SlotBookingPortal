@@ -1,0 +1,8 @@
+.selected-route{
+    border-left: 5px solid;
+    border-left-color: red;
+}
+
+.toolbar{
+    box-shadow: 8px 8px 8px 8px black;
+}

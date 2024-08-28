@@ -9,6 +9,7 @@ import {  MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/ma
 import { MatListItem, MatListItemIcon, MatNavList } from '@angular/material/list';
 import { MatAnchor, MatIconButton } from '@angular/material/button';
 import { CommonModule, NgFor } from '@angular/common';
+import { SidenavComponent } from "../../sidenav/sidenav.component";
 @Component({
   selector: 'app-user',
   standalone: true,
@@ -20,9 +21,10 @@ import { CommonModule, NgFor } from '@angular/common';
     MatCardHeader,
     MatSidenav, MatSidenavContainer, MatSidenavContent,
     MatListItem, MatNavList,
-    DashboardComponent, MatAnchor, MatIconButton, RouterLink, RouterOutlet,MatToolbar,MatIcon,RouterLinkActive
-    ,CommonModule,NgFor,MatListItemIcon
-  ],
+    DashboardComponent, MatAnchor, MatIconButton, RouterLink, RouterOutlet, MatToolbar, MatIcon, RouterLinkActive,
+    CommonModule, NgFor, MatListItemIcon,
+    SidenavComponent
+],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
@@ -45,5 +47,6 @@ export class UserComponent {
       window.location.reload();
     })
   }
-  }
+  role:string='User'
+}
 
