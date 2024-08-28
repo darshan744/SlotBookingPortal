@@ -28,7 +28,7 @@ import { CommonModule, NgFor } from '@angular/common';
 })
 export class UserComponent {
 
-  collapsed = signal(false);
+  collapsed = signal(true);
   
   width = computed(()=>this.collapsed()?'65px':'225px')
   

@@ -1,27 +1,35 @@
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { UserComponent } from './user/user.component';
-import { AdminComponent } from './admin/admin.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HeaderComponent } from './header/header.component';
-import { MiComponent } from './mi/mi.component';
-import { SiComponent } from './si/si.component';
-import { GDComponent } from './gd/gd.component';
-import { AdminEventsComponent } from './admin-events/admin-events.component';
-import { AdminStudentSearchComponent } from './admin-student-search/admin-student-search.component';
-import { AdminHomeComponent } from './admin-home/admin-home.component';
-import { SuperadminComponent } from './superadmin/superadmin.component';
+import { UserComponent } from './User/user/user.component';
+import { AdminComponent } from './admin/admin/admin.component';
+import { DashboardComponent } from './User/dashboard/dashboard.component';
+import { HeaderComponent } from './User/header/header.component';
+import { MiComponent } from './User/mi/mi.component';
+import { SiComponent } from './User/si/si.component';
+import { GDComponent } from './User/gd/gd.component';
+import { AdminEventsComponent } from './Admin/admin-events/admin-events.component';
+import { AdminStudentSearchComponent } from './Admin/admin-student-search/admin-student-search.component';
+import { AdminHomeComponent } from './Admin/admin-home/admin-home.component';
+import { SuperadminComponent } from './SuperAdmin/superadmin/superadmin.component';
+import { SearchComponent } from './SuperAdmin/search/search.component';
 
 export const routes: Routes = [
+   
+   //Login Component
     {
         path:'',
         component:LoginComponent,
         
     },
+    //SuperAdmin
     {
         path:'superAdmin',
         component:SuperadminComponent
+        ,children:[
+            {path:'Search',component:SearchComponent}
+        ]
     },
+    //User
     {
         path:'user',
         component:UserComponent,
@@ -43,6 +51,7 @@ export const routes: Routes = [
         ]
         
     },
+    //Admin
     {
         path:'admin',
         component:AdminComponent,
@@ -57,7 +66,5 @@ export const routes: Routes = [
                 path:'studentSearch',component:AdminStudentSearchComponent
             }
         ]
-    },
-    
-   
+    }
 ];

@@ -25,7 +25,7 @@
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content [style.margin-left]="sidenavwidth()"  style="background-color: #eef2f6;">
-        <div *ngIf="currentView === 'CreateEvent'">
+        <div>
         <div  style="margin-left: 50px;margin-top: 50px; display: flex;align-items: center; gap: 15px;">
             <mat-form-field appearance="outline">
                 <mat-label>EventName</mat-label>
@@ -63,22 +63,6 @@
             
         </div>
     </div>
-        <div *ngIf="currentView === 'Search'">
-            <div style="margin-left: 50px; margin-top: 50px; display: flex; gap: 20px; align-items: center;">
-                <mat-form-field>
-                    <mat-label>Search</mat-label>
-                    <input [(ngModel)]="searchrollno" type="text" matInput required>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Batch</mat-label>
-                    <mat-select [(ngModel)]="searchbatch" required >
-                        <mat-option  *ngFor="let batch of list" [value]="batch
-                        ">{{batch}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <button (click)="search()" mat-flat-button><mat-icon>search</mat-icon> Search</button>
-            </div>
-        </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
 

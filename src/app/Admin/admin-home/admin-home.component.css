@@ -1,0 +1,32 @@
+.responsive-table-container {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    margin: 20px;
+  }
+  
+  table {
+    width: 100%;
+    max-width: 100%;
+    table-layout: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .responsive-table-container {
+      margin: 10px;
+    }
+  
+    table {
+      font-size: 14px;
+    }
+  
+    th, td {
+      padding: 8px;
+    }
+  
+    button {
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+  }
+  

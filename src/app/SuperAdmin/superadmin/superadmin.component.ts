@@ -10,7 +10,7 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-
+import { SearchComponent } from '../search/search.component';
 
 interface instructor{
   name:string,
@@ -33,7 +33,7 @@ interface event{
   standalone: true,
   imports: [MatFormField,MatLabel,MatSelect,MatOption,FormsModule,CommonModule,MatInput
     ,MatToolbar,MatIcon,MatIconButton,MatSidenavModule,MatNavList,MatListItem,RouterLink,RouterOutlet
-  ,RouterLinkActive,MatListItemIcon,MatButton,FormsModule],
+  ,RouterLinkActive,MatListItemIcon,MatButton,FormsModule,SearchComponent],
   templateUrl: './superadmin.component.html',
   styleUrl: './superadmin.component.css'
 })

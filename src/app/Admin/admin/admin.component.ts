@@ -18,7 +18,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
   styleUrl: './admin.component.css'
 })
 export class AdminComponent {
-  collapsed = signal(false);
+  collapsed = signal(true);
  constructor(private router:Router){}
   sidenavwidth = computed(()=> this.collapsed()?'65px':'250px')
   list  = [
