@@ -6,6 +6,7 @@ import {  MatSidenavModule } from '@angular/material/sidenav';
 import { MatListItem, MatListItemIcon, MatNavList } from '@angular/material/list';
 import { MatIconButton } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout'
 export interface items{
   name:string,
   path:string,
@@ -26,9 +27,23 @@ export class SidenavComponent {
   @Input() list:items[]=[];
   @Input() role:string='';
 
+  res = inject(BreakpointObserver)
+  isHandset:boolean = false;
+  ngOnInit():void{
+    this.res.observe(Breakpoints.Handset)
+    .subscribe((response)=>{
+      this.isHandset = response.matches;
+    })
+  }
+
   router = inject(Router);
   collapsed = signal(true);
-  width = computed(()=>this.collapsed()?'65px':'225px');
+  width = computed(()=>{
+    if(this.isHandset){
+      return this.collapsed()?'0px':'65px'
+    }
+    return this.collapsed()?'65px':'225px'
+  });
 
   
   
