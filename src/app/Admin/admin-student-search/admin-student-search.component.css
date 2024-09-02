@@ -1,0 +1,19 @@
+.isDesktop{
+    margin-top: 50px; 
+    margin-left: 50px; 
+    display: flex; 
+    flex-direction: row;
+    gap: 60px;
+}
+
+
+@media (max-width: 790px){
+    .search{
+        margin-top: 50px;
+        margin-left: 50px;
+
+        
+
+        flex-direction: column;
+    }
+}

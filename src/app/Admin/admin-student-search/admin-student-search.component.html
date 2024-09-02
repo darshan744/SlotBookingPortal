@@ -1,7 +1,6 @@
 
 
-<div style="margin-top: 50px; margin-left: 50px; display: flex; flex-direction: row;
-    gap: 60px;min-width: 599.98px;">
+<div [ngClass]="{'search':isHandset,'isDesktop':!isHandset}">
     <mat-form-field appearance="outline">
         <mat-label>Search</mat-label>
         <input [(ngModel)]="Search" matInput type="text" required>
@@ -12,5 +11,7 @@
             <mat-option *ngFor="let item of list"[value]="item" >{{item}}</mat-option>
         </mat-select>
     </mat-form-field>
-    <button mat-fab extended style="background-color:#a08787;" (click)="search()"><mat-icon>search</mat-icon> Search</button>
+    <div>
+        <button mat-fab extended style="background-color:#a08787;" (click)="search()"><mat-icon>search</mat-icon> Search</button>
+    </div>
 </div>

@@ -1,0 +1,45 @@
+@media (max-width: 790px) {
+    /* Hide table header on mobile screens */
+    .mat-header-cell {
+      display: none;
+    }
+  
+    /* Style each row as a card */
+    .mat-row {
+      display: block;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  
+    /* Flexbox layout for each cell */
+    .mat-cell {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+  
+    /* Make sure headers are bold */
+    .mat-cell::before {
+      content: attr(data-header);
+      font-weight: bold;
+      flex: 1;
+      text-align: left;
+    }
+  
+    /* Align data next to the headers */
+    .mat-cell {
+      flex: 2;
+      text-align: right;
+    }
+  
+    .formfield{
+      width: 75px;
+      
+    }
+    .input{
+      height: 1px;
+    }
+  }
