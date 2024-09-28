@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { UserComponent } from './User/user/user.component';
-import { AdminComponent } from './admin/admin/admin.component';
+import { AdminComponent } from './Admin/admin/admin.component';
 import { DashboardComponent } from './User/dashboard/dashboard.component';
 import { HeaderComponent } from './User/header/header.component';
 import { MiComponent } from './User/mi/mi.component';
