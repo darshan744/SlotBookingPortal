@@ -1,9 +1,12 @@
+.headers{
+  background-color: #ddd;
+}
 @media (max-width: 790px) {
     /* Hide table header on mobile screens */
     .mat-header-cell {
       display: none;
     }
-  
+    
     /* Style each row as a card */
     .mat-row {
       display: block;
@@ -39,7 +42,20 @@
       width: 75px;
       
     }
+
+    
     .input{
       height: 1px;
     }
+    @media (max-width : 790px) {
+      
+
+      .mat-cell[data-header="No"]{
+        background-color: #ddd;
+      }
+      .headers{
+        display: none;
+      }
+    }
+
   }

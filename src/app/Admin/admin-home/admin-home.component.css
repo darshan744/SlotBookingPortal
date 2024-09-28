@@ -3,20 +3,34 @@
   overflow-x: auto;
   margin: 30px;
 }
-
+.headers{
+  background-color: #ddd;
+}
 .mat-elevation-z8 {
   width: 100%;
 }
 .mat-cell{
   padding: 10px;
 }
+  .formfield{
+    --mat-form-field-container-vertical-padding:5px;
+  --mat-form-field-container-height: 38px;
+  /* --mat-form-field-container-width:30px */
+}
+.formfield textarea{
+  height: 20px;
+}
 /* Mobile-friendly layout */
 @media (max-width: 790px) {
   /* Hide table header on mobile screens */
-  .mat-header-cell {
+  .table-container{
+    margin: 0;
+    padding: 0;
+  }
+  .headers{
     display: none;
   }
-
+  
   /* Style each row as a card */
   .mat-row {
     display: block;
@@ -25,7 +39,9 @@
     padding: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
-
+  .mdc-text-field{
+    padding-top: 0%;
+  }
   /* Flexbox layout for each cell */
   .mat-cell {
     display: flex;
@@ -41,18 +57,32 @@
     flex: 1;
     text-align: left;
   }
-
+  .thead{
+    display: none;
+  }
+  .mat-cell[data-header="No"]{
+    background-color: #ddd;
+  }
   /* Align data next to the headers */
   .mat-cell {
     flex: 2;
     text-align: right;
   }
-
+  .mat-cell[data-header="Remarks"]{
+  border: solid;
+  }
   .formfield{
-    width: 75px;
-    
+    width: 80px;
+  }
+ 
+  .mat-column-remarks{
+    height: 70%;
   }
   .input{
     height: 1px;
   }
+  mat-input{
+    height: 10px;
+  }
+  
 }

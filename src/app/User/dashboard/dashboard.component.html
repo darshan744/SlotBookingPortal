@@ -32,9 +32,9 @@
             <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Marks</th>
             <td mat-cell class="mat-cell" data-header="Marks" *matCellDef="let event">{{event.marks}}</td>
         </ng-container>
-        <ng-container matColumnDef="remarks">
-            <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Remarks</th>
-            <td mat-cell class="mat-cell" data-header="Remarks" *matCellDef="let event">{{event.remarks}}</td>
+        <ng-container  matColumnDef="remarks">
+            <th mat-header-cell class="mat-header-cell Remarks-header" *matHeaderCellDef>Remarks</th>
+            <td mat-cell  class="mat-cell Remarks-column" data-header="Remarks" *matCellDef="let event">{{event.remarks}}</td>
         </ng-container>
     
         <tr mat-header-row class="headers" *matHeaderRowDef="columns"></tr>
