@@ -23,25 +23,34 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
-  constructor(private service:LoginService,private router:Router){}
+  export class LoginComponent {
+    constructor(private service:LoginService,private router:Router){}
 
- 
-  ngOnInit():void{
-    (window as any).handleOauthResponse = this.handleOauthResponse.bind(this);
-  }
+   /**
+    * The bind method binds an object to a function example here 
+    * in window object handleOauthResponse method is created and for this function
+    * the login components handleOauthResponse function with binded to the login compoenent 
+    * is assigned so that the windows handleOauth has the login components properties to work with,
+    * from the windows object we call the login components handleOauth function and 
+    * with the help of binding we are able to call the service thats injected inside the login component
+    * and call the service's handleOauthFunction 
+    * 
+    * -> the reason for using above method is because the google callback is only callable with 
+    * -> index script so with binding to window its accessable.
+    */
+    ngOnInit():void{
+      (window as any).handleOauthResponse = this.handleOauthResponse.bind(this);
+    }
 
-  login={
-    Email:String,
-    password:String
-  };
+    login={
+      Email:String,
+      password:String
+    };
 
-  navigate(){
-    
-      
-      this.router.navigate(['/user'])
+    navigate(){
+        this.router.navigate(['/user'])
+    }
+    handleOauthResponse(response:any):void{
+      this.service.handleOauthResponse(response)
+    }
   }
-  handleOauthResponse(response:any):void{
-    this.service.handleOauthResponse(response)
-  }
-}
