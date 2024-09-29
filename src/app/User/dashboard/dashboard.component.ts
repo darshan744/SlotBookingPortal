@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatSidenavContent } from '@angular/material/sidenav';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatButtonModule, MatIconButton } from '@angular/material/button';
@@ -42,8 +42,6 @@ export interface history{
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  
-
   HISTORY_DATA: history[] = [
     { No:1, eventName: 'Mock Interview', date: '2024-08-01', marks: 8, remarks: 'Improve answers' },
     { No:2, eventName: 'Group Discussion', date: '2024-08-02', marks: 7, remarks: 'Contribute more effectively' },

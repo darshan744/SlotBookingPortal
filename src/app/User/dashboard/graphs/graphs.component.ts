@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ChartOptions, ChartType } from 'chart.js';
 import {BaseChartDirective } from 'ng2-charts';
@@ -13,11 +13,11 @@ import {BaseChartDirective } from 'ng2-charts';
   styleUrl: './graphs.component.css'
 })
 export class GraphsComponent implements AfterViewInit {
-  
   ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
   }
   
-
+  
   Mock_Interview = {
     labels:[ '2024-08-01','2024-08-04','2024-08-07','2024-08-10' ],
     datasets:[
@@ -25,7 +25,13 @@ export class GraphsComponent implements AfterViewInit {
         data:[8, 6 , 7 ,9],
         label:'Mock Interview',
         tension:0.323324,
-        fill:true
+        fill:true,
+        
+        strokeColor: "#ff6c23",
+        pointColor: "#fff",
+        pointStrokeColor: "#ff6c23",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "#ff6c23",
       }
     ]
   }
@@ -55,8 +61,8 @@ export class GraphsComponent implements AfterViewInit {
   }
   chartOptions:ChartOptions = {
     responsive:true,
-    backgroundColor:'rgb(29,122,243)',
-    borderColor:'rgb(29,122,243)',
+    // backgroundColor:'rgb(29,122,243)',
+    // borderColor:'rgb(29,122,243)',
     
     scales:{
       y:{
