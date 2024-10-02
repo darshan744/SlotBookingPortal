@@ -66,6 +66,4 @@ export class DashboardComponent {
   upcomingevents=[
     {name:'GroupDiscussion',date:'24/JUN'},
   ]
-
-
 }

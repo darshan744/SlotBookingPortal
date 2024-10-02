@@ -1,4 +1,4 @@
-import { Component, computed, inject, Input, signal } from '@angular/core';
+import { Component, computed, inject, Input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule} from '@angular/material/toolbar'
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -22,33 +22,34 @@ export interface items{
   styleUrl: './sidenav.component.css'
 })
 
-export class SidenavComponent {
-  
+export class SidenavComponent implements OnInit, OnChanges {
+  ngOnChanges(changes: SimpleChanges): void {
+    // console.log(changes);
+    this.width();
+    // this.res.observe(Breakpoints.Tablet).subscribe((response)=>console.log(response)
+    // );
+  }
   @Input() list:items[]=[];
   @Input() role:string='';
 
   res = inject(BreakpointObserver)
-  isHandset:boolean = false;
+  isHandset = signal(false);
   ngOnInit():void{
     this.res.observe(Breakpoints.Handset)
     .subscribe((response)=>{
-      this.isHandset = response.matches;
+      this.isHandset.set(response.matches);
     })
   }
+  
 
   router = inject(Router);
   collapsed = signal(true);
   width = computed(()=>{
-    if(this.isHandset){
+    if(this.isHandset()){
       return this.collapsed()?'0px':'65px'
     }
     return this.collapsed()?'65px':'225px'
   });
-
-  
-  
-
-
   handleSignOut(){
     sessionStorage.removeItem('loggedInUser');
     this.router.navigate(['/']).then(()=>{

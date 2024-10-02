@@ -1,24 +1,11 @@
-<div class="date-picker-container">
-    <div class="date-picker">
-      <div 
-        *ngFor="let date of dates"
-        class="date-item"
-        [class.selected]="selectedDate === date"
-        (click)="selectDate(date)"
-      >
-        {{ date }}
+<mat-tab-group>
+  <div *ngFor="let date of dates">
+    <mat-tab label="{{date}}">
+      <div *ngFor="let timing of timingsData[date]">
+        <div>
+          <button mat-button>{{timing}}</button>
+        </div>
       </div>
-    </div>
+    </mat-tab>
   </div>
-  
-  <div class="timings-container" *ngIf="selectedDate">
-    <h3>Available Timings for {{ selectedDate }}</h3>
-    <div 
-      class="timing-item" 
-      *ngFor="let time of availableTimings"
-      (click)="bookTime(time)"
-    >
-      {{ time }}
-    </div>
-  </div>
-  
+</mat-tab-group>

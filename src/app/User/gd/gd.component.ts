@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-gd',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,MatTabsModule,MatButton],
   templateUrl: './gd.component.html',
   styleUrl: './gd.component.css'
 })
