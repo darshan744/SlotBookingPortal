@@ -3,7 +3,7 @@
     <mat-tab label="{{date}}">
       <div *ngFor="let timing of timingsData[date]">
         <div>
-          <button mat-button>{{timing}}</button>
+          <button mat-button (click)="dialogService.openDialog(timing,date)">{{timing}}</button>
         </div>
       </div>
     </mat-tab>

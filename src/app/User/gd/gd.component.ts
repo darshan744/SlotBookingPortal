@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
+import { DialogOpenService } from '../../Services/DialogOpenService/dialog.service';
 
 @Component({
   selector: 'app-gd',
@@ -15,6 +16,11 @@ export class GDComponent {
   selectedDate: string | null = null;
   availableTimings: string[] = [];
 
+  dialogService!: DialogOpenService;
+  constructor(@Inject(DialogOpenService)dialogService:DialogOpenService){
+    this.dialogService = dialogService;
+  }
+
   timingsData:{[key:string]:string[]} = {
     'Aug 11': ['10:00 AM - 11:00 AM', '11:00 AM - 12:00 PM', '2:00 PM - 3:00 PM', '4:00 PM - 5:00 PM'],
     'Aug 12': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
@@ -22,13 +28,8 @@ export class GDComponent {
     'Aug 14': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
     'Aug 15': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
     'Aug 16': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
-    // Add more timings for other dates...
   };
 
-  selectDate(date: string) {
-    this.selectedDate = date;
-    this.availableTimings = this.timingsData[date] ;
-  }
 
   bookTime(time: string) {
     alert(`You have booked the slot: ${time}`);

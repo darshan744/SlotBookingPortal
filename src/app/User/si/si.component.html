@@ -3,7 +3,7 @@
     <mat-tab label="{{date}}">
       @for (timing of timingsData[date]; track timing) {
         <div>
-          <button mat-button >{{timing}}</button>
+          <button mat-button (click)="dialogService.openDialog(timing,date)">{{timing}}</button>
         </div>
     }
     </mat-tab>

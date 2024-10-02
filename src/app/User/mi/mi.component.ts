@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule} from '@angular/material/tabs';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
-import { openPopOver } from '../openDialogFn';
+import { DialogOpenService } from '../../Services/DialogOpenService/dialog.service';
 @Component({
   selector: 'app-mi',
   standalone: true,
@@ -14,7 +14,9 @@ import { openPopOver } from '../openDialogFn';
 })
 export class MiComponent {
 
-  readonly popOver = inject(MatDialog)
+  dialogService = inject(DialogOpenService)
+
+  // constructor(private dialogService : DialogOpenService){}
 
   dates = ['Aug 11', 'Aug 12', 'Aug 13', 'Aug 14', 'Aug 15', 'Aug 16'];
   selectedDate: string | null = null;
@@ -60,13 +62,5 @@ export class MiComponent {
   ]
 };
 
-  openDialog(timing:string,date:string) {
-    console.log(timing);
-    
-    this.popOver.open(DialogComponent,{
-      width:'320px',height:'250px',
-      data:{timing : timing,date:date}
-    });
-  }
-  
+
 }
