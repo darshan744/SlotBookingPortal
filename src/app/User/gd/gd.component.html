@@ -1,8 +1,8 @@
-<mat-tab-group>
+<mat-tab-group dynamicHeight>
   <div *ngFor="let date of dates">
     <mat-tab label="{{date}}">
-      <div *ngFor="let timing of timingsData[date]">
-        <div>
+      <div class="Timings mat-elevation-z4">
+        <div  *ngFor="let timing of timingsData[date]">
           <button mat-button (click)="dialogService.openDialog(timing,date)">{{timing}}</button>
         </div>
       </div>

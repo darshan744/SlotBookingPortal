@@ -1,51 +1,10 @@
-.date-picker-container {
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 10px;
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .date-picker {
-    display: inline-flex;
-  }
-  
-  .date-item {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-right: 10px;
-    background-color: blue;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  
-  .date-item.selected {
-    background-color: #64B5F6;
-    color: blue;
-  }
-  
-  .timings-container {
-    padding: 20px;
-  }
-  
-  .timing-item {
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #e0f7fa;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .timing-item:hover {
-    background-color: #b2ebf2;
-  }
-  
-  .btn{
-    margin-right: 30px;
-  }
-  .mybutton{
-    border-radius: 5px;
-    width: 90px; 
-  }
+.Timings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #ffff;
+}

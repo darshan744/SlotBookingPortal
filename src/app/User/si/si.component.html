@@ -1,11 +1,13 @@
-<mat-tab-group>
+<mat-tab-group dynamicHeight>
   @for (date of dates; track date) {
     <mat-tab label="{{date}}">
-      @for (timing of timingsData[date]; track timing) {
-        <div>
-          <button mat-button (click)="dialogService.openDialog(timing,date)">{{timing}}</button>
-        </div>
-    }
+      <div class="Timings mat-elevation-z5">
+        @for (timing of timingsData[date]; track timing) {
+          <div>
+            <button mat-button (click)="dialogService.openDialog(timing,date)">{{timing}}</button>
+          </div>
+        }
+      </div>
     </mat-tab>
   }
 </mat-tab-group>
