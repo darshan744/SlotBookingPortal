@@ -1,5 +1,10 @@
-.Timings{
-  background-color: white;
-  justify-content: center;
+.Timings {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #ffff;
 }

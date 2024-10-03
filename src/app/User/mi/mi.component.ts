@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTabsModule} from '@angular/material/tabs';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
+import {  MatTabChangeEvent, MatTabsModule} from '@angular/material/tabs';
+import { MatDialogModule} from '@angular/material/dialog';
 import { DialogOpenService } from '../../Services/DialogOpenService/dialog.service';
 @Component({
   selector: 'app-mi',
@@ -13,15 +12,19 @@ import { DialogOpenService } from '../../Services/DialogOpenService/dialog.servi
   styleUrl: './mi.component.css'
 })
 export class MiComponent {
+  onTabChange($event: MatTabChangeEvent) {
+    this.selectedDate = $event.index;
+    console.log(this.dates[this.selectedDate]);
+  }
 
   dialogService = inject(DialogOpenService)
 
   // constructor(private dialogService : DialogOpenService){}
 
   dates = ['Aug 11', 'Aug 12', 'Aug 13', 'Aug 14', 'Aug 15', 'Aug 16'];
-  selectedDate: string | null = null;
+  selectedDate: number = 0;
   availableTimings: string[] = [];
-
+  s:boolean = true;
   timingsData:{[key:string]:string[]} = {
     'Aug 11': [
       '10:00 AM - 11:00 AM',
