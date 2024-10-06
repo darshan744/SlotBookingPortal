@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
-import { DialogOpenService } from '../../Services/DialogOpenService/dialog.service';
+import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatIcon } from '@angular/material/icon';
-import { timingsGroup } from '../SlotData';
+import { timingsGroup } from '../../../Services/SlotData.service';
 @Component({
   selector: 'app-gd',
   standalone: true,

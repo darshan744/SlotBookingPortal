@@ -1,10 +1,10 @@
-<mat-tab-group dynamicHeight (selectedTabChange)="onTabChange($event)">
+<mat-tab-group dynamicHeight>
   @for (date of dates; track date) {
   <mat-tab label={{date}}>
     <div class="wrapper">
       <div class="tab-container">
         <mat-accordion>
-          <div class="expansion-panel" *ngFor="let venues of getVenues(date)">
+          <div class="expansion-panel" *ngFor="let venues of slotDataService.getVenues(date)">
             <mat-expansion-panel id="{{venues}}" (expandedChange)="expansion(venues,$event)">
               <mat-expansion-panel-header>
                 <mat-panel-title>
