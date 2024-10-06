@@ -5,7 +5,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatIcon } from '@angular/material/icon';
-import { SlotDataSevice } from '../../../Services/SlotData.service';
+import { SlotDataSevice } from '../../../Services/SlotDataService/SlotData.service';
 @Component({
   selector: 'app-gd',
   standalone: true,
