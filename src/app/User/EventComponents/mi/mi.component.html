@@ -4,8 +4,8 @@
     <div class="wrapper">
       <div class="tab-container">
         <mat-accordion>
-          <div class="expansion-panel" *ngFor="let venues of slotDataService.getVenues(date)">
-            <mat-expansion-panel id="{{venues}}" (expandedChange)="expansion(venues,$event)">
+          <div class="expansion-panel" *ngFor="let venues of slotDataService.getVenues(date,eventType)">
+            <mat-expansion-panel id="{{venues}}" (expandedChange)="slotDataService.expansion(venues,$event)">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon>place</mat-icon>

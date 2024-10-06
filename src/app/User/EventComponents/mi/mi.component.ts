@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {  MatTabChangeEvent, MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule} from '@angular/material/tabs';
 import { MatDialogModule} from '@angular/material/dialog';
 import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
-import {SlotDataSevice} from '../../../Services/SlotData.service'
+import {SlotDataSevice} from '../../../Services/SlotDataService/SlotData.service'
 import {MatExpansionModule,MatAccordion} from '@angular/material/expansion'
 import { MatIcon } from '@angular/material/icon';
 @Component({
@@ -12,7 +12,7 @@ import { MatIcon } from '@angular/material/icon';
   standalone: true,
   imports: [CommonModule,MatButtonModule,MatTabsModule,MatDialogModule,MatExpansionModule,MatAccordion,MatIcon],
   templateUrl: './mi.component.html',
-  styleUrl: './mi.component.css'
+  styleUrls: ['./mi.component.css','../expansion.css']
 })
 export class MiComponent {
 
@@ -25,8 +25,8 @@ export class MiComponent {
   selectedDate: number = 0;
   availableTimings: string[] = [];
   s:boolean = true;
-  timingsData = this.slotDataService.timingsGroup['Timing 1'];
   eventType = 'MockInterview'
+  timingsData = this.slotDataService.timingsGroup[this.eventType];
 
   expansion(opened:string,event:boolean) {
     const exp = document.getElementById(opened);

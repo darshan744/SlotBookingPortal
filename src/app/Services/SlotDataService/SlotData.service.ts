@@ -7,7 +7,7 @@ import { Injectable } from "@angular/core";
 
 export class SlotDataSevice {
     timingsGroup: { [key: string]: { [key: string]: { [venue: string]: string[] } } } = {
-        'Timing 1': {
+        'MockInterview': {
             'Aug 11': {
                 'Venue 1': ['10:00 AM - 11:00 AM', '11:00 AM - 12:00 PM', '1:00 PM - 2:00 PM'],
                 'Venue 2': ['2:00 PM - 3:00 PM', '4:00 PM - 5:00 PM', '5:30 PM - 6:30 PM'],
@@ -33,7 +33,7 @@ export class SlotDataSevice {
                 'Venue 2': ['1:30 PM - 2:30 PM', '3:00 PM - 4:00 PM', '4:30 PM - 5:30 PM'],
             },
         },
-        'Timing 2': {
+        'SelfIntroduction': {
             'Aug 11': {
                 'Venue 1': ['11:00 AM - 12:00 PM', '1:00 PM - 2:00 PM', '3:00 PM - 4:00 PM'],
                 'Venue 2': ['4:00 PM - 5:00 PM', '6:00 PM - 7:00 PM'],
@@ -59,7 +59,7 @@ export class SlotDataSevice {
                 'Venue 2': ['1:00 PM - 2:00 PM', '3:00 PM - 4:00 PM'],
             },
         },
-        'Timing 3': {
+        'GroupDiscussoin': {
             'Aug 11': {
                 'Venue 1': ['12:00 PM - 1:00 PM', '2:00 PM - 3:00 PM', '4:00 PM - 5:00 PM'],
                 'Venue 2': ['5:00 PM - 6:00 PM', '6:30 PM - 7:30 PM'],
@@ -86,10 +86,15 @@ export class SlotDataSevice {
             },
         },
     };
-    getVenues(date :string) {
-        return Object.keys(this.timingsGroup[date]);
+    getVenues(date :string,eventType:string) {
+        return Object.keys(this.timingsGroup[eventType][date]);
     }
-    
+    expansion(opened:string,event:boolean) {
+        const exp = document.getElementById(opened);
+        event === true ? exp?.classList.add('highlight-venue'):exp?.classList.remove('highlight-venue');
+        console.log(exp?.classList);    
+    }
+
 }
 
 

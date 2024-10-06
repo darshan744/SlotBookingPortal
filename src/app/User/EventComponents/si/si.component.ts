@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
-import { timingsGroup } from '../../../Services/SlotData.service';
+import { SlotDataSevice } from '../../../Services/SlotDataService/SlotData.service';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatIcon } from '@angular/material/icon';
 
@@ -21,19 +21,10 @@ export class SiComponent {
 
     @Inject(DialogOpenService) dialogService !:DialogOpenService;
 
+  slotDataService = inject(SlotDataSevice);
 
-  timingsData = timingsGroup['Timing 2'];
-
-  getVenues(date :string) {
-    return Object.keys(this.timingsData[date]);
-  }
-  expansion(opened:string,event:boolean) {
-    const exp = document.getElementById(opened);
-    event === true ? exp?.classList.add('highlight-venue'):exp?.classList.remove('highlight-venue');
-    console.log(exp?.classList);    
-  }
   eventType = 'SelfIntroduction'
-
+  timingsData = this.slotDataService.timingsGroup[this.eventType];
   bookTime(time: string) {
     alert(`You have booked the slot: ${time}`);
     // Handle the booking logic here...
