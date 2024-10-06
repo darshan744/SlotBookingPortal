@@ -6,7 +6,8 @@ import { MatInput } from '@angular/material/input';
 import { LoginService } from '../Services/LoginService/login.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { Observable } from 'rxjs';
+import { student } from '../Models/Student';
 
 @Component({
   selector: 'app-login',
@@ -41,16 +42,16 @@ import { Router } from '@angular/router';
     ngOnInit():void{
       (window as any).handleOauthResponse = this.handleOauthResponse.bind(this);
     }
-
-    login={
-      Email:String,
-      password:String
-    };
-
+      
+      rollNO:string='';
+      password:string='';
+    
     navigate(){
-        this.router.navigate(['/user'])
+        this.service.authenticate(this.rollNO,this.password)
     }
     handleOauthResponse(response:any):void{
       this.service.handleOauthResponse(response)
     }
+
+    
   }

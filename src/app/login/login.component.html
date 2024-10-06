@@ -8,11 +8,11 @@
       <h4>Slot-booking Portal</h4>
       <mat-form-field appearance="outline" style="margin-bottom: 16px;">
         <mat-label>RegNumber</mat-label>
-        <input type="text" matInput style="border-radius: 4px;width: 100%;">
+        <input type="text" [(ngModel)]="rollNO" matInput style="border-radius: 4px;width: 100%;">
       </mat-form-field>
       <mat-form-field appearance="outline" style="margin-bottom: 16px;">
         <mat-label>Password</mat-label>
-        <input type="password" matInput style="border-radius: 4px;width: 100%;">
+        <input type="password" [(ngModel)]="password" matInput style="border-radius: 4px;width: 100%;">
       </mat-form-field>
     </mat-card-content>
     <mat-card-actions style="display: flex; margin-top: -32px; flex-direction: column;">

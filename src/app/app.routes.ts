@@ -1,4 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
+import {  Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { UserComponent } from './User/user/user.component';
 import { AdminComponent } from './Admin/admin/admin.component';
@@ -13,9 +13,16 @@ import { AdminHomeComponent } from './Admin/admin-home/admin-home.component';
 import { SuperadminComponent } from './SuperAdmin/superadmin/superadmin.component';
 import { SearchComponent } from './SuperAdmin/search/search.component';
 import { CreateComponent } from './SuperAdmin/create/create.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
 
 export const routes: Routes = [
-   
+    
+    {
+        path:"NotAUser",
+        component:PageNotFoundComponent,
+    },
+
    //Login Component
     {
         path:'',
