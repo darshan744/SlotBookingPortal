@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {  MatTabChangeEvent, MatTabsModule} from '@angular/material/tabs';
 import { MatDialogModule} from '@angular/material/dialog';
 import { DialogOpenService } from '../../Services/DialogOpenService/dialog.service';
+import {timingsGroup} from '../SlotData'
+import {MatExpansionModule,MatAccordion} from '@angular/material/expansion'
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-mi',
   standalone: true,
-  imports: [CommonModule,MatButtonModule,MatTabsModule,MatDialogModule],
+  imports: [CommonModule,MatButtonModule,MatTabsModule,MatDialogModule,MatExpansionModule,MatAccordion,MatIcon],
   templateUrl: './mi.component.html',
   styleUrl: './mi.component.css'
 })
@@ -25,45 +28,16 @@ export class MiComponent {
   selectedDate: number = 0;
   availableTimings: string[] = [];
   s:boolean = true;
-  timingsData:{[key:string]:string[]} = {
-    'Aug 11': [
-      '10:00 AM - 11:00 AM',
-      '11:00 AM - 12:00 PM',
-      '2:00 PM - 3:00 PM',
-      '4:00 PM - 5:00 PM',
-      '5:00 PM - 6:00 PM'
-  ],
-  'Aug 12': [
-      '9:00 AM - 10:00 AM',
-      '12:00 PM - 1:00 PM',
-      '3:00 PM - 4:00 PM',
-      '1:30 PM - 2:30 PM' 
-  ],
-  'Aug 13': [
-      '9:00 AM - 10:00 AM',
-      '12:00 PM - 1:00 PM',
-      '3:00 PM - 4:00 PM',
-      '4:30 PM - 5:30 PM' 
-  ],
-  'Aug 14': [
-      '9:00 AM - 10:00 AM',
-      '12:00 PM - 1:00 PM',
-      '3:00 PM - 4:00 PM',
-      '2:00 PM - 3:00 PM' 
-  ],
-  'Aug 15': [
-      '9:00 AM - 10:00 AM',
-      '12:00 PM - 1:00 PM',
-      '3:00 PM - 4:00 PM',
-      '1:00 PM - 2:00 PM'
-  ],
-  'Aug 16': [
-      '9:00 AM - 10:00 AM',
-      '12:00 PM - 1:00 PM',
-      '3:00 PM - 4:00 PM',
-      '4:00 PM - 5:00 PM' 
-  ]
-};
+  timingsData = timingsGroup['Timing 1']
+  eventType = 'MockInterview'
 
-
+  getVenues(date :string) {
+    return Object.keys(this.timingsData[date]);
+  }
+  expansion(opened:string,event:boolean) {
+    const exp = document.getElementById(opened);
+    event === true ? exp?.classList.add('highlight-venue'):exp?.classList.remove('highlight-venue');
+    console.log(exp?.classList);    
+  }
+  isOpened = signal(false);
 }

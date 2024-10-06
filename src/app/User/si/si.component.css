@@ -4,7 +4,36 @@
   align-items: center;
   justify-content: center;
   margin: 16px;
-  padding: 16px;
+  padding: 25px;
   border-radius: 8px;
   background-color: #ffff;
+  gap: 20px;
+  width: 400px;
 }
+
+.wrapper {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+} 
+
+
+.tab-container {
+  min-width: 430px;
+  max-width: 700px;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items : center;
+  padding: 25px;
+}
+
+.expansion-panel {
+  margin: 20px;
+}
+.highlight-venue {
+  background-color: #f5f5f5;
+}
+

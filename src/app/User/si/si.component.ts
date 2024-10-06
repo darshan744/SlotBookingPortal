@@ -1,15 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTabsModule } from '@angular/material/tabs';
-import { DialogComponent } from '../dialog/dialog.component';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { DialogOpenService } from '../../Services/DialogOpenService/dialog.service';
+import { timingsGroup } from '../SlotData';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-si',
   standalone: true,
-  imports: [CommonModule,MatTabsModule,MatButton],
+  imports: [CommonModule,MatTabsModule,MatButton,
+    MatAccordion,MatExpansionModule,MatIcon
+  ],
   templateUrl: './si.component.html',
   styleUrl: './si.component.css'
 })
@@ -19,15 +22,17 @@ export class SiComponent {
     @Inject(DialogOpenService) dialogService !:DialogOpenService;
 
 
-  timingsData:{[key:string]:string[]} = {
-    'Aug 11': ['10:00 AM - 11:00 AM', '11:00 AM - 12:00 PM', '2:00 PM - 3:00 PM', '4:00 PM - 5:00 PM'],
-    'Aug 12': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
-    'Aug 13': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
-    'Aug 14': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
-    'Aug 15': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
-    'Aug 16': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
-  };
+  timingsData = timingsGroup['Timing 2'];
 
+  getVenues(date :string) {
+    return Object.keys(this.timingsData[date]);
+  }
+  expansion(opened:string,event:boolean) {
+    const exp = document.getElementById(opened);
+    event === true ? exp?.classList.add('highlight-venue'):exp?.classList.remove('highlight-venue');
+    console.log(exp?.classList);    
+  }
+  eventType = 'SelfIntroduction'
 
   bookTime(time: string) {
     alert(`You have booked the slot: ${time}`);

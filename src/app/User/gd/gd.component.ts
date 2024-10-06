@@ -3,36 +3,33 @@ import { Component, Inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DialogOpenService } from '../../Services/DialogOpenService/dialog.service';
-
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { MatIcon } from '@angular/material/icon';
+import { timingsGroup } from '../SlotData';
 @Component({
   selector: 'app-gd',
   standalone: true,
-  imports: [CommonModule,MatTabsModule,MatButton],
+  imports: [CommonModule,MatTabsModule,MatButton,MatAccordion,MatExpansionModule,MatIcon],
   templateUrl: './gd.component.html',
   styleUrl: './gd.component.css'
 })
 export class GDComponent {
   dates = ['Aug 11', 'Aug 12', 'Aug 13', 'Aug 14', 'Aug 15', 'Aug 16'];
-  selectedDate: string | null = null;
-  availableTimings: string[] = [];
 
   dialogService!: DialogOpenService;
   constructor(@Inject(DialogOpenService)dialogService:DialogOpenService){
     this.dialogService = dialogService;
   }
 
-  timingsData:{[key:string]:string[]} = {
-    'Aug 11': ['10:00 AM - 11:00 AM', '11:00 AM - 12:00 PM', '2:00 PM - 3:00 PM', '4:00 PM - 5:00 PM'],
-    'Aug 12': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
-    'Aug 13': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
-    'Aug 14': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
-    'Aug 15': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
-    'Aug 16': ['9:00 AM - 10:00 AM', '12:00 PM - 1:00 PM', '3:00 PM - 4:00 PM'],
-  };
+  timingsData = timingsGroup['Timing 3'];
+  eventType = 'Group Discussoin';
 
-
-  bookTime(time: string) {
-    alert(`You have booked the slot: ${time}`);
-    // Handle the booking logic here...
+  getVenues(date :string) {
+    return Object.keys(this.timingsData[date]);
+  }
+  expansion(opened:string,event:boolean) {
+    const exp = document.getElementById(opened);
+    event === true ? exp?.classList.add('highlight-venue'):exp?.classList.remove('highlight-venue');
+    console.log(exp?.classList);    
   }
 }
