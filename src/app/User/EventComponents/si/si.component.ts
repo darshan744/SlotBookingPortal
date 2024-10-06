@@ -3,7 +3,7 @@ import { Component, Inject, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
-import { SlotDataSevice } from '../../../Services/SlotDataService/SlotData.service';
+import { SlotDataSevice } from '../../../Services/SlotData.service';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatIcon } from '@angular/material/icon';
 

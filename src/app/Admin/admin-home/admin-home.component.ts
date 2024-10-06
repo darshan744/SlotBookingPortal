@@ -47,6 +47,7 @@ export class AdminHomeComponent{
   displayedColumns: string[] = ['No', 'Name','attendance', 'marks', 'remarks','actions'];
   submitRow(student:stdList){
     console.log("specifc student",student);
+    this.studentList = this.studentList.filter(std => std.No !== student.No)
   }
   // mobileheader = 'mobileheader';
   attendance(student:stdList){

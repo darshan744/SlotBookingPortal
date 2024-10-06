@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule} from '@angular/material/tabs';
 import { MatDialogModule} from '@angular/material/dialog';
 import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
-import {SlotDataSevice} from '../../../Services/SlotDataService/SlotData.service'
+import {SlotDataSevice} from '../../../Services/SlotData.service'
 import {MatExpansionModule,MatAccordion} from '@angular/material/expansion'
 import { MatIcon } from '@angular/material/icon';
 @Component({

@@ -1,7 +1,6 @@
 import { Component,inject } from '@angular/core';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import {  MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import { Action } from 'rxjs/internal/scheduler/Action';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 interface event{
@@ -18,7 +17,6 @@ interface event{
   styleUrl: './admin-events.component.css'
 })
 export class AdminEventsComponent {
-
   private snackBar = inject(MatSnackBar)
   myEvetn:event[] = [
     {No:1,Name:'GroupDiscussion',Date:'24/JUN',Time:'09-10',},
@@ -35,5 +33,12 @@ export class AdminEventsComponent {
   cancelEvent(e:event){
     this.snackBar.open(`${e.Name} has been cancelled Will inform Students via email`);
     console.log('Event Cancelled Will Notify Students via mail',e)
+    this.myEvetn = this.myEvetn.filter(event => event.No !== e.No)
+    this.data;
   }
+
+  public get data() {
+    return this.myEvetn;
+  }
+  
 }
