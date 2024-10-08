@@ -1,0 +1,11 @@
+.cards-container{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin-left: 50px;
+}
+.cards mat-card 
+{   
+    height: 130px;
+    width: 280px;
+}

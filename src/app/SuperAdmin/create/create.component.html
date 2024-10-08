@@ -1,42 +1,50 @@
-
-<div>
-    <div  style="margin-left: 50px;margin-top: 50px; display: flex;align-items: center; gap: 15px;">
-        <mat-form-field appearance="outline">
-            <mat-label>EventName</mat-label>
-            <mat-select [(ngModel)]="EventName" required >
-                <mat-option *ngFor="let item of events"[value]="item" >{{item}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>SeletBatch</mat-label>
-            <mat-select [(ngModel)]="Batch" required >
-                <mat-option *ngFor="let item of batches"[value]="item" >{{item}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <button mat-flat-button>CreateEvent</button>
-    </div>
-    <h4 style="margin-top: 100px;margin-left: 50px;">Venues & Instructors</h4>
-    <div *ngFor="let venue of venue; let i = index" style="margin-left: 50px;">
-        <mat-form-field appearance="outline">
-          <mat-label>Venue {{i + 1}}</mat-label>
-          <input [(ngModel)]="venue.name" matInput type="text" required>
-        </mat-form-field>
-        <div style="display: flex; flex-direction: row; gap: 15px;">
-            <div *ngFor="let instructor of venue.instructor; let j = index">
-                <mat-form-field appearance="outline">
-                  <mat-label>Instructor {{j + 1}} for Venue {{i + 1}}</mat-label>
-                  <input [(ngModel)]="instructor.name" matInput type="text" required>
-                </mat-form-field>
-              </div>
-          
-              <!-- Button to add new instructor -->
-              <button mat-icon-button (click)="addInstructor(i)">
-                <mat-icon>add</mat-icon>
-              </button>
+<!-- SuperAdmin form to request availability -->
+<div class="container">
+    <form class="main-form">
+        <div class="select-staff">
+            <mat-form-field>
+                <mat-label>
+                    Select Staff
+                </mat-label>
+                <input type="text" name="staffInput" #input matInput [matChipInputFor]="grid" [matAutocomplete]="auto"
+                    [(ngModel)]="enteredStaff" (matChipInputTokenEnd)="add($event)">
+                <mat-autocomplete (optionSelected)="optionSelect($event)" #auto="matAutocomplete">
+                    <mat-option [value]="staff" *ngFor="let staff of staffs">{{staff}}</mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
         </div>
-        
-    </div>
+        <div class="chip-div">
+            <mat-chip-grid #grid>
+                <mat-chip-row *ngFor="let staff of displaySelectedStaff()">
+                    {{staff}}
+                    <button (click)="removeStaff(staff)" matChipRemove><mat-icon>cancel</mat-icon></button>
+                </mat-chip-row>
+            </mat-chip-grid>
+        </div>
+        <div class="date-div">
+            <mat-form-field>
+                <mat-label>Enter Date Range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="Start Date" />
+                    <input matEndDate placeholder="End Date" />
+                </mat-date-range-input>
+                <mat-hint>MM:DD:YYYY - MM:DD:YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </div>
+        <div class="slot-generate">
+            <h6>Generate Slot for : </h6>
+            <mat-form-field>
+                <mat-label>Selct Event</mat-label>
+                <mat-select [(ngModel)]="selectedEvent" name="food">
+                    <mat-option value="Mock Interview" >Mock Interview</mat-option>
+                    <mat-option value="Self Introduction" >Self Introduction</mat-option>
+                    <mat-option value="Group Discussion" >Group Discussion</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button>Generate</button>
+        </div>
+        <button mat-raised-button (click)="submit()">Submit</button>
+    </form>
 </div>
-
-
-

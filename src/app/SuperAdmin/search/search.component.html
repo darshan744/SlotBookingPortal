@@ -1,16 +1,35 @@
-<div >
-    <div style="margin-left: 50px; margin-top: 50px; display: flex; gap: 20px; align-items: center;">
-        <mat-form-field>
-            <mat-label>Search</mat-label>
-            <input [(ngModel)]="searchrollno" type="text" matInput required>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Batch</mat-label>
-            <mat-select [(ngModel)]="searchbatch" required >
-                <mat-option  *ngFor="let batch of list" [value]="batch
-                ">{{batch}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <button (click)="search()" mat-flat-button><mat-icon>search</mat-icon> Search</button>
+<div class="container">
+    <div class="Welcome-msg">
+        <h2>Welcome SuperAdmin</h2>
+    </div>
+    <div class="cards-container">
+        <div class="cards">
+            <mat-card>
+                <mat-card-header>
+                    <h5>Mock Interview</h5>
+                </mat-card-header>
+                <mat-card-content>
+                    <h3>43</h3>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="cards"> <mat-card>
+                <mat-card-header>
+                    <h5>Self Introduction</h5>
+                </mat-card-header>
+                <mat-card-content>
+                    <h3>54</h3>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="cards"><mat-card>
+                <mat-card-header>
+                    <h5>Group Discussion</h5>
+                </mat-card-header>
+                <mat-card-content>
+                    <h3>43</h3>
+                </mat-card-content>
+            </mat-card>
+        </div>
     </div>
 </div>
