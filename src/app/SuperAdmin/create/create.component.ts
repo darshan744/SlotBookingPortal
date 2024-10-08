@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component,  signal  } from '@angular/core';
+import { ChangeDetectionStrategy, Component,  inject,  signal  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule} from '@angular/material/form-field';
@@ -9,15 +9,17 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
-import {   provideNativeDateAdapter } from '@angular/material/core';
-
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { SlotGenerateService } from '../../Services/SlotGenerate/slot-generate.service';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-create',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatSelect, MatOption, CommonModule, 
     FormsModule, MatIconModule,MatButtonModule, MatDatepickerModule, 
-    MatAutocompleteModule, MatChipsModule
+    MatAutocompleteModule, MatChipsModule,NgxMatTimepickerModule,MatCardModule
   ],
   providers:[provideNativeDateAdapter()],
   templateUrl: './create.component.html',
@@ -26,6 +28,7 @@ import {   provideNativeDateAdapter } from '@angular/material/core';
 })
 export class CreateComponent {
 
+  SlotGenerationServie = inject(SlotGenerateService);
   filteredStaff: any;
   enteredStaff = signal('');
   displaySelectedStaff = signal<string[]>([])
@@ -75,4 +78,7 @@ export class CreateComponent {
       return [...staff]
     })
   }
+  slots : string[] = []
+  generateSlot() {}
+
 }

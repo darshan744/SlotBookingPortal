@@ -17,7 +17,7 @@ export class SlotGenerateService {
     return `${hours.toString().padStart(2,'0')} : ${min.toString().padStart(2,'0')}`
   } 
   generate(morningBreak : string , eveningBreak : string ,
-     lunchStart : string , lunchEnd : string , range : number) {
+          lunchStart : string , lunchEnd : string , range : number) {
       let startTime = '9:00' ;
       const  endTime = '16:30';
       const slots:string[] = [];

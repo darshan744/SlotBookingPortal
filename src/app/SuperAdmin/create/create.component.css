@@ -1,10 +1,39 @@
 .container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch; /* Fill the width */
+    justify-content: flex-start; /* Align items to the top */
+    margin: 50px auto; /* Center the container */
+    max-width: 600px; /* Set a max width for better alignment */
 }
-.event-generate {
+
+.slot-generate {
+    margin-top: 30px;
     display: flex;
-    gap: 30px;
+    flex-direction: column;
 }
+.select-staff {
+    display: flex;
+    flex-direction: column; /* Stack the input and chips */
+    gap: 8px; /* Space between input and chips */
+    width: 100%; /* Full width */
+}
+.date-div {
+    margin-top: 30px;
+}
+.slot-generate .inputs {
+    display: flex;
+    flex-wrap: wrap; /* Allow inputs to wrap */
+    gap: 20px; /* Space between inputs */
+}
+.btns {
+    margin-top: 20px; /* Add space above buttons */
+    width: 100%; /* Make buttons full width */
+    padding: 10px; /* Increase padding for better appearance */
+}
+
+.btns:hover {
+    background-color: #3f51b5; /* Change background on hover */
+    color: white; /* Change text color on hover */
+}
+

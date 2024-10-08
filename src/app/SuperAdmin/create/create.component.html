@@ -12,14 +12,14 @@
                     <mat-option [value]="staff" *ngFor="let staff of staffs">{{staff}}</mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-        </div>
-        <div class="chip-div">
-            <mat-chip-grid #grid>
-                <mat-chip-row *ngFor="let staff of displaySelectedStaff()">
-                    {{staff}}
-                    <button (click)="removeStaff(staff)" matChipRemove><mat-icon>cancel</mat-icon></button>
-                </mat-chip-row>
-            </mat-chip-grid>
+            <div class="chip-div">
+                <mat-chip-grid #grid>
+                    <mat-chip-row *ngFor="let staff of displaySelectedStaff()">
+                        {{staff}}
+                        <button (click)="removeStaff(staff)" matChipRemove><mat-icon>cancel</mat-icon></button>
+                    </mat-chip-row>
+                </mat-chip-grid>
+            </div>
         </div>
         <div class="date-div">
             <mat-form-field>
@@ -34,17 +34,49 @@
             </mat-form-field>
         </div>
         <div class="slot-generate">
-            <h6>Generate Slot for : </h6>
-            <mat-form-field>
-                <mat-label>Selct Event</mat-label>
-                <mat-select [(ngModel)]="selectedEvent" name="food">
-                    <mat-option value="Mock Interview" >Mock Interview</mat-option>
-                    <mat-option value="Self Introduction" >Self Introduction</mat-option>
-                    <mat-option value="Group Discussion" >Group Discussion</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <button mat-raised-button>Generate</button>
+            <div>
+                <h6>Specify Break Timings</h6>
+            </div>
+            <div class="inputs">
+                <div>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Morning Break</mat-label>
+                            <input [required]="true" matInput [ngxMatTimepicker]="morning" />
+                            <ngx-mat-timepicker-toggle matIconSuffix [for]="morning"></ngx-mat-timepicker-toggle>
+                            <ngx-mat-timepicker #morning></ngx-mat-timepicker>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Evening Break</mat-label>
+                            <input [required]="true" matInput [ngxMatTimepicker]="eveningBreak" />
+                            <ngx-mat-timepicker-toggle matIconSuffix [for]="eveningBreak"></ngx-mat-timepicker-toggle>
+                            <ngx-mat-timepicker #eveningBreak></ngx-mat-timepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Lunch Start Time</mat-label>
+                            <input [required]="true" matInput [ngxMatTimepicker]="lunchStart" />
+                            <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchStart" />
+                            <ngx-mat-timepicker #lunchStart />
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Lunch End</mat-label>
+                            <input [required]="true" matInput [ngxMatTimepicker]="lunchEnd" />
+                            <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchEnd" />
+                            <ngx-mat-timepicker #lunchEnd />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button mat-raised-button (click)="submit()">Submit</button>
+        <button mat-raised-button class="btns" (click)="generateSlot()">Generate</button>
+        <button mat-raised-button class="btns" (click)="submit()">Send</button>
     </form>
 </div>
