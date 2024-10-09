@@ -5,7 +5,8 @@ import { DialogComponent } from "../../User/dialog/dialog.component";
 @Injectable({
     providedIn:'root'
 })
- /*To Use this service inject with @Inject() or else use inject()signal or else use private param in constructor.
+ /* TYPES OF INJECTION CAN BE DONE : 
+    To Use this service inject with @Inject() or else use inject()signal or else use private param in constructor.
     if we use private param in constructor the service will not be available with html file 
     so we have to write another method to call that service here.But with either 
     @Inject or inject() we are just defining a property and we can access the method with just 

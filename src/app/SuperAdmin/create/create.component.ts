@@ -13,7 +13,8 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { SlotGenerateService } from '../../Services/SlotGenerate/slot-generate.service';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { MatCardModule } from '@angular/material/card';
-
+import { SlotBreaks } from '../../Models/slot-breaks';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -29,10 +30,22 @@ import { MatCardModule } from '@angular/material/card';
 export class CreateComponent {
 
   SlotGenerationServie = inject(SlotGenerateService);
-  filteredStaff: any;
+  private _snackBar = inject(MatSnackBar);
+
   enteredStaff = signal('');
   displaySelectedStaff = signal<string[]>([])
-  selectedEvent : string = '';
+  
+  
+  data : SlotBreaks = {
+    morningBreak :'',
+    eveningBreak : '',
+    lunchStart : '',
+    lunchEnd : '',
+    range : 0
+  }
+  startDate : string = ''
+  endDate : string = ''
+  
   staffs: any = ['Jhon Doe', 'Steve Smith', 'Virat kholi', 'John smith', 'Rhodeans Joe', 'Vin Diesel', 'Paul', 'Gates'
     , 'Subramani', 'Aaron', 'Rohith'
   ];
@@ -66,6 +79,16 @@ export class CreateComponent {
     )
   }
   submit() {
+    if(this.slots.length === 0 || this.displaySelectedStaff().length === 0 
+              || this.startDate === '' || this.endDate === '')
+          {
+            alert('enter Data'); 
+          }
+    let staffs = this.displaySelectedStaff();
+    console.log(this.slots);
+    
+    this.SlotGenerationServie.openDialog(staffs,this.slots,this.startDate , this.endDate)
+    // this.SlotGenerationServie.openDialog("hi");
     console.log("Hello");
   }
   removeStaff(inputstaff: string) {
@@ -79,6 +102,18 @@ export class CreateComponent {
     })
   }
   slots : string[] = []
-  generateSlot() {}
+  generateSlot() {
+    if(this.data.morningBreak === '' || this.data.eveningBreak === '' 
+      || this.data.lunchStart === '' || this.data.lunchEnd === '' || this.data.range === 0) {
+        alert('enter data')       
+      }
+      else 
+      {
+        console.log("generated Timings are : " +this.data.morningBreak+" ," + this.data.eveningBreak +" ," +  this.data.lunchEnd +" ," +  this.data.lunchStart +" ," +  this.data.lunchStart  +" ," + this.data.range);
+        this.slots = this.SlotGenerationServie.generate(this.data);
+        this._snackBar.open("Generated Successfully", "Done");
+        console.log(this.slots);
+      }
 
+  }
 }

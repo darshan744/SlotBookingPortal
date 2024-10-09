@@ -1,0 +1,35 @@
+<div matDialog class="container">
+    <h3 matDialogTitle>Confirm ?</h3>
+    <mat-divider></mat-divider>
+    <mat-dialog-content ma>
+        <h3>Staffs</h3>
+        <div>
+            @for(staff of data.staff ; track $index) {
+                <p>{{staff}}</p>
+            }
+        </div>
+        <h3>SLots</h3>
+        <div>
+            @for(slot of data.slots ; track $index) {
+                <mat-chip>{{slot}}</mat-chip>
+            }
+        </div>
+        <div>
+            <h6>Start Date : {{data.startDate}}</h6>
+            <h6>End Date : {{data.endDate}}</h6>
+        </div>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <mat-dialog-actions>
+        <button mat-dialog-close mat-flat-button>Cancel</button>
+        <button mat-dialog-close mat-flat-button>Ok ?</button>
+    </mat-dialog-actions>
+</div>
+
+<!-- <h4 matDialogTitle>Hello</h4>
+<mat-dialog-content>
+    The data received msg is 
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button matDialogClose>Done</button>
+</mat-dialog-actions> -->
