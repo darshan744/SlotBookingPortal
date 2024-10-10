@@ -3,10 +3,11 @@ import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material
 import { MatDivider } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-confirm-dialog',
   standalone: true,
-  imports: [MatDialogModule,MatDivider,MatChipsModule,MatButtonModule],
+  imports: [MatDialogModule,MatDivider,MatChipsModule,MatButtonModule,DatePipe],
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.css'
 })

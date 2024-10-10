@@ -3,33 +3,25 @@
     <mat-divider></mat-divider>
     <mat-dialog-content ma>
         <h3>Staffs</h3>
-        <div>
-            @for(staff of data.staff ; track $index) {
+        <div class="staffs">
+            @for(staff of data.staffs ; track $index) {
                 <p>{{staff}}</p>
             }
         </div>
-        <h3>SLots</h3>
-        <div>
+        <h3>Slots</h3>
+        <div class="slots">
             @for(slot of data.slots ; track $index) {
-                <mat-chip>{{slot}}</mat-chip>
+                <mat-chip style="margin: 5px;">{{slot}}</mat-chip>
             }
         </div>
-        <div>
-            <h6>Start Date : {{data.startDate}}</h6>
-            <h6>End Date : {{data.endDate}}</h6>
+        <div class="dates">
+            <h6>Start Date :  {{data.startDate | date:'shortDate'}}</h6>
+            <h6>End Date : {{data.endDate | date:'shortDate' }}</h6>
         </div>
     </mat-dialog-content>
     <mat-divider></mat-divider>
     <mat-dialog-actions>
-        <button mat-dialog-close mat-flat-button>Cancel</button>
-        <button mat-dialog-close mat-flat-button>Ok ?</button>
+        <button mat-dialog-close mat-button>Cancel</button>
+        <button mat-dialog-close mat-button cdkFocusInitial>Send</button>
     </mat-dialog-actions>
 </div>
-
-<!-- <h4 matDialogTitle>Hello</h4>
-<mat-dialog-content>
-    The data received msg is 
-</mat-dialog-content>
-<mat-dialog-actions>
-    <button matDialogClose>Done</button>
-</mat-dialog-actions> -->

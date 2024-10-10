@@ -1,3 +1,16 @@
+*{
+    color: black;
+}
 .container {
     height: fit-content;
+}
+.slots {
+    margin-top : 30px;
+}
+.dates {
+    margin-top : 30px;
+    color: black;
+}
+.staffs {
+    margin-bottom : 30px;
 }

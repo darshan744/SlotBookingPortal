@@ -18,7 +18,7 @@ export class SlotGenerateService {
   private minutesToTime ( minutes : number) : string {
     const hours = Math.floor(minutes / 60);
     const min = Math.floor(minutes % 60);
-    return `${hours.toString().padStart(2,'0')} : ${min.toString().padStart(2,'0')}`
+    return `${hours.toString().padStart(2,'0')}:${min.toString().padStart(2,'0')}`
   } 
   generate(data: { morningBreak: string; eveningBreak: string; lunchStart: string; lunchEnd: string; range: number }) {
     console.log(`SERVICE OBJ : ,${data.morningBreak},${data.eveningBreak},${data.lunchStart},${ data.lunchEnd} , ${data.range}`)
