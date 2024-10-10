@@ -1,11 +1,11 @@
 <div matDialog class="container">
-    <h3 matDialogTitle>Confirm ?</h3>
+    <h3 matDialogTitle>Are You Sure?</h3>
     <mat-divider></mat-divider>
     <mat-dialog-content ma>
         <h3>Staffs</h3>
         <div class="staffs">
             @for(staff of data.staffs ; track $index) {
-                <p>{{staff}}</p>
+                <li>{{staff}}</li>
             }
         </div>
         <h3>Slots</h3>
@@ -16,7 +16,7 @@
         </div>
         <div class="dates">
             <h6>Start Date :  {{data.startDate | date:'shortDate'}}</h6>
-            <h6>End Date : {{data.endDate | date:'shortDate' }}</h6>
+            <h6>End Date : {{data.endDate | date:'shortDate'}}</h6>
         </div>
     </mat-dialog-content>
     <mat-divider></mat-divider>
