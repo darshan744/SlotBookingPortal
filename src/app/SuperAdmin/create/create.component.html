@@ -1,89 +1,137 @@
 <!-- SuperAdmin form to request availability -->
-<div class="container">
-    <form class="main-form">
-        <div class="select-staff">
-            <mat-form-field>
-                <mat-label>
-                    Select Staff
-                </mat-label>
-                <input type="text" name="staffInput" #input matInput [matChipInputFor]="grid" [matAutocomplete]="auto"
-                    [(ngModel)]="enteredStaff" (matChipInputTokenEnd)="add($event)">
-                <mat-autocomplete (optionSelected)="optionSelect($event)" #auto="matAutocomplete">
-                    <mat-option [value]="staff" *ngFor="let staff of staffs">{{staff}}</mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-            <div class="chip-div">
-                <mat-chip-grid #grid>
-                    <mat-chip-row *ngFor="let staff of displaySelectedStaff()">
-                        {{staff}}
-                        <button (click)="removeStaff(staff)" matChipRemove><mat-icon>cancel</mat-icon></button>
-                    </mat-chip-row>
-                </mat-chip-grid>
-            </div>
-        </div>
-        <div class="date-div">
-            <mat-form-field>
-                <mat-label>Enter Date Range</mat-label>
-                <mat-date-range-input [rangePicker]="picker">
-                    <input [(ngModel)]="startDate" name="start" matStartDate placeholder="Start Date" />
-                    <input [(ngModel)]="endDate" matEndDate name="end" placeholder="End Date" />
-                </mat-date-range-input>
-                <mat-hint>MM:DD:YYYY - MM:DD:YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
-            </mat-form-field>
-        </div>
-        <div class="slot-generate">
-            <div>
-                <h6>Specify Break Timings</h6>
-            </div>
-            <div class="inputs">
-                <div>
-                    <div>
-                        <mat-form-field>
-                            <mat-label>Morning Break</mat-label>
-                            <input [format]=24  [(ngModel)]="data.morningBreak" name="morngingBreak" [required]="true" matInput [ngxMatTimepicker]="morning" />
-                            <ngx-mat-timepicker-toggle matIconSuffix [for]="morning"></ngx-mat-timepicker-toggle>
-                            <ngx-mat-timepicker [isEsc]="true" [format]="24"  #morning></ngx-mat-timepicker>
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field>
-                            <mat-label>Evening Break</mat-label>
-                            <input [format]=24  [(ngModel)]="data.eveningBreak" name="eveningBreak" [required]="true" matInput [ngxMatTimepicker]="eveningBreak" />
-                            <ngx-mat-timepicker-toggle matIconSuffix [for]="eveningBreak"></ngx-mat-timepicker-toggle>
-                            <ngx-mat-timepicker   #eveningBreak></ngx-mat-timepicker>
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field>
-                            <mat-label>Slot-Interval</mat-label>
-                            <input [(ngModel)]="data.range" type="number" [required]="true" matInput name="Intervals" placeholder="Enter Intervals" />
-                        </mat-form-field>
+<mat-tab-group>
+    <mat-tab label="Generate-Request">
+        <div class="container">
+            <form class="main-form">
+                <div class="select-staff">
+                    <mat-form-field>
+                        <mat-label>
+                            Select Staff
+                        </mat-label>
+                        <input type="text" name="staffInput" #input matInput [matChipInputFor]="grid"
+                            [matAutocomplete]="auto" [(ngModel)]="enteredStaff" (matChipInputTokenEnd)="add($event)">
+                        <mat-autocomplete (optionSelected)="optionSelect($event)" #auto="matAutocomplete">
+                            <mat-option [value]="staff" *ngFor="let staff of staffs">{{staff}}</mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <div class="chip-div">
+                        <mat-chip-grid #grid>
+                            <mat-chip-row *ngFor="let staff of displaySelectedStaff()">
+                                {{staff}}
+                                <button (click)="removeStaff(staff)" matChipRemove><mat-icon>cancel</mat-icon></button>
+                            </mat-chip-row>
+                        </mat-chip-grid>
                     </div>
                 </div>
-                <div>
-                    <div>
-                        <mat-form-field>
-                            <mat-label>Lunch Start Time</mat-label>
-                            <input [format]=24 [(ngModel)]="data.lunchStart" name="lunchStart" [required]="true" matInput [ngxMatTimepicker]="lunchStart" />
-                            <ngx-mat-timepicker-toggle  matIconSuffix [for]="lunchStart" />
-                            <ngx-mat-timepicker #lunchStart />
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field>
-                            <mat-label>Lunch End</mat-label>
-                            <input [format]=24  [(ngModel)]="data.lunchEnd" [required]="true" name="lunchEnd" matInput [ngxMatTimepicker]="lunchEnd" />
-                            <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchEnd" />
-                            <ngx-mat-timepicker [format]="24" #lunchEnd />
-                        </mat-form-field>
-                    </div>
-                    
+                <div class="date-div">
+                    <mat-form-field>
+                        <mat-label>Enter Date Range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input [(ngModel)]="startDate" name="start" matStartDate placeholder="Start Date" />
+                            <input [(ngModel)]="endDate" matEndDate name="end" placeholder="End Date" />
+                        </mat-date-range-input>
+                        <mat-hint>MM:DD:YYYY - MM:DD:YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
                 </div>
-            </div>
+                <div class="slot-generate">
+                    <div>
+                        <h6>Specify Break Timings</h6>
+                    </div>
+                    <div class="inputs">
+                        <div>
+                            <div>
+                                <mat-form-field>
+                                    <mat-label>Morning Break</mat-label>
+                                    <input [format]=24 [(ngModel)]="data.morningBreak" name="morngingBreak"
+                                        [required]="true" matInput [ngxMatTimepicker]="morning" />
+                                    <ngx-mat-timepicker-toggle matIconSuffix
+                                        [for]="morning"></ngx-mat-timepicker-toggle>
+                                    <ngx-mat-timepicker [isEsc]="true" [format]="24" #morning></ngx-mat-timepicker>
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <mat-form-field>
+                                    <mat-label>Evening Break</mat-label>
+                                    <input [format]=24 [(ngModel)]="data.eveningBreak" name="eveningBreak"
+                                        [required]="true" matInput [ngxMatTimepicker]="eveningBreak" />
+                                    <ngx-mat-timepicker-toggle matIconSuffix
+                                        [for]="eveningBreak"></ngx-mat-timepicker-toggle>
+                                    <ngx-mat-timepicker #eveningBreak></ngx-mat-timepicker>
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <mat-form-field>
+                                    <mat-label>Slot-Interval</mat-label>
+                                    <input [(ngModel)]="data.range" type="number" [required]="true" matInput
+                                        name="Intervals" placeholder="Enter Intervals" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <mat-form-field>
+                                    <mat-label>Lunch Start Time</mat-label>
+                                    <input [format]=24 [(ngModel)]="data.lunchStart" name="lunchStart" [required]="true"
+                                        matInput [ngxMatTimepicker]="lunchStart" />
+                                    <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchStart" />
+                                    <ngx-mat-timepicker #lunchStart />
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <mat-form-field>
+                                    <mat-label>Lunch End</mat-label>
+                                    <input [format]=24 [(ngModel)]="data.lunchEnd" [required]="true" name="lunchEnd"
+                                        matInput [ngxMatTimepicker]="lunchEnd" />
+                                    <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchEnd" />
+                                    <ngx-mat-timepicker [format]="24" #lunchEnd />
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <button mat-raised-button class="btns" (click)="generateSlot()">Generate</button>
+                <button mat-raised-button class="btns" (click)="submit()">Send</button>
+            </form>
         </div>
-        <button mat-raised-button class="btns" (click)="generateSlot()">Generate</button>
-        <button mat-raised-button class="btns" (click)="submit()">Send</button>
-    </form>
-</div>
+    </mat-tab>
+    <mat-tab class="StatusTab" label="Status">
+        <div class="table-container">
+            
+       
+        <mat-table class="table mat-elevation-z10" [dataSource]="statusDetails">
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef>Staff-id</mat-header-cell>
+                <mat-cell *matCellDef="let staff">{{staff.staff_id}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                <mat-cell *matCellDef="let staff">{{staff.name}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                <mat-cell *matCellDef="let staff">
+                    <div [ngClass]="{'status-accepted': staff.status === 'Accepted', 'status-pending': staff.status === 'Pending'}">
+                        <mat-icon matIconSuffix *ngIf="staff.status === 'Accepted'">check_circle</mat-icon>
+                        <mat-icon matIconSuffix *ngIf="staff.status === 'Pending'">hourglass_empty</mat-icon>
+                        {{staff.status}}
+                    </div>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="phoneNumber">
+                <mat-header-cell *matHeaderCellDef>Phone Number</mat-header-cell>
+                <mat-cell *matCellDef="let staff">{{staff.phone_number}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="email">
+                <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                <mat-cell  *matCellDef="let staff">{{staff.email}}</mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+            <mat-row (click)="onClick(staff)" *matRowDef="let staff;columns:columns"></mat-row>
+        </mat-table>
+    </div>
+    </mat-tab>
+    <mat-tab label="Generate-Slot"></mat-tab>
+</mat-tab-group>

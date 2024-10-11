@@ -48,7 +48,7 @@ export class SlotGenerateService {
         continue;
       }
 
-      let finalTime = newTime + "-" + newEndTime;
+      let finalTime = newTime + " - " + newEndTime;
       slots.push(finalTime);      
       startMinutes += data.range;
     }
@@ -64,5 +64,4 @@ export class SlotGenerateService {
     })
   }
   
-
 }

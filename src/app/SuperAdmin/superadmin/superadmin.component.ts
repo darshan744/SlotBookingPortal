@@ -25,6 +25,6 @@ interface event{
   styleUrl: './superadmin.component.css'
 })
 export class SuperadminComponent {
-  list:items[] =[{name:'Search',path:'Search',icon:'dashboard'},{name:'CreateEvent',path:'Create',icon:'event'}]
+  list:items[] =[{name:'Dashboard',path:'Search',icon:'dashboard'},{name:'Generate Request',path:'Create',icon:'event'}]
   
 }

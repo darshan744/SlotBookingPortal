@@ -1,6 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../User/dialog/dialog.component";
+import { ConfirmDialogComponent } from "../../SuperAdmin/confirm-dialog/confirm-dialog.component";
 
 @Injectable({
     providedIn:'root'
@@ -25,6 +26,17 @@ export class DialogOpenService {
                     date:selectedDate
                 }
         })
+    }
+    openSlotDialog(staffs : string[] , slots : string[],
+        startDate : string , endDate : string
+      ) {
+        this.popOver.open(ConfirmDialogComponent , {
+          data : { staffs : staffs , slots : slots , /*Arrays*/
+             startDate : startDate , endDate : endDate }
+        })
+      }
+    openStatusDialog() {
+        this.popOver.open(ConfirmDialogComponent)
     }
 
 }

@@ -5,3 +5,10 @@ export interface SlotBreaks {
     lunchEnd : string,
     range : number
 }
+export type data = {
+    staff_id : string,
+    name : string,
+    status : string,
+    phone_number : string,
+    email : string 
+}
