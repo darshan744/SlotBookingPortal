@@ -1,12 +1,14 @@
-<div class="container">
-    <h4 matDialogTitle>{{data.name}}</h4>
+<div matDialog class="container">
+    <h3 matDialogTitle>{{data.name}}</h3>
+    <mat-divider></mat-divider>
     <h3>Slots Accepted:</h3>
     <mat-dialog-content>
-        <div *ngFor="let slot of slots">
-            {{slot}} : {{data.status}}
+        <div *ngFor="let slot of data.slots()">
+           <p> {{slot}} : {{data.status}}</p>
         </div>
     </mat-dialog-content>
+    <mat-divider></mat-divider>
     <mat-dialog-actions>
-        <button mat-flat-button>Close</button>
+        <button mat-flat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>
 </div>

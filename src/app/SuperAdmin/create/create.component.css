@@ -85,3 +85,11 @@
 .mat-mdc-row .mat-mdc-cell {
     cursor: pointer;
 }
+/*Generate slots*/
+.generation {
+    /* margin: 50px; */
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+}

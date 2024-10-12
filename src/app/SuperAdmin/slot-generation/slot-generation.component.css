@@ -1,0 +1,31 @@
+.container {
+    margin: 50px;
+    padding: 30px;
+    display: flex;
+}
+.Slot-Generate {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.event-types, .venues {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.event-types h5, .venues h5 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #3f51b5;
+}
+
+.venues {
+    margin-top: 20px;
+}
+.slots-generated {
+    margin-top: 30px;
+}
