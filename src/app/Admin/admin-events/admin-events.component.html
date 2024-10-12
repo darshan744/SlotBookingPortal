@@ -23,10 +23,10 @@
         <ng-container matColumnDef="Action">
             <th mat-header-cell  class="mat-header-cell" *matHeaderCellDef></th>
             <td mat-cell class="mat-cell" *matCellDef="let event">
-                <button mat-flat-button data-header="Action" (click)="cancelEvent(event)">Cancel</button>
+                <button mat-flat-button data-header="Action" (click)="cancelEvent(event)">Accept</button>
             </td>
         </ng-container>
-    
+
         <tr mat-header-row class="headers" *matHeaderRowDef="columns"></tr>
         <tr mat-row class="" *matRowDef="let row;columns:columns"></tr>
     </table>

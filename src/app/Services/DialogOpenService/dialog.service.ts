@@ -35,8 +35,12 @@ export class DialogOpenService {
              startDate : startDate , endDate : endDate }
         })
       }
-    openStatusDialog() {
-        this.popOver.open(ConfirmDialogComponent)
+    openStatusDialog(staff : any) {
+        this.popOver.open(ConfirmDialogComponent, {
+          data : {
+            staffs : staff
+          }
+        })
     }
 
 }

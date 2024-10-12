@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component,  inject,  signal  } from '@angular/core';
+import { ChangeDetectionStrategy, Component,  computed,  inject,  signal  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule} from '@angular/material/form-field';
@@ -38,7 +38,7 @@ export class CreateComponent {
   /**----------Variables-------------------- */
   enteredStaff = signal('');
   displaySelectedStaff = signal<string[]>([])
-  slots : string[] = [];
+  slots = signal<string[]>([]);
   data : SlotBreaks = {
     morningBreak :'',
     eveningBreak : '',
@@ -49,84 +49,96 @@ export class CreateComponent {
   startDate : string = ''
   endDate : string = ''
   
+
   /*---------------Sample Data---------------*/
-  staffs: any = ['Jhon Doe', 'Steve Smith', 'Virat kholi', 'John smith', 'Rhodeans Joe', 'Vin Diesel', 'Paul', 'Gates'
-    , 'Subramani', 'Aaron', 'Rohith'
-  ];
+  staffs: any = ['Jhon Doe', 'Steve Smith', 'Virat kholi', 'John smith', 
+    'Rhodeans Joe', 'Vin Diesel', 'Paul', 'Gates' , 'Subramani', 'Aaron', 'Rohith'];
   statusDetails :data[] = [
     {
       staff_id: 'EC101',
       name: 'Gururs',
       status: 'Accepted',
       phone_number: '123-456-7890',
-      email: 'gururs@example.com'
+      email: 'gururs@example.com',
+      slots:this.slots
     },
     {
       staff_id: 'EC102',
       name: 'Mohana Priya',
       status: 'Pending',
       phone_number: '234-567-8901',
-      email: 'mohanapriya@example.com'
+      email: 'mohanapriya@example.com',
+      slots:this.slots
     },
     {
       staff_id: 'EC103',
       name: 'Darshan',
       status: 'Accepted',
       phone_number: '345-678-9012',
-      email: 'darshan@example.com'
+      email: 'darshan@example.com',
+      slots:this.slots
     },
     {
       staff_id: 'EC104',
       name: 'Jhon Doe',
       status: 'Pending',
       phone_number: '456-789-0123',
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      slots:this.slots
     },
     {
       staff_id: 'EC105',
       name: 'John Smith',
       status: 'Accepted',
       phone_number: '567-890-1234',
-      email: 'johnsmith@example.com'
+      email: 'johnsmith@example.com',
+      slots:this.slots
     },
     {
       staff_id: 'EC106',
       name: 'Steve Jobs',
       status: 'Pending',
       phone_number: '678-901-2345',
-      email: 'stevejobs@example.com'
+      email: 'stevejobs@example.com',
+      slots:this.slots
     },
     {
       staff_id: 'EC107',
       name: 'Subramani',
       status: 'Pending',
       phone_number: '789-012-3456',
-      email: 'subramani@example.com'
+      email: 'subramani@example.com',
+      slots:this.slots
     },
     {
       staff_id: 'EC108',
       name: 'TamilSelvan',
       status: 'Accepted',
       phone_number: '890-123-4567',
-      email: 'tamilselvan@example.com'
+      email: 'tamilselvan@example.com',
+      slots:this.slots
     },
     {
       staff_id: 'EC109',
       name: 'Ramesh',
       status: 'Pending',
       phone_number: '901-234-5678',
-      email: 'ramesh@example.com'
+      email: 'ramesh@example.com',
+      slots:this.slots
     },
     {
       staff_id: 'EC110',
       name: 'Jithu',
       status: 'Pending',
       phone_number: '012-345-6789',
-      email: 'jithu@example.com'
+      email: 'jithu@example.com',
+      slots:this.slots
     }
   ];
   columns : string[] = ['id','name','phoneNumber','email','status'];
 
+
+  
   /*----------Methods----------*/
   add(e: MatChipInputEvent) {
     var value = e.value.trim();
@@ -158,7 +170,7 @@ export class CreateComponent {
     )
   }
   submit() {
-    if(this.slots.length === 0 || this.displaySelectedStaff().length === 0 
+    if(this.slots().length === 0 || this.displaySelectedStaff().length === 0 
               || this.startDate === '' || this.endDate === '')
           {
             alert('enter Data'); 
@@ -166,7 +178,7 @@ export class CreateComponent {
     let staffs = this.displaySelectedStaff();
     console.log(this.slots);
     
-    this.SlotGenerationServie.openDialog(staffs,this.slots,this.startDate , this.endDate)
+    this.SlotGenerationServie.openDialog(staffs,this.slots(),this.startDate , this.endDate)
     // this.SlotGenerationServie.openDialog("hi");
     console.log("Hello");
   }
@@ -188,7 +200,7 @@ export class CreateComponent {
       else 
       {
         console.log("generated Timings are : " +this.data.morningBreak+" ," + this.data.eveningBreak +" ," +  this.data.lunchEnd +" ," +  this.data.lunchStart +" ," +  this.data.lunchStart  +" ," + this.data.range);
-        this.slots = this.SlotGenerationServie.generate(this.data);
+        this.slots.set(this.SlotGenerationServie.generate(this.data));
         this._snackBar.open("Generated Successfully", "Done");
         console.log(this.slots);
       }
@@ -199,6 +211,6 @@ export class CreateComponent {
     this._snackBar.open("opend","close");
   }
   onClick(staff: data) {
-    console.log(staff);
+    console.log(staff.slots());
   }
 }

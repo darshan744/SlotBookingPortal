@@ -1,3 +1,5 @@
+import { Signal } from "@angular/core"
+
 export interface SlotBreaks {
     morningBreak : string,
     eveningBreak : string,
@@ -10,5 +12,6 @@ export type data = {
     name : string,
     status : string,
     phone_number : string,
-    email : string 
+    email : string,
+    slots : Signal<string[]>
 }

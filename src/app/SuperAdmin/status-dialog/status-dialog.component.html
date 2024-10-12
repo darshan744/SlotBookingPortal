@@ -1,6 +1,12 @@
 <div class="container">
+    <h4 matDialogTitle>{{data.name}}</h4>
     <h3>Slots Accepted:</h3>
-    <div *ngFor="let slot of slots">
-
-    </div>
+    <mat-dialog-content>
+        <div *ngFor="let slot of slots">
+            {{slot}} : {{data.status}}
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-flat-button>Close</button>
+    </mat-dialog-actions>
 </div>
