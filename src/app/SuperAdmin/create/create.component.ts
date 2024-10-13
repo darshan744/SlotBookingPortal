@@ -13,7 +13,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { SlotGenerateService } from '../../Services/SuperAdminServices/SlotGenerate/slot-generate.service';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { MatCardModule } from '@angular/material/card';
-import { SlotBreaks, data } from '../../Models/slot-breaks';
+import { SlotBreaks, data, staffs } from '../../Models/slot-breaks';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
@@ -33,10 +33,20 @@ import { SlotGenerationComponent } from "../slot-generation/slot-generation.comp
 })
 export class CreateComponent {
 
+
+  dateFilter = (date : Date):boolean=> {
+    if(!date)return false;
+    var day = (date || new Date()).getDay();
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    return day !== 0 && date >= today;
+  } 
+
   ngOnInit():void {
     this.SlotGenerationServie.getAllStaff().subscribe(staffs =>{
-    this.staffs = staffs.staffs.map(staff=>staff.name)
+    this.staffs = staffs.staffs
     });
+    console.log(this.staffs);
   }
   /**Services */
   SlotGenerationServie = inject(SlotGenerateService);
@@ -44,7 +54,7 @@ export class CreateComponent {
   private _dialogService = inject(DialogOpenService);
   /**----------Variables-------------------- */
   enteredStaff = signal('');
-  displaySelectedStaff = signal<string[]>([])
+  displaySelectedStaff = signal<staffs["staffs"]>([])
   slots = signal<string[]>([]);
   data: SlotBreaks = {
     morningBreak: '',
@@ -56,7 +66,7 @@ export class CreateComponent {
   startDate: string = ''
   endDate: string = ''
 
-  staffs:string[] = [];
+  staffs:staffs["staffs"] = [];
   /*---------------Sample Data---------------*/
   //both are to be retreived from backend
   // staffs: string[] = ['Jhon Doe', 'Steve Smith', 'Virat kholi', 'John smith',
@@ -152,11 +162,15 @@ export class CreateComponent {
     this.enteredStaff.set('');
     if (value) {
       this.displaySelectedStaff.update((staffs) => {
-        if (this.displaySelectedStaff().includes(value)) {
+        if (this.displaySelectedStaff().some(staff => staff.name === value)) {
           return [...staffs]
         }
         else {
-          return [...staffs, value]
+          var addStaff = this.staffs.find(staff => staff.name === value);
+          if(addStaff && !this.displaySelectedStaff().some(staff => staff.name === value) ){
+            return [...staffs, addStaff]
+          }
+          return staffs;
         }
       });
     }
@@ -164,14 +178,15 @@ export class CreateComponent {
   optionSelect(e: MatAutocompleteSelectedEvent) {
     var value = e.option.viewValue;
     this.enteredStaff.set('');
-    this.displaySelectedStaff.update((staffs) => {
-      if (this.displaySelectedStaff().includes(value)) {
+    this.displaySelectedStaff.update((staffs: { _id: string; name: string; }[])  => {
+      var addStaff = this.staffs.find(staff => staff.name === value);
+      if (addStaff && !this.displaySelectedStaff().some(staff => staff.name === value)) {
         e.option.deselect();
-        return [...staffs]
+        return [...staffs,addStaff]
       }
       else {
-        e.option.deselect();
-        return [...staffs, value]
+        e.option.deselect();  
+        return [...staffs]
       }
     }
     )
@@ -190,12 +205,7 @@ export class CreateComponent {
   }
   removeStaff(inputstaff: string) {
     this.displaySelectedStaff.update(staff => {
-      const index = staff.indexOf(inputstaff);
-      if (index < 0) {
-        return staff;
-      }
-      staff.splice(index, 1);
-      return [...staff]
+      return staff.filter(staff => staff.name !== inputstaff);
     })
   }
   generateSlot() {

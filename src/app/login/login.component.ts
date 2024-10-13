@@ -47,7 +47,7 @@ import { student } from '../Models/Student';
       password:string='';
     
     navigate(){
-        this.service.authenticate(this.rollNO,this.password)
+        this.service.authenticate(this.rollNO)
     }
     handleOauthResponse(response:any):void{
       this.service.handleOauthResponse(response)

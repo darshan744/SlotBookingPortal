@@ -11,14 +11,14 @@
                         <input type="text" name="staffInput" #input matInput [matChipInputFor]="grid"
                             [matAutocomplete]="auto" [(ngModel)]="enteredStaff" (matChipInputTokenEnd)="add($event)">
                         <mat-autocomplete (optionSelected)="optionSelect($event)" #auto="matAutocomplete">
-                            <mat-option [value]="staff" *ngFor="let staff of staffs">{{staff}}</mat-option>
+                            <mat-option [value]="staff.name" *ngFor="let staff of staffs">{{staff.name}}</mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
                     <div class="chip-div">
                         <mat-chip-grid #grid>
                             <mat-chip-row *ngFor="let staff of displaySelectedStaff()">
-                                {{staff}}
-                                <button (click)="removeStaff(staff)" matChipRemove><mat-icon>cancel</mat-icon></button>
+                                {{staff.name}}
+                                <button (click)="removeStaff(staff.name)" matChipRemove><mat-icon>cancel</mat-icon></button>
                             </mat-chip-row>
                         </mat-chip-grid>
                     </div>
@@ -26,7 +26,7 @@
                 <div class="date-div">
                     <mat-form-field>
                         <mat-label>Enter Date Range</mat-label>
-                        <mat-date-range-input [rangePicker]="picker">
+                        <mat-date-range-input [dateFilter]="dateFilter" [rangePicker]="picker">
                             <input [(ngModel)]="startDate" name="start" matStartDate placeholder="Start Date" />
                             <input [(ngModel)]="endDate" matEndDate name="end" placeholder="End Date" />
                         </mat-date-range-input>

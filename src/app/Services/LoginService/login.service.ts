@@ -1,34 +1,38 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as studentsData from '../../../Data.json'
+
 import { student } from '../../Models/Student';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment.development';
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
   router = inject(Router);
-   user:any=null;
-  url =  "http://localhost:3000/students";
-  students = studentsData;
+  user:any=null;
+  private _url = environment.BASE_URL + '/api/v1/login';
   constructor(private http : HttpClient) { }
-
+  private _role = '';
+  private _id = '';
    decodeJWTToken(token:string){
     return JSON.parse(atob(token.split(".")[1]))
   }
   
-  authenticate(rollNO:string , password:string){
-    this.http.get<student[]>(`${this.url}?rollNo=${rollNO}`).subscribe((std)=>{
-      console.log(std[0].name +" "+  std[0].password);
-      
-      if(password === std[0].password) {
-        console.log("if statemtn");
-        return this.router.navigateByUrl("/user/dashboard");
+  authenticate(rollNo:string ){
+    this.http.post(this._url , {rollNo}).subscribe((response : any)=>{
+      this._id = rollNo;
+      this._role = response.role;
+      if(response.role === 'staff') {
+        return   this.router.navigateByUrl('/admin/Home');
       }
-      console.log("wrong Password");
-      return this.router.navigateByUrl("/NotAUser")
-    });
+      else if(response.role === 'student') {
+        return  this.router.navigateByUrl('/user/dashboard');
+      }
+      else {
+       return this.router.navigateByUrl('/NotAUser');
+      }
+    })
   }
 
    handleOauthResponse(response:any){

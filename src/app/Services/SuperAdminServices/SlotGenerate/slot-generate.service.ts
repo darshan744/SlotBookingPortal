@@ -1,20 +1,31 @@
-import { Injectable,inject } from '@angular/core';
+import {  Injectable,inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../SuperAdmin/confirm-dialog/confirm-dialog.component';
 import { environment } from '../../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { staffs } from '../../../Models/slot-breaks';
+type slotData = {
+  staffs : staffs["staffs"] , slots : string[],
+    startDate : string , endDate : string
+}
 @Injectable({
   providedIn: 'root'
 })
 export class SlotGenerateService {
 
-  private allStaffURL = `${environment.BASE_URL}/getAllStaff`;
+  private allStaffURL = `${environment.BASE_SUPERADMIN_URL}/getAllStaff`;
+  private requestAvailability = `${environment.AVAILABILITY_REQUEST_}`
   constructor(private http : HttpClient) { }
   readonly popover = inject(MatDialog);
 
   getAllStaff() {
      return this.http.get<staffs>(this.allStaffURL)
+  }
+  requestSlotAvailability(data : slotData) {
+    console.log("service function")
+    this.http.post(this.requestAvailability, data).subscribe(res=>{
+      console.log(res);
+    });
   }
 
   private timeToMinutes(time : string):number {
@@ -62,7 +73,7 @@ export class SlotGenerateService {
     
     return slots;
   }
-  openDialog(staffs : string[] , slots : string[],
+  openDialog(staffs : staffs["staffs"] , slots : string[],
     startDate : string , endDate : string
   ) {
     this.popover.open(ConfirmDialogComponent , {

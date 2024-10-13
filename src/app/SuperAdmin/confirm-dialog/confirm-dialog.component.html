@@ -5,7 +5,7 @@
         <h3>Staffs</h3>
         <div class="staffs">
             @for(staff of data.staffs ; track $index) {
-                <li>{{staff}}</li>
+                <li>{{staff.name}}</li>
             }
         </div>
         <h3>Slots</h3>
@@ -22,6 +22,6 @@
     <mat-divider></mat-divider>
     <mat-dialog-actions>
         <button mat-dialog-close mat-button>Cancel</button>
-        <button mat-dialog-close mat-button cdkFocusInitial>Send</button>
+        <button mat-dialog-close mat-button (click)="submit()" cdkFocusInitial>Send</button>
     </mat-dialog-actions>
 </div>

@@ -14,6 +14,7 @@ import { SuperadminComponent } from './SuperAdmin/superadmin/superadmin.componen
 import { SearchComponent } from './SuperAdmin/search/search.component';
 import { CreateComponent } from './SuperAdmin/create/create.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { authGuard } from './Services/Guards/auth.guard';
 
 
 export const routes: Routes = [
@@ -41,7 +42,9 @@ export const routes: Routes = [
     //User
     {
         path:'user',
+        canActivate :[authGuard],
         component:UserComponent,
+        
         children:[
             {path:'dashboard',component:DashboardComponent},
             {
@@ -63,6 +66,7 @@ export const routes: Routes = [
     //Admin
     {
         path:'admin',
+
         component:AdminComponent,
         children:[
             {
