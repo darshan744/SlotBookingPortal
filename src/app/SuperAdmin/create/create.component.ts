@@ -10,7 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { SlotGenerateService } from '../../Services/SlotGenerate/slot-generate.service';
+import { SlotGenerateService } from '../../Services/SuperAdminServices/SlotGenerate/slot-generate.service';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { MatCardModule } from '@angular/material/card';
 import { SlotBreaks, data } from '../../Models/slot-breaks';
@@ -32,6 +32,12 @@ import { SlotGenerationComponent } from "../slot-generation/slot-generation.comp
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateComponent {
+
+  ngOnInit():void {
+    this.SlotGenerationServie.getAllStaff().subscribe(staffs =>{
+    this.staffs = staffs.staffs.map(staff=>staff.name)
+    });
+  }
   /**Services */
   SlotGenerationServie = inject(SlotGenerateService);
   private _snackBar = inject(MatSnackBar);
@@ -50,10 +56,11 @@ export class CreateComponent {
   startDate: string = ''
   endDate: string = ''
 
-
+  staffs:string[] = [];
   /*---------------Sample Data---------------*/
-  staffs: any = ['Jhon Doe', 'Steve Smith', 'Virat kholi', 'John smith',
-    'Rhodeans Joe', 'Vin Diesel', 'Paul', 'Gates', 'Subramani', 'Aaron', 'Rohith'];
+  //both are to be retreived from backend
+  // staffs: string[] = ['Jhon Doe', 'Steve Smith', 'Virat kholi', 'John smith',
+  //   'Rhodeans Joe', 'Vin Diesel', 'Paul', 'Gates', 'Subramani', 'Aaron', 'Rohith'];
   statusDetails: data[] = [
     {
       staff_id: 'EC101',
@@ -136,9 +143,8 @@ export class CreateComponent {
       slots: this.slots
     }
   ];
+
   columns: string[] = ['id', 'name', 'phoneNumber', 'email', 'status'];
-
-
 
   /*----------Methods----------*/
   add(e: MatChipInputEvent) {
@@ -170,17 +176,17 @@ export class CreateComponent {
     }
     )
   }
+  //Req to backend
   submit() {
     if (this.slots().length === 0 || this.displaySelectedStaff().length === 0
       || this.startDate === '' || this.endDate === '') {
       alert('enter Data');
     }
-    let staffs = this.displaySelectedStaff();
-    console.log(this.slots);
-
-    this.SlotGenerationServie.openDialog(staffs, this.slots(), this.startDate, this.endDate)
-    // this.SlotGenerationServie.openDialog("hi");
-    console.log("Hello");
+    else {
+      let staffs = this.displaySelectedStaff();
+      this.SlotGenerationServie.openDialog(staffs, this.slots(), this.startDate, this.endDate)
+    }
+    
   }
   removeStaff(inputstaff: string) {
     this.displaySelectedStaff.update(staff => {
@@ -205,6 +211,7 @@ export class CreateComponent {
     }
 
   }
+
   tableClick(e: Event) {
     console.log(e.currentTarget);
     this._snackBar.open("opend", "close");
@@ -214,6 +221,5 @@ export class CreateComponent {
     console.log(staff.slots());
   }
 
-  /*Generate slot properties*/
   
 }

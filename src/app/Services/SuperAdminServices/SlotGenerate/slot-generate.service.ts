@@ -1,14 +1,21 @@
 import { Injectable,inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../SuperAdmin/confirm-dialog/confirm-dialog.component';
-
+import { ConfirmDialogComponent } from '../../../SuperAdmin/confirm-dialog/confirm-dialog.component';
+import { environment } from '../../../../environments/environment.development';
+import { HttpClient } from '@angular/common/http';
+import { staffs } from '../../../Models/slot-breaks';
 @Injectable({
   providedIn: 'root'
 })
 export class SlotGenerateService {
 
-  constructor() { }
+  private allStaffURL = `${environment.BASE_URL}/getAllStaff`;
+  constructor(private http : HttpClient) { }
   readonly popover = inject(MatDialog);
+
+  getAllStaff() {
+     return this.http.get<staffs>(this.allStaffURL)
+  }
 
   private timeToMinutes(time : string):number {
     const [hours , minutes] = time.split(':').map(Number);

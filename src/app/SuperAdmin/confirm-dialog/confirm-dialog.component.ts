@@ -1,5 +1,5 @@
 import { Component , inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDivider } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,4 +14,8 @@ import { DatePipe } from '@angular/common';
 export class ConfirmDialogComponent{
   constructor(){}
   data = inject(MAT_DIALOG_DATA);
+  
+  submit() : void {
+    
+  }
 }

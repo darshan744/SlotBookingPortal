@@ -15,3 +15,8 @@ export type data = {
     email : string,
     slots : Signal<string[]>
 }
+
+export type staffs = {
+    status : boolean,
+    staffs : {_id:string , name : string}[]
+}
