@@ -59,3 +59,8 @@
     }
 
   }
+
+.buttons {
+  margin: 5px;
+  transition: all ease-in 100ms;
+}

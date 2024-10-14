@@ -5,7 +5,7 @@ import { environment } from '../../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { staffs } from '../../../Models/slot-breaks';
 type slotData = {
-  staffs : staffs["staffs"] , slots : string[],
+  staffs : staffs["staffs"],
     startDate : string , endDate : string
 }
 @Injectable({
@@ -22,7 +22,6 @@ export class SlotGenerateService {
      return this.http.get<staffs>(this.allStaffURL)
   }
   requestSlotAvailability(data : slotData) {
-    console.log("service function")
     this.http.post(this.requestAvailability, data).subscribe(res=>{
       console.log(res);
     });
@@ -39,7 +38,7 @@ export class SlotGenerateService {
     return `${hours.toString().padStart(2,'0')}:${min.toString().padStart(2,'0')}`
   } 
   generate(data: { morningBreak: string; eveningBreak: string; lunchStart: string; lunchEnd: string; range: number }) {
-    console.log(`SERVICE OBJ : ,${data.morningBreak},${data.eveningBreak},${data.lunchStart},${ data.lunchEnd} , ${data.range}`)
+    // console.log(`SERVICE OBJ : ,${data.morningBreak},${data.eveningBreak},${data.lunchStart},${ data.lunchEnd} , ${data.range}`)
     let startTime = '9:00';
     const endTime = '16:15';
     const slots: string[] = [];

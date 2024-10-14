@@ -13,7 +13,8 @@ type slotData = {
 @Component({
   selector: 'app-confirm-dialog',
   standalone: true,
-  imports: [MatDialogModule,MatDivider,MatChipsModule,MatButtonModule,DatePipe],
+  imports: [MatDialogModule,MatDivider,MatChipsModule,
+    MatChipsModule,MatButtonModule,DatePipe],
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.css'
 })

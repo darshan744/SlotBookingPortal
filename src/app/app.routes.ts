@@ -65,8 +65,7 @@ export const routes: Routes = [
     },
     //Admin
     {
-        path:'admin',
-
+        path:'admin/:id',
         component:AdminComponent,
         children:[
             {

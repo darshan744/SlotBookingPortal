@@ -29,3 +29,11 @@
 .slots-generated {
     margin-top: 30px;
 }
+.slot-generate .inputs {
+    display: flex;
+    flex-wrap: wrap; /* Allow inputs to wrap */
+    gap: 20px; /* Space between inputs */
+}
+.btns {
+    width: 90%;
+}

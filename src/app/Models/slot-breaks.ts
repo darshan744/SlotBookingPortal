@@ -20,3 +20,11 @@ export type staffs = {
     status : boolean,
     staffs : {_id:string , name : string}[]
 }
+export interface event{
+    date : string,
+    slots : { time : string , isAvailable : boolean}[]
+}
+export interface eventResponseServer {
+    slots : event[],
+    message : string
+}

@@ -19,12 +19,21 @@ export class LoginService {
     return JSON.parse(atob(token.split(".")[1]))
   }
   
+  public get id() : string {
+    return this._id;
+  }
+  
+  public get role() : string {
+    return this._role;
+  }
+
   authenticate(rollNo:string ){
+    console.log(rollNo);
     this.http.post(this._url , {rollNo}).subscribe((response : any)=>{
-      this._id = rollNo;
+      sessionStorage.setItem('loggedInUser' , JSON.stringify(rollNo));
       this._role = response.role;
       if(response.role === 'staff') {
-        return   this.router.navigateByUrl('/admin/Home');
+        return   this.router.navigate(['/admin/',rollNo,'Home']);
       }
       else if(response.role === 'student') {
         return  this.router.navigateByUrl('/user/dashboard');

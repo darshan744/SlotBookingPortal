@@ -1,13 +1,16 @@
-import { Component, ElementRef, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatInput } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatChipGrid, MatChipsModule } from '@angular/material/chips';
+import {  MatChipsModule } from '@angular/material/chips';
 import { MatDivider } from '@angular/material/divider';
-import { Signal } from '@angular/core';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { SlotBreaks } from '../../Models/slot-breaks';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SlotGenerateService } from '../../Services/SuperAdminServices/SlotGenerate/slot-generate.service';
 interface Venues {
   venue : string,
   staffs : string[]
@@ -15,19 +18,43 @@ interface Venues {
 @Component({
   selector: 'app-slot-generation',
   standalone: true,
-  imports: [CommonModule,FormsModule,MatChipsModule,MatDivider,
+  imports: [CommonModule,FormsModule,MatChipsModule,MatDivider,NgxMatTimepickerModule,
     MatFormFieldModule,MatSelectModule,MatInput,MatButtonModule],
   templateUrl: './slot-generation.component.html',
   styleUrl: './slot-generation.component.css'
 })
 export class SlotGenerationComponent {
 
+  constructor(private SlotGenerationServie :SlotGenerateService ) {
+    
+  }
   selectedEvent = '';
   selectedYear = '';
   venueInput:string = ''; staffInput:string = '';
   venues = signal<Venues[]>([]);
   staff :string='';
+  data: SlotBreaks = {
+    morningBreak: '',
+    eveningBreak: '',
+    lunchStart: '',
+    lunchEnd: '',
+    range: 0
+  }
+  private _snackBar = inject(MatSnackBar);
+  slots = signal<string[]>([]);
+  generateSlot() {
+    if (this.data.morningBreak === '' || this.data.eveningBreak === ''
+      || this.data.lunchStart === '' || this.data.lunchEnd === '' || this.data.range === 0) {
+      alert('enter data')
+    }
+    else {
+      console.log("generated Timings are : " + this.data.morningBreak + " ," + this.data.eveningBreak + " ," + this.data.lunchEnd + " ," + this.data.lunchStart + " ," + this.data.lunchStart + " ," + this.data.range);
+      this.slots.set(this.SlotGenerationServie.generate(this.data));
+      this._snackBar.open("Generated Successfully", "Done");
+      console.log(this.slots);
+    }
 
+  }
   addStaff() {
     if(this.venueInput !== '' && this.staffInput !== '') {
       this.venues.update((value) => {

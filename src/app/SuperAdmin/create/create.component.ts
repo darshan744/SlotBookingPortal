@@ -11,7 +11,7 @@ import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/ma
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { SlotGenerateService } from '../../Services/SuperAdminServices/SlotGenerate/slot-generate.service';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+
 import { MatCardModule } from '@angular/material/card';
 import { SlotBreaks, data, staffs } from '../../Models/slot-breaks';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -25,7 +25,7 @@ import { SlotGenerationComponent } from "../slot-generation/slot-generation.comp
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatSelect, MatOption, CommonModule,
     FormsModule, MatIconModule, MatButtonModule, MatDatepickerModule, MatTabsModule, MatTableModule,
-    MatAutocompleteModule, MatChipsModule, NgxMatTimepickerModule, MatCardModule, SlotGenerationComponent],
+    MatAutocompleteModule, MatChipsModule, MatCardModule, SlotGenerationComponent],
   providers: [provideNativeDateAdapter()],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
@@ -193,7 +193,7 @@ export class CreateComponent {
   }
   //Req to backend
   submit() {
-    if (this.slots().length === 0 || this.displaySelectedStaff().length === 0
+    if ( this.displaySelectedStaff().length === 0
       || this.startDate === '' || this.endDate === '') {
       alert('enter Data');
     }
@@ -207,19 +207,6 @@ export class CreateComponent {
     this.displaySelectedStaff.update(staff => {
       return staff.filter(staff => staff.name !== inputstaff);
     })
-  }
-  generateSlot() {
-    if (this.data.morningBreak === '' || this.data.eveningBreak === ''
-      || this.data.lunchStart === '' || this.data.lunchEnd === '' || this.data.range === 0) {
-      alert('enter data')
-    }
-    else {
-      console.log("generated Timings are : " + this.data.morningBreak + " ," + this.data.eveningBreak + " ," + this.data.lunchEnd + " ," + this.data.lunchStart + " ," + this.data.lunchStart + " ," + this.data.range);
-      this.slots.set(this.SlotGenerationServie.generate(this.data));
-      this._snackBar.open("Generated Successfully", "Done");
-      console.log(this.slots);
-    }
-
   }
 
   tableClick(e: Event) {

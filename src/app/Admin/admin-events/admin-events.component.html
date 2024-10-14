@@ -1,10 +1,10 @@
 
 <div style='margin: 30px 30px 30px 30px ;'>
     
-    <table mat-table [dataSource]="data" class="mat-elevation-z8" >
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
         <ng-container matColumnDef="No">
             <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>No</th>
-            <td mat-cell class="mat-cell" data-header="No" *matCellDef="let event">{{event.No}}</td>
+            <td mat-cell class="mat-cell" data-header="No" *matCellDef="let index = index">{{index + 1}}</td>
         </ng-container>
     
         <ng-container matColumnDef="Name">
@@ -14,21 +14,24 @@
         
         <ng-container matColumnDef="Date">
             <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Date</th>
-            <td mat-cell class="mat-cell" data-header="Date" *matCellDef="let event">{{event.Date}}</td>
+            <td mat-cell class="mat-cell" data-header="Date" *matCellDef="let event">{{event.date}}</td>
         </ng-container>
         <ng-container matColumnDef="Time">
             <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Time</th>
-            <td mat-cell class="mat-cell" data-header="Time" *matCellDef="let event">{{event.Time}}</td>
+            <td mat-cell class="mat-cell" data-header="Time" *matCellDef="let event">
+                {{event.time}}</td>
         </ng-container>
         <ng-container matColumnDef="Action">
             <th mat-header-cell  class="mat-header-cell" *matHeaderCellDef></th>
             <td mat-cell class="mat-cell" *matCellDef="let event">
-                <button mat-flat-button data-header="Action" (click)="cancelEvent(event)">Accept</button>
+                <button class="buttons" style="margin: 5px;" mat-button data-header="Action" (click)="cancelEvent(event)">Accept</button>
+                <button class="buttons" style="margin: 5px;" mat-button data-header="Action" (click)="cancelEvent(event)">Decline</button>
             </td>
         </ng-container>
 
         <tr mat-header-row class="headers" *matHeaderRowDef="columns"></tr>
         <tr mat-row class="" *matRowDef="let row;columns:columns"></tr>
     </table>
+    <mat-paginator class="mat-elevation-z3" showFirstLastButtons="true" [pageSizeOptions]="[10,25,100]"></mat-paginator>
 </div>
 

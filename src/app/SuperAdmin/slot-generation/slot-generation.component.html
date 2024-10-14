@@ -24,7 +24,63 @@
                 </mat-form-field>
             </div>
         </div>
-
+        <div class="slot-generate">
+            <div>
+                <h6>Specify Break Timings</h6>
+            </div>
+            <div class="inputs">
+                <div>
+                    <div class="Morning-break">
+                        <mat-form-field>
+                            <mat-label>Morning Break</mat-label>
+                            <input [format]=24 [(ngModel)]="data.morningBreak" name="morngingBreak"
+                                [required]="true" matInput [ngxMatTimepicker]="morning" />
+                            <ngx-mat-timepicker-toggle matIconSuffix
+                                [for]="morning"></ngx-mat-timepicker-toggle>
+                            <ngx-mat-timepicker [isEsc]="true" [format]="24" #morning></ngx-mat-timepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="Evening-break">
+                        <mat-form-field>
+                            <mat-label>Evening Break</mat-label>
+                            <input [format]=24 [(ngModel)]="data.eveningBreak" name="eveningBreak"
+                                [required]="true" matInput [ngxMatTimepicker]="eveningBreak" />
+                            <ngx-mat-timepicker-toggle matIconSuffix
+                                [for]="eveningBreak"></ngx-mat-timepicker-toggle>
+                            <ngx-mat-timepicker #eveningBreak></ngx-mat-timepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="Slot-Interval">
+                        <mat-form-field>
+                            <mat-label>Slot-Interval</mat-label>
+                            <input [(ngModel)]="data.range" type="number" [required]="true" matInput
+                                name="Intervals" placeholder="Enter Intervals" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="Lunch-Start">
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Lunch Start Time</mat-label>
+                            <input [format]=24 [(ngModel)]="data.lunchStart" name="lunchStart" [required]="true"
+                                matInput [ngxMatTimepicker]="lunchStart" />
+                            <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchStart" />
+                            <ngx-mat-timepicker #lunchStart />
+                        </mat-form-field>
+                    </div>
+                    <div class="Lunch-End">
+                        <mat-form-field>
+                            <mat-label>Lunch End</mat-label>
+                            <input [format]=24 [(ngModel)]="data.lunchEnd" [required]="true" name="lunchEnd"
+                                matInput [ngxMatTimepicker]="lunchEnd" />
+                            <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchEnd" />
+                            <ngx-mat-timepicker [format]="24" #lunchEnd />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <button mat-raised-button class="btns" (click)="generateSlot()">Generate</button>
+        </div>
         <div class="venues">
             <h5>Venues and Staff</h5>
             <mat-form-field appearance="outline">
