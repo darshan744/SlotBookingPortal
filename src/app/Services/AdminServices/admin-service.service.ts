@@ -9,10 +9,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AdminServiceService {
 
-
   router = inject(ActivatedRoute)
   private _url = environment.ADMIN_URL;
   constructor(private  http : HttpClient) { }
+
   getAvailabilityRequest(): Observable<eventResponseServer> {
     const retreivedVal = (sessionStorage.getItem('loggedInUser'));
     let rollNo = '';
@@ -21,5 +21,15 @@ export class AdminServiceService {
     }
     console.log(`${this._url}/getAvailability/${rollNo}`);
    return this.http.get<eventResponseServer>(`${this._url}/getAvailability/${rollNo}`)
+  }
+
+  postAvailabilityResponse( e : event[]) {
+    const ret = (sessionStorage.getItem('loggedInUser'));
+    let rollNo = '';
+    
+    if(ret) {
+      rollNo = JSON.parse(ret);
+      this.http.post(`${this._url}/postAvailability/${rollNo}`,e).subscribe(res => console.log(res));
+    }
   }
 }

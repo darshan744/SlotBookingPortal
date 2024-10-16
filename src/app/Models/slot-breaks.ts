@@ -22,7 +22,7 @@ export type staffs = {
 }
 export interface event{
     date : string,
-    slots : { time : string , isAvailable : boolean}[]
+    time : string , isAvailable : string
 }
 export interface eventResponseServer {
     slots : event[],

@@ -64,3 +64,6 @@
   margin: 5px;
   transition: all ease-in 100ms;
 }
+.even {
+  background-color: #f0f0f0;
+}
