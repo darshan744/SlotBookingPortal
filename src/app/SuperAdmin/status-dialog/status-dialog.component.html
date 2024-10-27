@@ -1,14 +1,39 @@
-<div matDialog class="container">
-    <h3 matDialogTitle>{{data.name}}</h3>
-    <mat-divider></mat-divider>
-    <h3>Slots Accepted:</h3>
+<ng-container *ngIf="data === undefined; else elseTemplate">
+    <h3 matDialogTitle>
+        No Accepted Slots
+    </h3>
     <mat-dialog-content>
-        <div *ngFor="let slot of data.slots()">
-           <p> {{slot}} : {{data.status}}</p>
-        </div>
+        <h6 >
+            The User Have not accepted Any Slot
+        </h6>
     </mat-dialog-content>
-    <mat-divider></mat-divider>
     <mat-dialog-actions>
-        <button mat-flat-button mat-dialog-close>Close</button>
+        <button matDialogClose mat-flat-button>Close</button>
     </mat-dialog-actions>
-</div>
+</ng-container>
+<ng-template #elseTemplate>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Accepted Slots of {{ data.name }}</mat-card-title>
+            <mat-card-subtitle>{{ data.staffId }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <mat-accordion>
+                <mat-expansion-panel *ngFor="let slot of data.availableSlots">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ slot.date }}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <mat-chip-set>
+                        <mat-chip *ngFor="let timeSlot of slot.slots">
+                            {{ timeSlot.time }}
+                        </mat-chip>
+                    </mat-chip-set>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-card-content>
+    </mat-card>
+</ng-template>

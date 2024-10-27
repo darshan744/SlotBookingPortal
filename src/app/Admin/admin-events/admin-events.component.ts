@@ -1,4 +1,4 @@
-import {  AfterViewInit, Component,inject, ViewChild } from '@angular/core';
+import {  AfterViewInit, Component,inject, signal, ViewChild } from '@angular/core';
 import {  MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -30,7 +30,9 @@ export class AdminEventsComponent implements AfterViewInit {
   selectedDate:string = '';
   constructor(private service : AdminServiceService){}
   private snackBar = inject(MatSnackBar)
-  
+  dupData : event[] = []
+  isLoading = signal<Boolean>(true);
+  dataLength = signal<Number>(0);
   columns = ['No','Date','Time','Action']; 
 
   ngAfterViewInit(): void {
@@ -38,7 +40,10 @@ export class AdminEventsComponent implements AfterViewInit {
     this.service.getAvailabilityRequest().subscribe((response : eventResponseServer)  => {
       const slots = response.slots;
       this.dataSource = new MatTableDataSource<event>(slots);
+      this.dupData = this.dataSource.data;
       this.dataSource.paginator = this.paginator;
+      this.isLoading.set(false);
+      this.dataLength.set(this.dataSource.data.length);
     });
   }
   acceptEvent(e : {date : string , time : string, isAvailable : string}) {
@@ -53,7 +58,20 @@ export class AdminEventsComponent implements AfterViewInit {
     this.dataSource.data = this.dataSource.data.filter(el => !(el.date === e.date && el.time === e.time));
     // this.data
   }
-  submit() {}
+  submit() {
+    const result = this.dupData.filter(e => e.isAvailable !== 'unmodified');
+    console.log(result);
+    if(!(result.length === 0)) {
+      this.service.postAvailabilityResponse(result);
+      // this.snackBar.open('✅ Done',"✖️",{
+      //   duration:2000,
+      //   verticalPosition:'top',
+      //   horizontalPosition:'right',
+      //   panelClass:'custom-snackbar'
+      // })
+    }
+    this.dupData = this.dupData.filter(e => e.isAvailable === 'unmodified');
+  }
   public get data() {
     return this.dataSource;
   }

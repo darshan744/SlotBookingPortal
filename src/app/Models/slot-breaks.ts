@@ -8,17 +8,16 @@ export interface SlotBreaks {
     range : number
 }
 export type data = {
-    staff_id : string,
-    name : string,
-    status : string,
-    phone_number : string,
-    email : string,
-    slots : Signal<string[]>
+    staffId: string,
+    phoneNumber: string,
+    name: string,
+    email: string,
+    unmodifiedCount: number
 }
 
 export type staffs = {
     status : boolean,
-    staffs : {_id:string , name : string}[]
+    staffs : {_id:string ,staffId : string, name : string}[]
 }
 export interface event{
     date : string,

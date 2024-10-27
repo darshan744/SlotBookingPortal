@@ -4,6 +4,7 @@ import { DialogComponent } from "../../User/dialog/dialog.component";
 import { ConfirmDialogComponent } from "../../SuperAdmin/confirm-dialog/confirm-dialog.component";
 import { data } from "../../Models/slot-breaks";
 import { StatusDialogComponent } from "../../SuperAdmin/status-dialog/status-dialog.component";
+import { SlotGenerateService } from "../SuperAdminServices/SlotGenerate/slot-generate.service";
 
 @Injectable({
     providedIn:'root'
@@ -20,7 +21,7 @@ import { StatusDialogComponent } from "../../SuperAdmin/status-dialog/status-dia
 export class DialogOpenService {
     
     readonly popOver = inject(MatDialog)
-
+    slotRetrieveService = inject(SlotGenerateService);
     openDialog(selectedTiming:string,selectedDate:string) {
         this.popOver.open(DialogComponent, {
             width:'320px',height:'250px',
@@ -38,9 +39,13 @@ export class DialogOpenService {
         })
       }
     openStatusDialog(staff : data) {
+      this.slotRetrieveService.getIndividualResponse(staff)?.subscribe(e => {
         this.popOver.open(StatusDialogComponent, {
-          data : staff
+          data : e.Result , 
+          width : '650px',height:'auto'
         })
+      })
+        
     }
 
 }

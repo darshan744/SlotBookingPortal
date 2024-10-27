@@ -7,7 +7,7 @@ import { DatePipe } from '@angular/common';
 import { SlotGenerateService } from '../../Services/SuperAdminServices/SlotGenerate/slot-generate.service';
 import { staffs } from '../../Models/slot-breaks';
 type slotData = {
-  staffs : staffs["staffs"] , slots : string[],
+  staffs : staffs["staffs"],
     startDate : string , endDate : string
 }
 @Component({

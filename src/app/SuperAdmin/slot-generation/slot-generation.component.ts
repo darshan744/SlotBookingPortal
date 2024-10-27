@@ -48,8 +48,8 @@ export class SlotGenerationComponent {
       alert('enter data')
     }
     else {
-      console.log("generated Timings are : " + this.data.morningBreak + " ," + this.data.eveningBreak + " ," + this.data.lunchEnd + " ," + this.data.lunchStart + " ," + this.data.lunchStart + " ," + this.data.range);
-      this.slots.set(this.SlotGenerationServie.generate(this.data));
+      // console.log("generated Timings are : " + this.data.morningBreak + " ," + this.data.eveningBreak + " ," + this.data.lunchEnd + " ," + this.data.lunchStart + " ," + this.data.lunchStart + " ," + this.data.range);
+      // this.slots.set(this.SlotGenerationServie.generate(this.data));
       this._snackBar.open("Generated Successfully", "Done");
       console.log(this.slots);
     }

@@ -11,21 +11,19 @@ import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/ma
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { SlotGenerateService } from '../../Services/SuperAdminServices/SlotGenerate/slot-generate.service';
-
 import { MatCardModule } from '@angular/material/card';
-import { SlotBreaks, data, staffs } from '../../Models/slot-breaks';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SlotBreaks, staffs } from '../../Models/slot-breaks';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatTableModule } from '@angular/material/table';
 import { DialogOpenService } from '../../Services/DialogOpenService/dialog.service';
 import { SlotGenerationComponent } from "../slot-generation/slot-generation.component";
-
+import {StatusTabComponent} from '../status-tab/status-tab.component'
 @Component({
   selector: 'app-create',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatSelect, MatOption, CommonModule,
-    FormsModule, MatIconModule, MatButtonModule, MatDatepickerModule, MatTabsModule, MatTableModule,
-    MatAutocompleteModule, MatChipsModule, MatCardModule, SlotGenerationComponent],
+    FormsModule, MatIconModule, MatButtonModule, MatDatepickerModule, MatTabsModule,
+    MatAutocompleteModule, MatChipsModule, MatCardModule, SlotGenerationComponent,
+    StatusTabComponent],
   providers: [provideNativeDateAdapter()],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
@@ -45,12 +43,12 @@ export class CreateComponent {
   ngOnInit():void {
     this.SlotGenerationServie.getAllStaff().subscribe(staffs =>{
     this.staffs = staffs.staffs
+    console.log(staffs);
     });
     console.log(this.staffs);
   }
   /**Services */
   SlotGenerationServie = inject(SlotGenerateService);
-  private _snackBar = inject(MatSnackBar);
   private _dialogService = inject(DialogOpenService);
   /**----------Variables-------------------- */
   enteredStaff = signal('');
@@ -71,94 +69,11 @@ export class CreateComponent {
   //both are to be retreived from backend
   // staffs: string[] = ['Jhon Doe', 'Steve Smith', 'Virat kholi', 'John smith',
   //   'Rhodeans Joe', 'Vin Diesel', 'Paul', 'Gates', 'Subramani', 'Aaron', 'Rohith'];
-  statusDetails: data[] = [
-    {
-      staff_id: 'EC101',
-      name: 'Gururs',
-      status: 'Accepted',
-      phone_number: '123-456-7890',
-      email: 'gururs@example.com',
-      slots: this.slots
-    },
-    {
-      staff_id: 'EC102',
-      name: 'Mohana Priya',
-      status: 'Pending',
-      phone_number: '234-567-8901',
-      email: 'mohanapriya@example.com',
-      slots: this.slots
-    },
-    {
-      staff_id: 'EC103',
-      name: 'Darshan',
-      status: 'Accepted',
-      phone_number: '345-678-9012',
-      email: 'darshan@example.com',
-      slots: this.slots
-    },
-    {
-      staff_id: 'EC104',
-      name: 'Jhon Doe',
-      status: 'Pending',
-      phone_number: '456-789-0123',
-      email: 'johndoe@example.com',
-      slots: this.slots
-    },
-    {
-      staff_id: 'EC105',
-      name: 'John Smith',
-      status: 'Accepted',
-      phone_number: '567-890-1234',
-      email: 'johnsmith@example.com',
-      slots: this.slots
-    },
-    {
-      staff_id: 'EC106',
-      name: 'Steve Jobs',
-      status: 'Pending',
-      phone_number: '678-901-2345',
-      email: 'stevejobs@example.com',
-      slots: this.slots
-    },
-    {
-      staff_id: 'EC107',
-      name: 'Subramani',
-      status: 'Pending',
-      phone_number: '789-012-3456',
-      email: 'subramani@example.com',
-      slots: this.slots
-    },
-    {
-      staff_id: 'EC108',
-      name: 'TamilSelvan',
-      status: 'Accepted',
-      phone_number: '890-123-4567',
-      email: 'tamilselvan@example.com',
-      slots: this.slots
-    },
-    {
-      staff_id: 'EC109',
-      name: 'Ramesh',
-      status: 'Pending',
-      phone_number: '901-234-5678',
-      email: 'ramesh@example.com',
-      slots: this.slots
-    },
-    {
-      staff_id: 'EC110',
-      name: 'Jithu',
-      status: 'Pending',
-      phone_number: '012-345-6789',
-      email: 'jithu@example.com',
-      slots: this.slots
-    }
-  ];
-
-  columns: string[] = ['id', 'name', 'phoneNumber', 'email', 'status'];
 
   /*----------Methods----------*/
   add(e: MatChipInputEvent) {
     var value = e.value.trim();
+    console.log(value);
     this.enteredStaff.set('');
     if (value) {
       this.displaySelectedStaff.update((staffs) => {
@@ -166,7 +81,7 @@ export class CreateComponent {
           return [...staffs]
         }
         else {
-          var addStaff = this.staffs.find(staff => staff.name === value);
+          let addStaff = this.staffs.find(staff => staff.name === value);
           if(addStaff && !this.displaySelectedStaff().some(staff => staff.name === value) ){
             return [...staffs, addStaff]
           }
@@ -176,10 +91,11 @@ export class CreateComponent {
     }
   }
   optionSelect(e: MatAutocompleteSelectedEvent) {
-    var value = e.option.viewValue;
+    let value = e.option.viewValue.split('-')[0].trim();
+    console.log(value);
     this.enteredStaff.set('');
-    this.displaySelectedStaff.update((staffs: { _id: string; name: string; }[])  => {
-      var addStaff = this.staffs.find(staff => staff.name === value);
+    this.displaySelectedStaff.update((staffs: { _id: string, staffId: string, name: string, }[])  => {
+      let addStaff = this.staffs.find(staff => staff.name === value);
       if (addStaff && !this.displaySelectedStaff().some(staff => staff.name === value)) {
         e.option.deselect();
         return [...staffs,addStaff]
@@ -208,15 +124,5 @@ export class CreateComponent {
       return staff.filter(staff => staff.name !== inputstaff);
     })
   }
-
-  tableClick(e: Event) {
-    console.log(e.currentTarget);
-    this._snackBar.open("opend", "close");
-  }
-  onClick(staff: data) {
-    this._dialogService.openStatusDialog(staff);
-    console.log(staff.slots());
-  }
-
   
 }

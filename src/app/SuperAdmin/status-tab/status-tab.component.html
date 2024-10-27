@@ -1,0 +1,39 @@
+<div class="table-container">
+    <mat-table class="table mat-elevation-z10" [dataSource]="statusDetails">
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>Staff-id</mat-header-cell>
+            <mat-cell *matCellDef="let staff">{{staff.staffId}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+            <mat-cell *matCellDef="let staff">{{staff.name}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+            <mat-cell *matCellDef="let staff">
+                <div
+                    [ngClass]="{'status-accepted': staff.unmodifiedCount === 0 , 'status-pending': staff.unmodifiedCount !== 0 }">
+                    <mat-icon matIconSuffix>
+                        @if(staff.unmodifiedCount === 0){   
+                        check_circle
+                        }
+                        @else {
+                        hourglass_empty
+                        }
+                    </mat-icon>
+                    {{staff.unmodifiedCount === 0 ? 'Acceptd' :'Pending'}}
+                </div>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="phoneNumber">
+            <mat-header-cell *matHeaderCellDef>Phone Number</mat-header-cell>
+            <mat-cell *matCellDef="let staff">{{staff.phoneNumber}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+            <mat-cell *matCellDef="let staff">{{staff.email}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+        <mat-row (click)="onClick(staff)" *matRowDef="let staff;columns:columns"></mat-row>
+    </mat-table>
+</div>

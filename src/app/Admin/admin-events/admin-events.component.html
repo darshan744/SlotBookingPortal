@@ -1,48 +1,62 @@
+<div class="container">
+    @if(isLoading()) {
+    <ng-container class="loading">
+        <p>Loading...</p>
+        <div class="spinner"></div>
+    </ng-container>
+    }
+    <div #content [ngClass]="{'content-area': !(dataLength() === 0) , 'noContent' :(dataLength() === 0) }" class="content-area">
+        <div class="content">
+            <mat-form-field>
+                <mat-label>FilterBy</mat-label>
+                <input (dateInput)="filter($event)" [(ngModel)]="selectedDate" [matDatepicker]="date" matInput />
+                <mat-datepicker-toggle matIconSuffix [for]="date"></mat-datepicker-toggle>
+                <mat-datepicker #date></mat-datepicker>
+            </mat-form-field>
+            <button (click)="acceptForSelectedDate()" mat-raised-button>Accept date</button>
+            <button (click)="cancelForSelectedDate()" mat-raised-button>Reject date</button>
+            <button (click)="clear()" mat-raised-button><mat-icon>cancel</mat-icon>Clear</button>
+            <button (click)="submit()" mat-raised-button>Submit Response</button>
+        </div>
 
-<div style='margin: 30px 30px 30px 30px ;'>
-    <div style="display:flex; gap:10px; align-items: center;">
-        <mat-form-field>
-            <mat-label>FilterBy</mat-label>
-            <input (dateInput)="filter($event)" [(ngModel)]="selectedDate" [matDatepicker]="date" matInput/>
-            <mat-datepicker-toggle matIconSuffix [for]="date"></mat-datepicker-toggle>
-            <mat-datepicker #date></mat-datepicker>
-        </mat-form-field>
-        <button (click)="acceptForSelectedDate()" mat-raised-button>Accept date</button>
-        <button (click)="cancelForSelectedDate()" mat-raised-button>Reject date</button>
-        <button (click)="clear()" mat-raised-button><mat-icon>cancel</mat-icon>Clear</button>
-        <button (click)="submit()" mat-raised-button>Submit Response</button>
+        <table mat-table [dataSource]="data" class="mat-elevation-z8">
+            <ng-container matColumnDef="No">
+                <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>No</th>
+                <td mat-cell class="mat-cell" data-header="No" *matCellDef="let index = index">{{index + 1}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Name">
+                <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Name</th>
+                <td mat-cell class="mat-cell" data-header="Name" *matCellDef="let event">{{event.Name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Date">
+                <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Date</th>
+                <td mat-cell class="mat-cell" data-header="Date" *matCellDef="let event">{{event.date}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Time">
+                <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Time</th>
+                <td mat-cell class="mat-cell" data-header="Time" *matCellDef="let event">
+                    {{event.time}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Action">
+                <th mat-header-cell class="mat-header-cell" *matHeaderCellDef></th>
+                <td mat-cell class="mat-cell" *matCellDef="let event">
+                    <button class="buttons" style="margin: 5px;" mat-button data-header="Action"
+                        (click)="acceptEvent(event)">Accept</button>
+                    <button class="buttons" style="margin: 5px;" mat-button data-header="Action"
+                        (click)="cancelEvent(event)">Decline</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row class="headers" *matHeaderRowDef="columns"></tr>
+            <tr mat-row [ngClass]="(i+1) % 2 === 0 ? 'even':''" *matRowDef="let row;let i = index;columns:columns"></tr>
+        </table>
+        <mat-paginator class="mat-elevation-z3" showFirstLastButtons="true"
+            [pageSizeOptions]="[10,25,100]"></mat-paginator>
     </div>
-    <table mat-table [dataSource]="data" class="mat-elevation-z8" >
-        <ng-container matColumnDef="No">
-            <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>No</th>
-            <td mat-cell class="mat-cell" data-header="No" *matCellDef="let index = index">{{index + 1}}</td>
-        </ng-container>
-    
-        <ng-container matColumnDef="Name">
-            <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Name</th>
-            <td mat-cell class="mat-cell" data-header="Name" *matCellDef="let event">{{event.Name}}</td>
-        </ng-container>
-        
-        <ng-container matColumnDef="Date">
-            <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Date</th>
-            <td mat-cell class="mat-cell" data-header="Date" *matCellDef="let event">{{event.date}}</td>
-        </ng-container>
-        <ng-container matColumnDef="Time">
-            <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Time</th>
-            <td mat-cell class="mat-cell" data-header="Time" *matCellDef="let event">
-                {{event.time}}</td>
-        </ng-container>
-        <ng-container matColumnDef="Action">
-            <th mat-header-cell  class="mat-header-cell" *matHeaderCellDef></th>
-            <td mat-cell class="mat-cell" *matCellDef="let event">
-                <button class="buttons" style="margin: 5px;" mat-button data-header="Action" (click)="acceptEvent(event)">Accept</button>
-                <button class="buttons" style="margin: 5px;" mat-button data-header="Action" (click)="cancelEvent(event)">Decline</button>
-            </td>
-        </ng-container>
-
-        <tr mat-header-row class="headers" *matHeaderRowDef="columns"></tr>
-        <tr mat-row [ngClass]="(i+1) % 2 === 0 ? 'even':''" *matRowDef="let row;let i = index;columns:columns"></tr>
-    </table>
-    <mat-paginator class="mat-elevation-z3" showFirstLastButtons="true" [pageSizeOptions]="[10,25,100]"></mat-paginator>
+    <div [ngClass]="{'no-data': (dataLength() === 0) , 'noContent' : !(dataLength() === 0)}">
+        <p>No Slot request Available</p>
+        <span class="material-icons no-data-icon">folder</span>
+    </div>
 </div>
-
