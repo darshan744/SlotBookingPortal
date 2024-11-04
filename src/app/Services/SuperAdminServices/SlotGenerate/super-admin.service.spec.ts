@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SlotGenerateService } from './slot-generate.service';
+import { SuperAdminService } from './super-admin.service';
 
 describe('SlotGenerateService', () => {
-  let service: SlotGenerateService;
+  let service: SuperAdminService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SlotGenerateService);
+    service = TestBed.inject(SuperAdminService);
   });
 
   it('should be created', () => {

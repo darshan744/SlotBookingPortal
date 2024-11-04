@@ -1,39 +1,104 @@
+
 .container {
-    margin: 50px;
-    padding: 30px;
-    display: flex;
-}
-.Slot-Generate {
+    max-width: 700px;
+    margin: 0 auto;
     padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.event-types,
+.slot-generate,
+.venues {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h5 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+h6 {
+    margin: 10px 0;
+    color: #555;
+}
+
+.mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.inputs {
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
 
-.event-types, .venues {
+.inputs > div {
     display: flex;
-    flex-direction: row;
-    gap: 15px;
+    justify-content: space-between;
 }
 
-.event-types h5, .venues h5 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #3f51b5;
+.inputs > div > div {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.inputs > div > div:last-child {
+    margin-right: 0;
+}
+
+.btns {
+    margin-top: 20px;
+}
+
+button.mat-raised-button {
+    background-color: #007bff;
+    color: white;
+}
+
+button.mat-raised-button:hover {
+    background-color: #0056b3;
 }
 
 .venues {
-    margin-top: 20px;
-}
-.slots-generated {
-    margin-top: 30px;
-}
-.slot-generate .inputs {
     display: flex;
-    flex-wrap: wrap; /* Allow inputs to wrap */
-    gap: 20px; /* Space between inputs */
+    flex-direction: column;
 }
-.btns {
-    width: 90%;
+
+.mat-chip-grid {
+    margin-top: 15px;
 }
+
+.mat-chip {
+    margin: 5px;
+}
+.inputs > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Center items vertically */
+}
+.inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    gap: 15px; /* Space between inputs */
+    margin-top: 15px; /* Space above the grid */
+}
+
+.mat-form-field {
+    width: 100%; /* Ensure full width of the grid column */
+}
+
+button.mat-raised-button {
+    margin-top: 20px; /* Add space above buttons */
+}
+
+@media (max-width: 600px) {
+    .inputs {
+        grid-template-columns: 1fr; /* Stack inputs on smaller screens */
+    }
+}
+

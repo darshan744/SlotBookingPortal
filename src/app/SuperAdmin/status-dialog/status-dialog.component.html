@@ -3,7 +3,7 @@
         No Accepted Slots
     </h3>
     <mat-dialog-content>
-        <h6 >
+        <h6>
             The User Have not accepted Any Slot
         </h6>
     </mat-dialog-content>
@@ -26,7 +26,6 @@
                             {{ slot.date }}
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-
                     <mat-chip-set>
                         <mat-chip *ngFor="let timeSlot of slot.slots">
                             {{ timeSlot.time }}

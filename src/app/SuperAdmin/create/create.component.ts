@@ -10,7 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { SlotGenerateService } from '../../Services/SuperAdminServices/SlotGenerate/slot-generate.service';
+import { SuperAdminService } from '../../Services/SuperAdminServices/SlotGenerate/super-admin.service';
 import { MatCardModule } from '@angular/material/card';
 import { SlotBreaks, staffs } from '../../Models/slot-breaks';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -41,14 +41,14 @@ export class CreateComponent {
   } 
 
   ngOnInit():void {
-    this.SlotGenerationServie.getAllStaff().subscribe(staffs =>{
+    this.Service.getAllStaff().subscribe(staffs =>{
     this.staffs = staffs.staffs
     console.log(staffs);
     });
     console.log(this.staffs);
   }
   /**Services */
-  SlotGenerationServie = inject(SlotGenerateService);
+  Service = inject(SuperAdminService);
   private _dialogService = inject(DialogOpenService);
   /**----------Variables-------------------- */
   enteredStaff = signal('');
@@ -115,7 +115,7 @@ export class CreateComponent {
     }
     else {
       let staffs = this.displaySelectedStaff();
-      this.SlotGenerationServie.openDialog(staffs, this.slots(), this.startDate, this.endDate)
+      this.Service.openDialog(staffs, this.slots(), this.startDate, this.endDate)
     }
     
   }

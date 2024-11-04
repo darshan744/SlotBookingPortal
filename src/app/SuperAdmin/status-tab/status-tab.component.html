@@ -21,7 +21,7 @@
                         hourglass_empty
                         }
                     </mat-icon>
-                    {{staff.unmodifiedCount === 0 ? 'Acceptd' :'Pending'}}
+                    {{staff.unmodifiedCount === 0 ? 'Validated' :'Pending'}}
                 </div>
             </mat-cell>
         </ng-container>
@@ -34,6 +34,6 @@
             <mat-cell *matCellDef="let staff">{{staff.email}}</mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-        <mat-row (click)="onClick(staff)" *matRowDef="let staff;columns:columns"></mat-row>
+        <mat-row matRipple (click)="onClick(staff)" *matRowDef="let staff;columns:columns"></mat-row>
     </mat-table>
 </div>

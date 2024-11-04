@@ -4,8 +4,8 @@ import { MatDivider } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
 import { DatePipe } from '@angular/common';
-import { SlotGenerateService } from '../../Services/SuperAdminServices/SlotGenerate/slot-generate.service';
 import { staffs } from '../../Models/slot-breaks';
+import { SuperAdminService } from '../../Services/SuperAdminServices/SlotGenerate/super-admin.service';
 type slotData = {
   staffs : staffs["staffs"],
     startDate : string , endDate : string
@@ -19,7 +19,7 @@ type slotData = {
   styleUrl: './confirm-dialog.component.css'
 })
 export class ConfirmDialogComponent{
-  constructor(private _slotrequest : SlotGenerateService){}
+  constructor(private _slotrequest : SuperAdminService){}
   data : slotData = inject(MAT_DIALOG_DATA);
   
 
