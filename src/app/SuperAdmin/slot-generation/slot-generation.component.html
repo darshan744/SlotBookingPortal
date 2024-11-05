@@ -99,9 +99,10 @@
             <mat-label>Staff</mat-label>
             <input [matAutocomplete]="auto" [matChipInputFor]="grid" type="text" [(ngModel)]="staffInput" matInput />
             <mat-autocomplete #auto>
-                <mat-option *ngFor="let item of acceptedStaff()"
-                    [value]="item.instructorId.staffId">{{item.instructorId.staffId}} -
-                    {{item.instructorId.name}}</mat-option>
+                <mat-option *ngFor="let item of acceptedStaffs"
+                    [value]="item.staffId" >
+                     {{item.staffId}} -{{item.name}}
+                </mat-option>
             </mat-autocomplete>
         </mat-form-field>
 
@@ -115,10 +116,15 @@
         <h5>Generated Slots</h5>
         <mat-chip-grid #grid>
             <div style="margin: 10px;" *ngFor="let venue of venues()">
-                <h6>{{venue.venue}}</h6>
-                <div style="margin: 5px;" *ngFor="let staff of venue.staffs; let i = index">
-                    <mat-chip>{{staff}}</mat-chip>
-                </div>
+                @if(venue.staffs.length > 0) {
+                    <h6>{{venue.venue}}</h6>
+                    <div style="margin: 5px;" *ngFor="let staff of venue.staffs; let i = index">
+                        <mat-chip (removed)="removeStaff($event)">
+                            {{staff}}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </div>
+                }
             </div>
         </mat-chip-grid>
     </div>

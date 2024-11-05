@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatChipEvent, MatChipsModule } from '@angular/material/chips';
 import { MatDivider, MatDividerModule } from '@angular/material/divider';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { SlotBreaks } from '../../Models/slot-breaks';
@@ -15,9 +15,25 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DateFilterFn, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
+import { map } from 'rxjs';
 interface Venues {
   venue: string,
   staffs: string[]
+}
+type AcceptedResponse = {
+  success: boolean,
+  data: {
+    instructorId: {
+      staffId: string,
+      name: string,
+    },
+    unmodifiedCount: number,
+  }[]
+}
+type AcceptedStaff = {
+  staffId: string,
+  name: string,
+  display: boolean
 }
 
 @Component({
@@ -25,7 +41,7 @@ interface Venues {
   standalone: true,
   imports: [CommonModule, FormsModule, MatChipsModule, MatDivider, NgxMatTimepickerModule,
     MatFormFieldModule, MatSelectModule, MatInputModule, MatButtonModule, MatDividerModule,
-    MatAutocompleteModule, MatDialogModule, MatDatepickerModule, FormsModule,MatIconModule],
+    MatAutocompleteModule, MatDialogModule, MatDatepickerModule, FormsModule, MatIconModule],
   templateUrl: './slot-generation.component.html',
   styleUrl: './slot-generation.component.css'
 })
@@ -43,12 +59,7 @@ export class SlotGenerationComponent implements OnInit {
 
   /**-------------------------------Bindings--------------------- */
 
-  acceptedStaff = signal<{
-    instructorId: {
-      staffId: string,
-      name: string,
-    }, unmodifiedCount: number
-  }[]>([]) ;
+  acceptedStaff = signal<AcceptedStaff[]>([]);
 
   selectedEvent = '';
   selectedYear = '';
@@ -71,7 +82,14 @@ export class SlotGenerationComponent implements OnInit {
   ngOnInit(): void {
     this.Service.getAcceptedResponse().subscribe({
       next: (res) => {
-        this.acceptedStaff.set(res.data)
+        this.acceptedStaff.set(res.data.map(e => (
+          {
+            staffId: e.instructorId.staffId,
+            name: e.instructorId.name,
+            display: true
+          }
+        )
+        ))
       },
       error: (e) => {
         console.log(e.message);
@@ -125,25 +143,63 @@ export class SlotGenerationComponent implements OnInit {
         }
         return updatedVenues;
       });
-      this.acceptedStaff.update((val)=> {
-       return val.filter(e=>e.instructorId.staffId !==  this.staffInput)
+      this.acceptedStaff.update((val) : AcceptedStaff[]=> {
+       return val.map(e => {
+        if(e.staffId ===  this.staffInput) {
+         return { ...e , display : false}
+        }
+        return e;
+       })
       })
-
+      this.acceptedStaffs
       console.log(this.venues())
-
+      this.staffInput = '';
     }
   }
+  removeStaff(e: MatChipEvent) {
+    let val = e.chip.value;
+    this.venues.update(values => {
+      return values.map(el => ({
+        ...el,
+        staffs: el.staffs.filter(e => e !== val)
+      }));
+    })
+    this.acceptedStaff.update((el : AcceptedStaff[])=>{
+      return el.map((e : AcceptedStaff) => {
+        return e.staffId === val ? {...e , display : true} : e
+      }) 
+    })
+    console.log(e.chip.value);
+
+  }
+  validate(obj: any): boolean {
+    for (const [key, val] of Object.entries(obj)) {
+      if (val === undefined || val === null || val === ''
+        || (Array.isArray(val) && val.length === 0)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public get acceptedStaffs() : AcceptedStaff[] {
+    return this.acceptedStaff().filter(e => e.display);
+  }
+  
   submit(): void {
+    let slots  = this.slots().map(e => 
+      ({time : e , limit : this.limit})
+    )
+
     const data = {
       startDate: this.startDate,
       endDate: this.endDate,
       eventType: this.selectedEvent,
       year: this.selectedYear,
       limit: this.limit,
-      slots: this.slots(),
-      venuesAndStaff: this.venues()
+      slots: this.venues().map(({venue , staffs}) => ({venue , staffs, slots}))
     }
-    if (validate(data)) {
+    if (this.validate(data)) {
       this.Service.postSlot(data)
       console.log(data);
     }
@@ -153,12 +209,3 @@ export class SlotGenerationComponent implements OnInit {
   }
 }
 
-function validate(obj: any): boolean {
-  for (const [key, val] of Object.entries(obj)) {
-    if (val === undefined || val === null || val === '' 
-      || (Array.isArray(val) && val.length === 0)) {
-      return false;
-    }
-  }
-  return true;
-}
