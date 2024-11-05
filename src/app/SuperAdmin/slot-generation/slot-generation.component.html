@@ -2,7 +2,7 @@
     <div class="event-types">
         <h5>Event and Batch</h5>
 
-        <mat-form-field style="margin-right: 10px;">
+        <mat-form-field appearance="outline" style="margin-right: 10px;">
             <mat-label>Select Event</mat-label>
             <mat-select [(ngModel)]="selectedEvent">
                 <mat-option value="Mock Interview">Mock Interview</mat-option>
@@ -11,7 +11,7 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field appearance="outline">
             <mat-label>Select Batch</mat-label>
             <mat-select [(ngModel)]="selectedYear">
                 <mat-option value="Year 1">Year 1</mat-option>
@@ -23,9 +23,10 @@
     </div>
 
     <div class="slot-generate">
-        <h5>Specify Break Timings</h5>
+        <h5>Generate Slots</h5>
         <div class="inputs">
-            <mat-form-field>
+
+            <mat-form-field appearance="outline">
                 <mat-label>Morning Break</mat-label>
                 <input [format]="24" [(ngModel)]="data.morningBreak" name="morningBreak" required matInput
                     [ngxMatTimepicker]="morning" />
@@ -33,7 +34,7 @@
                 <ngx-mat-timepicker [isEsc]="true" [format]="24" #morning></ngx-mat-timepicker>
             </mat-form-field>
 
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Evening Break</mat-label>
                 <input [format]="24" [(ngModel)]="data.eveningBreak" name="eveningBreak" required matInput
                     [ngxMatTimepicker]="eveningBreak" />
@@ -41,13 +42,7 @@
                 <ngx-mat-timepicker #eveningBreak></ngx-mat-timepicker>
             </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Slot-Interval</mat-label>
-                <input [(ngModel)]="data.range" type="number" required matInput name="Intervals"
-                    placeholder="Enter Intervals" />
-            </mat-form-field>
-
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Lunch Start Time</mat-label>
                 <input [format]="24" [(ngModel)]="data.lunchStart" name="lunchStart" required matInput
                     [ngxMatTimepicker]="lunchStart" />
@@ -55,36 +50,66 @@
                 <ngx-mat-timepicker #lunchStart></ngx-mat-timepicker>
             </mat-form-field>
 
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Lunch End</mat-label>
                 <input [format]="24" [(ngModel)]="data.lunchEnd" required name="lunchEnd" matInput
                     [ngxMatTimepicker]="lunchEnd" />
                 <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchEnd"></ngx-mat-timepicker-toggle>
                 <ngx-mat-timepicker [format]="24" #lunchEnd></ngx-mat-timepicker>
             </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Start Date </mat-label>
+                <input matInput [matDatepickerFilter]="dateFilter" [(ngModel)]="startDate"
+                    [matDatepicker]="Startdate" />
+                <mat-datepicker-toggle matIconSuffix [for]="Startdate"></mat-datepicker-toggle>
+                <mat-datepicker #Startdate />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>End Date </mat-label>
+                <input [matDatepickerFilter]="dateFilter" matInput [(ngModel)]="endDate" [matDatepicker]="EndDate" />
+                <mat-datepicker-toggle matIconSuffix [for]="EndDate"></mat-datepicker-toggle>
+                <mat-datepicker #EndDate />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Slot-Interval</mat-label>
+                <input [(ngModel)]="data.range" type="number" required matInput name="Intervals"
+                    placeholder="Enter Intervals" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Slot Limit</mat-label>
+                <input [(ngModel)]="limit" type="number" matInput />
+            </mat-form-field>
         </div>
-        <button mat-raised-button class="btns" (click)="generateSlot()">Generate</button>
+        <button mat-button class="btns" (click)="generateSlot()"><mat-icon>autorenew</mat-icon> Generate</button>
     </div>
 
     <div class="venues">
         <h5>Venues and Staff</h5>
+
         <mat-form-field appearance="outline">
             <mat-label>Venues</mat-label>
             <input [(ngModel)]="venueInput" type="text" matInput />
         </mat-form-field>
+
         <mat-form-field appearance="outline">
             <mat-label>Staff</mat-label>
             <input [matAutocomplete]="auto" [matChipInputFor]="grid" type="text" [(ngModel)]="staffInput" matInput />
-            <mat-autocomplete #auto >
-                <mat-option
-                    *ngFor="let item of acceptedStaff" [value]="item.instructorId.name"
-                >{{item.instructorId.staffId}} - {{item.instructorId.name}}</mat-option>
+            <mat-autocomplete #auto>
+                <mat-option *ngFor="let item of acceptedStaff()"
+                    [value]="item.instructorId.staffId">{{item.instructorId.staffId}} -
+                    {{item.instructorId.name}}</mat-option>
             </mat-autocomplete>
         </mat-form-field>
-        <button mat-button (click)="addStaff()">Add Staff</button>
+
+        <button mat-button (click)="addStaff()"><mat-icon>person_add</mat-icon> Add Staff</button>
     </div>
 
-    <button mat-raised-button color="primary">Generate Slots</button>
+    <button mat-raised-button (click)="submit()" class="btns" color="primary"><mat-icon>event</mat-icon> Generate
+        Slots</button>
 
     <div class="slots-generated">
         <h5>Generated Slots</h5>
@@ -98,3 +123,25 @@
         </mat-chip-grid>
     </div>
 </div>
+
+
+<!-- --------------------------------------- Dialog Component ----------------------------------------->
+<ng-template #DialogTemplate>
+    <h3 matDialogTitle>Slots</h3>
+
+    <mat-dialog-content>
+
+        <ng-container style="margin: 10px;">
+            <mat-chip-set>
+                <div *ngFor="let slot of slots()" style="margin: 5px;">
+                    <mat-chip>{{slot}}</mat-chip>
+                </div>
+            </mat-chip-set>
+        </ng-container>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button mat-dialog-close mat-flat-button cdFocusInitial>Close</button>
+    </mat-dialog-actions>
+</ng-template>

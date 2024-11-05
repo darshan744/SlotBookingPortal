@@ -16,8 +16,8 @@ export type data = {
 }
 
 export type staffs = {
-    status : boolean,
-    staffs : {_id:string ,staffId : string, name : string}[]
+    success : boolean,
+    data : {_id:string ,staffId : string, name : string}[]
 }
 export interface event{
     date : string,

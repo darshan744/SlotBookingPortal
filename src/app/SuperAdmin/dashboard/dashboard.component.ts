@@ -5,13 +5,13 @@ import { BaseChartDirective } from 'ng2-charts';
 
 
 @Component({
-  selector: 'app-search',
+  selector: 'app-dashboard',
   standalone: true,
   imports: [MatCardModule,BaseChartDirective
   ],
-  templateUrl: './search.component.html',
-  styleUrl: './search.component.css'
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css'
 })
-export class SearchComponent {
+export class Dashboard {
 
 }

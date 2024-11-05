@@ -6,5 +6,6 @@ export const environment = {
     GETALLREQUEST : `http://localhost:3000/api/v1/SuperAdmin/responses`,
     INDIVIDUALRESPONSE : `http://localhost:3000/api/v1/SuperAdmin/responses`,
     ALLSTAFFURL : `http://localhost:3000/api/v1/SuperAdmin/staffs`,
-    ACCEPTEDRESPONSE : `http://localhost:3000/api/v1/SuperAdmin/responses/accepted`
+    ACCEPTEDRESPONSE : `http://localhost:3000/api/v1/SuperAdmin/responses/accepted`,
+    SLOT :`http://localhost:3000/api/v1/SuperAdmin/slots`
 };

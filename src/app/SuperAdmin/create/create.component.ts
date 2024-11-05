@@ -14,7 +14,6 @@ import { SuperAdminService } from '../../Services/SuperAdminServices/SlotGenerat
 import { MatCardModule } from '@angular/material/card';
 import { SlotBreaks, staffs } from '../../Models/slot-breaks';
 import { MatTabsModule } from '@angular/material/tabs';
-import { DialogOpenService } from '../../Services/DialogOpenService/dialog.service';
 import { SlotGenerationComponent } from "../slot-generation/slot-generation.component";
 import {StatusTabComponent} from '../status-tab/status-tab.component'
 @Component({
@@ -41,18 +40,15 @@ export class CreateComponent {
   } 
 
   ngOnInit():void {
-    this.Service.getAllStaff().subscribe(staffs =>{
-    this.staffs = staffs.staffs
-    console.log(staffs);
+    this.Service.getAllStaff().subscribe((e : staffs)=>{
+      this.staffs = e.data
     });
-    console.log(this.staffs);
   }
   /**Services */
   Service = inject(SuperAdminService);
-  private _dialogService = inject(DialogOpenService);
   /**----------Variables-------------------- */
   enteredStaff = signal('');
-  displaySelectedStaff = signal<staffs["staffs"]>([])
+  displaySelectedStaff = signal<staffs["data"]>([])
   slots = signal<string[]>([]);
   data: SlotBreaks = {
     morningBreak: '',
@@ -64,7 +60,7 @@ export class CreateComponent {
   startDate: string = ''
   endDate: string = ''
 
-  staffs:staffs["staffs"] = [];
+  staffs:staffs["data"] = [];
   /*---------------Sample Data---------------*/
   //both are to be retreived from backend
   // staffs: string[] = ['Jhon Doe', 'Steve Smith', 'Virat kholi', 'John smith',

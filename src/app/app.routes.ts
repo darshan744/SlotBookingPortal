@@ -11,7 +11,7 @@ import { AdminEventsComponent } from './Admin/admin-events/admin-events.componen
 import { AdminStudentSearchComponent } from './Admin/admin-student-search/admin-student-search.component';
 import { AdminHomeComponent } from './Admin/admin-home/admin-home.component';
 import { SuperadminComponent } from './SuperAdmin/superadmin/superadmin.component';
-import { SearchComponent } from './SuperAdmin/search/search.component';
+import { Dashboard } from './SuperAdmin/dashboard/dashboard.component';
 import { CreateComponent } from './SuperAdmin/create/create.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { authGuard } from './Services/Guards/auth.guard';
@@ -35,7 +35,7 @@ export const routes: Routes = [
         path:'superAdmin',
         component:SuperadminComponent
         ,children:[
-            {path:'Search',component:SearchComponent},
+            {path:'Search',component:Dashboard},
             {path:'Create',component:CreateComponent}
         ]
     },

@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { data, staffs } from '../../../Models/slot-breaks';
 import { Observable } from 'rxjs';
 type slotData = {
-  staffs: staffs["staffs"],
+  staffs: staffs["data"],
   startDate: string, endDate: string
 }
 interface Slot {
@@ -115,7 +115,7 @@ export class SuperAdminService {
   getAllResponse() {
     return this.http.get<{ message: string, result: AllResponse[] }>(this._getAllRespnose)
   }
-  openDialog(staffs: staffs["staffs"], slots: string[],
+  openDialog(staffs: staffs["data"], slots: string[],
     startDate: string, endDate: string
   ) {
     this.popover.open(ConfirmDialogComponent, {
@@ -129,5 +129,8 @@ export class SuperAdminService {
     // let id = (sessionStorage.getItem('loggedInUser'))
     let id = staff.staffId;
     return this.http.get<{ message: string, Result: Staff }>(`${environment.INDIVIDUALRESPONSE}/${id}`)
+  }
+  postSlot(data : any) : void {
+    this.http.post(environment.SLOT , data).subscribe(e=>console.log(e));
   }
 }
