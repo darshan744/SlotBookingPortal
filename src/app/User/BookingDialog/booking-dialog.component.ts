@@ -6,11 +6,11 @@ import { MatDivider } from '@angular/material/divider';
   selector: 'app-dialog',
   standalone: true,
   imports: [MatDialogModule,MatButton,MatDivider],
-  templateUrl: './dialog.component.html',
-  styleUrl: './dialog.component.css'
+  templateUrl: './booking-dialog.component.html',
+  styleUrl: './booking-dialog.component.css'
 })
-export class DialogComponent {
+export class BookingDialogComponent {
   constructor(){}
   data = inject(MAT_DIALOG_DATA);
-  
+
 }

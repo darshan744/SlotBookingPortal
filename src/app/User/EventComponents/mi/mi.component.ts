@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, signal, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
@@ -12,7 +21,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { IComponent } from '../SharedComponent.interface';
 
 interface Slot {
   startDate: string;
@@ -33,33 +43,42 @@ interface Slot {
     MatTabsModule,
     MatSelectModule,
     FormsModule,
-    MatTableModule,MatPaginatorModule
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatSelectModule,
   ],
-  templateUrl: './mi.component.html',
-  styleUrls: ['./mi.component.css', '../expansion.css'],
+  templateUrl: '.././eventpage.html',
+  styleUrls: ['../expansion.css'],
 })
-export class MiComponent implements OnInit , AfterViewChecked {
-  @ViewChild(MatPaginator) paginator !: MatPaginator;
-  dataSource !: MatTableDataSource<Slot["slots"][0]["slots"]> ;
+export class MiComponent implements OnInit, AfterViewChecked , IComponent{
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dataSource!: MatTableDataSource<Slot['slots'][0]['slots']>;
   dialogService = inject(DialogOpenService);
   slotDataService = inject(SlotDataSevice);
   startDate: string = '';
   endDate: string = '';
   slots: Slot['slots'] = [];
   selectedVenue: string = '';
-  displayedColumns: string[] = ["Time" , "Slots" , "Action"];
-
+  displayedColumns: string[] = ['Time', 'Slots', 'Action'];
+  noSlots = signal<boolean>(false);
   constructor(private _Service: UserService) {}
 
   ngOnInit(): void {
     this._Service.getSlots().subscribe((res: { data: Slot }) => {
-      this.startDate = res.data.startDate;
-      this.endDate = res.data.endDate;
-      this.slots = res.data.slots;
-      this.selectedVenue = res.data.slots[0].venue;
-      this.dataSource = new MatTableDataSource<any>(res.data.slots[0].slots);
+      if(res.data !== undefined) {
+        this.startDate = res.data.startDate;
+        this.endDate = res.data.endDate;
+        this.slots = res.data.slots;
+        this.selectedVenue = res.data.slots[0].venue;
+        this.dataSource = new MatTableDataSource<any>(res.data.slots[0].slots);
 
-      this.dates = this.getDatesBetween(this.startDate, this.endDate);
+        this.dates = this.getDatesBetween(this.startDate, this.endDate);
+      }
+      else {
+        this.noSlots.set(true)
+      }
     });
   }
 
@@ -97,17 +116,18 @@ export class MiComponent implements OnInit , AfterViewChecked {
 
     return dates;
   }
-  slotTimings : Slot["slots"][0]["slots"] = [];
+  slotTimings: Slot['slots'][0]['slots'] = [];
   display: boolean = false;
 
   getSlots() {
     if (this.selectedVenue === '') return alert('Please select a venue');
-    console.log(this.selectedVenue , this.display)
-    const slots = this.slots.filter((slot) => slot.venue === this.selectedVenue)[0].slots;
-    if(slots.length === 0) {
-      return alert ("No slot available");
-    }
-    else {
+    console.log(this.selectedVenue, this.display);
+    const slots = this.slots.filter(
+      (slot) => slot.venue === this.selectedVenue
+    )[0].slots;
+    if (slots.length === 0) {
+      return alert('No slot available');
+    } else {
       this.dataSource = new MatTableDataSource<any>(slots);
 
       this.dataSource.paginator = this.paginator;
@@ -115,5 +135,9 @@ export class MiComponent implements OnInit , AfterViewChecked {
       this.display = true;
       console.log(this.slotTimings);
     }
+  }
+
+  bookSlot(date : string , time : string) {
+    this.dialogService.openBookingSlotDialog(date , time)
   }
 }
