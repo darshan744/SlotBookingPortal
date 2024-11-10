@@ -6,6 +6,7 @@ import { Injectable } from "@angular/core";
 })
 
 export class SlotDataSevice {
+
     timingsGroup: { [key: string]: { [key: string]: { [venue: string]: string[] } } } = {
         'MockInterview': {
             'Aug 11': {
@@ -92,7 +93,7 @@ export class SlotDataSevice {
     expansion(opened:string,event:boolean) {
         const exp = document.getElementById(opened);
         event === true ? exp?.classList.add('highlight-venue'):exp?.classList.remove('highlight-venue');
-        console.log(exp?.classList);    
+        console.log(exp?.classList);
     }
 
 }

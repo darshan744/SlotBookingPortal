@@ -7,5 +7,7 @@ export const environment = {
     INDIVIDUALRESPONSE : `http://localhost:3000/api/v1/SuperAdmin/responses`,
     ALLSTAFFURL : `http://localhost:3000/api/v1/SuperAdmin/staffs`,
     ACCEPTEDRESPONSE : `http://localhost:3000/api/v1/SuperAdmin/responses/accepted`,
-    SLOT :`http://localhost:3000/api/v1/SuperAdmin/slots`
+    SLOT :`http://localhost:3000/api/v1/SuperAdmin/slots`,
+    STUDENT:`http://localhost:3000/api/v1/Students`,
+    STUDENT_SLOT:`http://localhost:3000/api/v1/Students/slots/`,
 };

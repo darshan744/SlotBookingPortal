@@ -33,7 +33,7 @@ export class AdminEventsComponent implements AfterViewInit {
   dupData : event[] = []
   isLoading = signal<Boolean>(true);
   dataLength = signal<Number>(0);
-  columns = ['No','Date','Time','Action']; 
+  columns = ['No','Date','Time','Action'];
 
   ngAfterViewInit(): void {
     this._formate.setLocale('en-In');
@@ -63,19 +63,13 @@ export class AdminEventsComponent implements AfterViewInit {
     console.log(result);
     if(!(result.length === 0)) {
       this.service.postAvailabilityResponse(result);
-      // this.snackBar.open('✅ Done',"✖️",{
-      //   duration:2000,
-      //   verticalPosition:'top',
-      //   horizontalPosition:'right',
-      //   panelClass:'custom-snackbar'
-      // })
     }
     this.dupData = this.dupData.filter(e => e.isAvailable === 'unmodified');
   }
   public get data() {
     return this.dataSource;
   }
-  
+
   acceptForSelectedDate() {
     const date = new Date(this.selectedDate).toLocaleDateString("en-CA");
     if(date === 'Invalid Date') {
@@ -95,13 +89,13 @@ export class AdminEventsComponent implements AfterViewInit {
       this.dataSource.data = this.dataSource.data.filter(e => !(e.date === date))
       this.service.postAvailabilityResponse(send);
     }
-    
+
   }
   clear() {
     this.selectedDate = ''
     this.dataSource.filter = '';
   }
-  
+
   cancelForSelectedDate() {
     const date = new Date(this.selectedDate).toLocaleDateString("en-CA");
     if(date === 'Invalid Date') {
