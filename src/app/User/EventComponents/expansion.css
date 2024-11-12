@@ -122,3 +122,32 @@
   font-weight: bold;
   margin: 0;
 }
+.already-booked-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  background-color: #e9f7fe;
+  color: #007bff;
+  margin: 20px auto;
+  text-align: center;
+  max-width: 500px; /* Limit the width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.already-booked-container .material-icons {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.already-booked-container p {
+  margin: 5px 0;
+  font-size: 18px;
+}
+
+.already-booked-container strong {
+  font-weight: bold;
+}

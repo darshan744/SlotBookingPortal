@@ -22,6 +22,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
+import { ResponseMessage } from '../mi/mi.component';
 @Component({
   selector: 'app-gd',
   standalone: true,
@@ -42,10 +43,14 @@ export class GDComponent implements OnInit, AfterViewChecked, IComponent {
   dialogService!: DialogOpenService;
   slotDataService = inject(SlotDataSevice);
   noSlots = signal<boolean>(false);
-  startDate: string = '';
-  endDate: string = '';
-  slots: Slot['slots'] = [];
   selectedVenue: string = '';
+  eventType : string = 'Gd';
+  alreadyBooked = signal<boolean>(false);
+  bookedDate = {
+    date : '',
+    time : ''
+  }
+  data: Slot = [] as any;
   constructor(
     @Inject(DialogOpenService) dialogService: DialogOpenService,
     private _Service: UserService
@@ -53,44 +58,57 @@ export class GDComponent implements OnInit, AfterViewChecked, IComponent {
     this.dialogService = dialogService;
   }
   ngOnInit(): void {
-    this._Service.getSlots().subscribe((res: { data: Slot }) => {
-      if(res.data !== undefined) {
-        this.startDate = res.data.startDate;
-        this.endDate = res.data.endDate;
-        this.slots = res.data.slots;
-        this.selectedVenue = res.data.slots[0].venue;
-        this.dataSource = new MatTableDataSource<any>(res.data.slots[0].slots);
+    this._Service
+      .getSlots(this.eventType)
+      .subscribe((res: { success: boolean; message: string; data : Slot | {bookingTime : string , bookingDate : string}  }) => {
+        if (res.success === true && res.message === ResponseMessage.success
+           && 'startDate' in res.data && 'endDate' in res.data && 'slots' in res.data) {
+          this.data = res.data;
+          this.selectedVenue = res.data.slots[0].venue;
+          this.dataSource = new MatTableDataSource<any>(res.data.slots[0].slots);
+          this.dates = this.getDatesBetween(this.data.startDate, this.data.endDate);
+        }
+        else if(res.success && res.message === ResponseMessage.AlreadyBooked) {
+          this.bookedDate = {
+            date : 'bookingDate' in res.data ? res.data.bookingDate : '',
+            time : 'bookingTime' in res.data ? res.data.bookingTime : ''
+          }
 
-        this.dates = this.getDatesBetween(this.startDate, this.endDate);
-      }
-      else {
-        this.noSlots.set(true);
-      }
-    });
+          this.alreadyBooked.set(true);
+        }
+        else {
+          this.noSlots.set(true);
+        }
+      });
   }
-  ngAfterViewChecked(): void {}
-  eventType = 'GroupDiscussoin';
-  timingsData = this.slotDataService.timingsGroup[this.eventType];
+
+  ngAfterViewChecked(): void {
+    if (this.paginator && this.dataSource.paginator !== this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
+  }
+
   display: boolean = false;
   slotTimings: { time: string; limit: number }[] = [];
+
 
   getSlots(): void {
     if (this.selectedVenue === '') return alert('Please select a venue');
     console.log(this.selectedVenue, this.display);
-    const slots = this.slots.filter(
+    const slots = this.data.slots.filter(
       (slot) => slot.venue === this.selectedVenue
     )[0].slots;
     if (slots.length === 0) {
       return alert('No slot available');
     } else {
       this.dataSource = new MatTableDataSource<any>(slots);
-
       this.dataSource.paginator = this.paginator;
       this.slotTimings = slots;
       this.display = true;
       console.log(this.slotTimings);
     }
   }
+
   getDatesBetween(startDate: string, endDate: string): string[] {
     const dates: string[] = [];
     if(startDate === undefined || endDate === undefined) {
@@ -111,7 +129,9 @@ export class GDComponent implements OnInit, AfterViewChecked, IComponent {
 
     return dates;
   }
+
+
   bookSlot(date : string , time : string) {
-    this.dialogService.openBookingSlotDialog(date , time)
+    this.dialogService.openBookingSlotDialog(date , time,this.eventType,this.selectedVenue,this.data.slotId)
   }
 }

@@ -1,4 +1,5 @@
 export const environment = {
+    LOGIN_URL : `http://localhost:3000/api/v1/login`,
     BASE_URL : `http://localhost:3000`,
     BASE_SUPERADMIN_URL : `http://localhost:3000/api/v1/SuperAdmin`,
     ADMIN_URL : `http://localhost:3000/api/v1/Admin`,
@@ -10,4 +11,5 @@ export const environment = {
     SLOT :`http://localhost:3000/api/v1/SuperAdmin/slots`,
     STUDENT:`http://localhost:3000/api/v1/Students`,
     STUDENT_SLOT:`http://localhost:3000/api/v1/Students/slots/`,
+    STUDENT_BOOKING:`http://localhost:3000/api/v1/Students/slots/`,
 };

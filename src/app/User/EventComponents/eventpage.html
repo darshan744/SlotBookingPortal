@@ -8,7 +8,7 @@
             <mat-form-field subscriptSizing="dynamic" class="formfield" appearance="outline">
               <mat-label>Select Venue:</mat-label>
               <mat-select [(ngModel)]="selectedVenue" class="options">
-                <mat-option *ngFor="let venue of slots" [value]="venue.venue">
+                <mat-option *ngFor="let venue of data.slots" [value]="venue.venue">
                   {{ venue.venue }}
                 </mat-option>
               </mat-select>
@@ -57,7 +57,14 @@
 </ng-container>
 <div class="no-data" *ngIf="noSlots()">
   <p>No slots Available</p>
-  <span class="material-icons folder"></span>
+  <span class="material-icons no-data-icon">folder</span>
+</div>
+<div class="alreadyBooked" *ngIf="alreadyBooked()">
+  <div class="already-booked-container">
+    <span class="material-icons">assignment_turned_in</span>
+    <p>Slot Booked</p>
+    <p>You have already booked a slot on <strong>{{ bookedDate.date }}</strong> at <strong>{{ bookedDate.time }}</strong></p>
+  </div>
 </div>
 
 <!-- <table class="table table-striped table-hover">

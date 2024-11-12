@@ -1,3 +1,4 @@
+import { event } from './../../../Models/slot-breaks';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewChecked,
@@ -23,17 +24,22 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { IComponent } from '../SharedComponent.interface';
-
-interface Slot {
-  startDate: string;
-  endDate: string;
-  slots: {
-    venue: string;
-    staffs: string[];
-    slots: { time: string; limit: number }[];
-  }[];
+import { Slot } from '../../../Models/Slots.model';
+// interface Slot {
+//   slotId :string,
+//   startDate: string;
+//   endDate: string;
+//   slots: {
+//     venue: string;
+//     staffs: string[];
+//     slots: { time: string; limit: number }[];
+//   }[];
+// }
+export enum ResponseMessage {
+  success = 'Slot Retrieved Successfully',
+  noSlots = 'No slots found',
+  AlreadyBooked = 'Already Booked',
 }
-
 @Component({
   selector: 'app-mi',
   standalone: true,
@@ -51,35 +57,48 @@ interface Slot {
   templateUrl: '.././eventpage.html',
   styleUrls: ['../expansion.css'],
 })
-export class MiComponent implements OnInit, AfterViewChecked , IComponent{
-
+export class MiComponent implements OnInit, AfterViewChecked, IComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   dataSource!: MatTableDataSource<Slot['slots'][0]['slots']>;
   dialogService = inject(DialogOpenService);
   slotDataService = inject(SlotDataSevice);
-  startDate: string = '';
-  endDate: string = '';
-  slots: Slot['slots'] = [];
+  eventType : string = 'Mi';
   selectedVenue: string = '';
   displayedColumns: string[] = ['Time', 'Slots', 'Action'];
   noSlots = signal<boolean>(false);
+  alreadyBooked = signal<boolean>(false);
+  bookedDate = {
+    date : '',
+    time : ''
+  }
+  data : Slot = [] as any;
+
   constructor(private _Service: UserService) {}
-
   ngOnInit(): void {
-    this._Service.getSlots().subscribe((res: { data: Slot }) => {
-      if(res.data !== undefined) {
-        this.startDate = res.data.startDate;
-        this.endDate = res.data.endDate;
-        this.slots = res.data.slots;
-        this.selectedVenue = res.data.slots[0].venue;
-        this.dataSource = new MatTableDataSource<any>(res.data.slots[0].slots);
+    this._Service
+      .getSlots(this.eventType)
+      .subscribe((res: { success: boolean; message: string; data : Slot | {bookingTime : string , bookingDate : string}  }) => {
+        if (res.success === true && res.message === ResponseMessage.success
+           && 'startDate' in res.data && 'endDate' in res.data && 'slots' in res.data) {
+            console.log(res.data);
+          this.data = res.data;
+          this.selectedVenue = res.data.slots[0].venue;
+          this.dataSource = new MatTableDataSource<any>(res.data.slots[0].slots);
+          this.dates = this.getDatesBetween(this.data.startDate, this.data.endDate);
+        }
+        else if(res.success && res.message === ResponseMessage.AlreadyBooked) {
+          this.bookedDate = {
+            date : 'bookingDate' in res.data ? res.data.bookingDate : '',
+            time : 'bookingTime' in res.data ? res.data.bookingTime : ''
+          }
 
-        this.dates = this.getDatesBetween(this.startDate, this.endDate);
-      }
-      else {
-        this.noSlots.set(true)
-      }
-    });
+          this.alreadyBooked.set(true);
+        }
+        else {
+          this.noSlots.set(true);
+        }
+      });
   }
 
   ngAfterViewChecked(): void {
@@ -90,20 +109,13 @@ export class MiComponent implements OnInit, AfterViewChecked , IComponent{
 
   dates: string[] = [];
 
-  expansion(opened: string, event: boolean) {
-    const exp = document.getElementById(opened);
-    event === true
-      ? exp?.classList.add('highlight-venue')
-      : exp?.classList.remove('highlight-venue');
-    console.log(exp?.classList);
-  }
   isOpened = signal(false);
 
   getDatesBetween(startDate: string, endDate: string): string[] {
     const dates: string[] = [];
     let currentDate = new Date(startDate);
     const end = new Date(endDate);
-
+    console.log(currentDate, end);
     const options: Intl.DateTimeFormatOptions = {
       month: 'short',
       day: 'numeric',
@@ -122,14 +134,13 @@ export class MiComponent implements OnInit, AfterViewChecked , IComponent{
   getSlots() {
     if (this.selectedVenue === '') return alert('Please select a venue');
     console.log(this.selectedVenue, this.display);
-    const slots = this.slots.filter(
+    const slots = this.data.slots.filter(
       (slot) => slot.venue === this.selectedVenue
     )[0].slots;
     if (slots.length === 0) {
       return alert('No slot available');
     } else {
       this.dataSource = new MatTableDataSource<any>(slots);
-
       this.dataSource.paginator = this.paginator;
       this.slotTimings = slots;
       this.display = true;
@@ -137,7 +148,7 @@ export class MiComponent implements OnInit, AfterViewChecked , IComponent{
     }
   }
 
-  bookSlot(date : string , time : string) {
-    this.dialogService.openBookingSlotDialog(date , time)
+  bookSlot(date: string, time: string) {
+    this.dialogService.openBookingSlotDialog(date, time, this.eventType,this.selectedVenue , this.data.slotId);
   }
 }

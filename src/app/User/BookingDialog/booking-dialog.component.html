@@ -2,12 +2,12 @@
 <h4 matDialogTitle>Confirm?</h4>
 <mat-divider></mat-divider>
 <mat-dialog-content>
-   <p>Are You sure you want to book <strong>{{data.timing}} on {{data.date}}?</strong></p>
+   <p>Are You sure you want to book <strong>{{data.time}} on {{data.date}}?</strong></p>
 </mat-dialog-content>
 <mat-divider></mat-divider>
 <mat-dialog-actions>
     <div>
         <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-button mat-dialog-close cdkFocusInitial>Confirm</button>
+        <button mat-button mat-dialog-close cdkFocusInitial (click)="bookSlot()" >Confirm</button>
     </div>
 </mat-dialog-actions>

@@ -22,12 +22,10 @@ export class DialogOpenService {
 
     readonly popOver = inject(MatDialog)
     slotRetrieveService = inject(SuperAdminService);
-    openBookingSlotDialog(selectedTiming:string,selectedDate:string) {
+    openBookingSlotDialog(time:string,date:string,eventType:string , venue : string,slotId : string) {
         this.popOver.open(BookingDialogComponent, {
             width:'320px',height:'250px',
-            data:{timing : selectedTiming,
-                    date:selectedDate
-                }
+            data:{time,date,eventType ,venue ,slotId}
         })
     }
     openSlotDialog(staffs : string[] , slots : string[],

@@ -11,18 +11,18 @@ export class LoginService {
 
   router = inject(Router);
   user:any=null;
-  private _url = environment.BASE_URL + '/api/v1/login';
+  private _url = environment.LOGIN_URL;
   constructor(private http : HttpClient) { }
   private _role = '';
   private _id = '';
    decodeJWTToken(token:string){
     return JSON.parse(atob(token.split(".")[1]))
   }
-  
+
   public get id() : string {
     return this._id;
   }
-  
+
   public get role() : string {
     return this._role;
   }
@@ -62,7 +62,7 @@ export class LoginService {
     else {
       alert("Sign in with Bisathy mail only");
     }
-    
+
   }
-   
+
 }

@@ -1,12 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, Component, Inject, inject, OnInit, signal, ViewChild } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import {
+  AfterViewChecked,
+  Component,
+  Inject,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
+
 import { MatTabsModule } from '@angular/material/tabs';
 import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
 import { SlotDataSevice } from '../../../Services/SlotDataService/SlotData.service';
-import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
-import { MatIcon } from '@angular/material/icon';
-import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { UserService } from '../../../Services/StudentService/user.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -15,18 +20,24 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { IComponent } from '../SharedComponent.interface';
 import { Slot } from '../../../Models/Slots.model';
+import { ResponseMessage } from '../mi/mi.component';
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-si',
   standalone: true,
-  imports: [ CommonModule,
+  imports: [
+    CommonModule,
     MatTabsModule,
     MatPaginatorModule,
-    MatTableModule,MatSelectModule,MatFormFieldModule,FormsModule
+    MatTableModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    FormsModule,
   ],
   templateUrl: '.././eventpage.html',
-  styleUrl: '.././expansion.css'
+  styleUrl: '.././expansion.css',
 })
-export class SiComponent implements OnInit , AfterViewChecked , IComponent {
+export class SiComponent implements OnInit, AfterViewChecked, IComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dates: string[] = [];
   displayedColumns: string[] = ['Time', 'Slots', 'Action'];
@@ -38,39 +49,58 @@ export class SiComponent implements OnInit , AfterViewChecked , IComponent {
   endDate: string = '';
   slots: Slot['slots'] = [];
   selectedVenue: string = '';
-  noSlots = signal<boolean>(false)
+  noSlots = signal<boolean>(false);
+  eventType: string = 'Si';
+  alreadyBooked = signal<boolean>(false);
+  bookedDate = {
+    date : '',
+    time : ''
+  }
   constructor(
     @Inject(DialogOpenService) dialogService: DialogOpenService,
     private _Service: UserService
   ) {
     this.dialogService = dialogService;
   }
+  data: Slot = [] as any;
   ngOnInit(): void {
-    this._Service.getSlots().subscribe((res: { data: Slot }) => {
-      if(res.data !== undefined) {
-        this.startDate = res.data.startDate;
-        this.endDate = res.data.endDate;
-        this.slots = res.data.slots;
-        this.selectedVenue = res.data.slots[0].venue;
-        this.dataSource = new MatTableDataSource<any>(res.data.slots[0].slots);
+    this._Service
+      .getSlots(this.eventType)
+      .subscribe((res: { success: boolean; message: string; data : Slot | {bookingTime : string , bookingDate : string}  }) => {
+        if (res.success === true && res.message === ResponseMessage.success
+           && 'startDate' in res.data && 'endDate' in res.data && 'slots' in res.data) {
+          this.data = res.data;
+          this.slots = res.data.slots;
+          this.selectedVenue = res.data.slots[0].venue;
+          this.dataSource = new MatTableDataSource<any>(res.data.slots[0].slots);
+          this.dates = this.getDatesBetween(this.data.startDate, this.data.endDate);
+        }
+        else if(res.success && res.message === ResponseMessage.AlreadyBooked) {
+          this.bookedDate = {
+            date : 'bookingDate' in res.data ? res.data.bookingDate : '',
+            time : 'bookingTime' in res.data ? res.data.bookingTime : ''
+          }
 
-        this.dates = this.getDatesBetween(this.startDate, this.endDate);
-      }
-      else {
-        this.noSlots.set(true);
-      }
-    });
+          this.alreadyBooked.set(true);
+        }
+        else {
+          this.noSlots.set(true);
+        }
+      });
   }
-  ngAfterViewChecked(): void {}
-  eventType = 'GroupDiscussoin';
-  timingsData = this.slotDataService.timingsGroup[this.eventType];
+
+  ngAfterViewChecked(): void {
+    if (this.paginator && this.dataSource.paginator !== this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
+  }
   display: boolean = false;
   slotTimings: { time: string; limit: number }[] = [];
 
   getSlots(): void {
     if (this.selectedVenue === '') return alert('Please select a venue');
     console.log(this.selectedVenue, this.display);
-    const slots = this.slots.filter(
+    const slots = this.data.slots.filter(
       (slot) => slot.venue === this.selectedVenue
     )[0].slots;
     if (slots.length === 0) {
@@ -86,10 +116,10 @@ export class SiComponent implements OnInit , AfterViewChecked , IComponent {
   }
   getDatesBetween(startDate: string, endDate: string): string[] {
     const dates: string[] = [];
-    if(startDate === (undefined) || endDate === undefined) {
+    if (startDate === undefined || endDate === undefined) {
       return [];
     }
-    let currentDate =  new Date(startDate);
+    let currentDate = new Date(startDate);
     const end = new Date(endDate);
 
     const options: Intl.DateTimeFormatOptions = {
@@ -104,7 +134,8 @@ export class SiComponent implements OnInit , AfterViewChecked , IComponent {
 
     return dates;
   }
-  bookSlot(date : string , time : string) {
-    this.dialogService.openBookingSlotDialog(date , time)
+  bookSlot(date: string, time: string) {
+    this.dialogService.openBookingSlotDialog(date, time,this.eventType,this.selectedVenue , this.data.slotId);
   }
 }
+
