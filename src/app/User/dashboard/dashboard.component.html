@@ -10,25 +10,24 @@
     </div> -->
     <!-- <h6>9/10</h6> -->
      <div>
-         <input type="file" class="resume" accept=".pdf" placeholder="Upload">
+        <label for="ResumeInput"><mat-icon></mat-icon></label>
+         <input id="ResumeInput" type="file" class="resume" accept=".pdf" placeholder="Upload">
      </div>
 </div>
-
-
 <div class="table-container">
-    <table mat-table [dataSource]="HISTORY_DATA" class="mat-elevation-z8">
+    <table mat-table [dataSource]="eventResults" class="mat-elevation-z8">
 
         <ng-container matColumnDef="No">
             <th mat-header-cell  class="mat-header-cell" *matHeaderCellDef="">No</th>
-            <td mat-cell class="mat-cell" data-header="No" *matCellDef="let data">{{data.No}}</td>
+            <td mat-cell class="mat-cell" data-header="No" *matCellDef="let data;let i = index">{{i+1}}</td>
         </ng-container>
         <ng-container matColumnDef="eventName">
             <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Events</th>
-            <td mat-cell class="mat-cell" data-header="Events" *matCellDef="let event">{{event.eventName}}</td>
+            <td mat-cell class="mat-cell" data-header="Events" *matCellDef="let event">{{event.eventType}}</td>
         </ng-container>
         <ng-container matColumnDef="date">
             <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Date</th>
-            <td mat-cell class="mat-cell" data-header="Date" *matCellDef="let event">{{event.date}}</td>
+            <td mat-cell class="mat-cell" data-header="Date" *matCellDef="let event">{{event.date | date}}</td>
         </ng-container>
         <ng-container matColumnDef="marks">
             <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Marks</th>
@@ -43,11 +42,59 @@
     </table>
 </div>
 <div style="margin-left: 60px; margin-top: 50px;">
-    <app-graphs></app-graphs>
+  <div *ngIf="eventResults.data.length > 0" class="chart-container">
+    <mat-card class="mat_card" >
+      <div *ngIf="Mock_Interview.datasets[0].data.length > 0;else noData">
+        <mat-card-header><h4  >Mock Interview</h4></mat-card-header>
+        <mat-card-content>
+            <canvas baseChart #MockInterview  [labels]="Mock_Interview.labels"
+                [datasets]="Mock_Interview.datasets"
+                [options]="options" [type]="type">
+            </canvas>
+        </mat-card-content>
+      </div>
+    </mat-card>
+    <mat-card class="mat-warn mat_card" >
+      <div *ngIf="Self_Introduction.datasets[0].data.length > 0;else noData">
+        <mat-card-header><h4>Self Introduction</h4></mat-card-header>
+        <mat-card-content>
+            <canvas baseChart #SelfIntroduction
+                [labels]="Self_Introduction.labels"
+                [datasets]="Self_Introduction.datasets"
+                [options]="options" [type]="type">
+            </canvas>
+        </mat-card-content>
+      </div>
+    </mat-card>
+    <mat-card class="mat_card">
+      <div *ngIf="Group_Discussion.datasets[0].data.length > 0;else noData">
+        <mat-card-header> <h4>Group Discussion</h4> </mat-card-header>
+        <mat-card-content>
+            <canvas baseChart #GroupDiscussion
+                [labels]="Group_Discussion.labels"
+                [datasets]="Group_Discussion.datasets"
+                [options]="options" [type]="type">
+            </canvas>
+        </mat-card-content>
+      </div>
+    </mat-card>
+</div>
+</div>
+<ng-template #noData >
+  <mat-card-header><h6>No Event Attended</h6></mat-card-header>
+  <mat-card-content style="display: flex;flex-direction: column;justify-content: center;
+  align-items: center;padding: 50px;font-family: monospace;">
+      <p style="font-size: 25px;">No Data Available</p>
+      <span class="material-icons" style="font-size: 60px;color: #ff6b6b;" >folder</span>
+  </mat-card-content>
+</ng-template>
+
+<div>
+
 </div>
 
 
-  
+
 
 
 

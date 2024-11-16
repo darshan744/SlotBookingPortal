@@ -63,25 +63,7 @@
   <div class="already-booked-container">
     <span class="material-icons">assignment_turned_in</span>
     <p>Slot Booked</p>
-    <p>You have already booked a slot on <strong>{{ bookedDate.date }}</strong> at <strong>{{ bookedDate.time }}</strong></p>
+    <p>You have already booked a slot on <strong>{{ bookedDate.date | date }}</strong> at <strong>{{ bookedDate.time }}</strong></p>
   </div>
 </div>
 
-<!-- <table class="table table-striped table-hover">
-  <thead class="thead-dark">
-    <tr>
-      <th>Time</th>
-      <th>Available Slots</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let slot of getSlots(venues.venue)">
-      <td>{{ slot.time }}</td>
-      <td>{{ slot.limit }}</td>
-      <td>
-        <button id="time-button" class="btn btn-primary">Book</button>
-      </td>
-    </tr>
-  </tbody>
-</table> -->

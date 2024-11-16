@@ -23,5 +23,7 @@ export class UserService {
       this._http.post(`${environment.STUDENT_BOOKING}${data.eventType}/book`,
           { ...data , studentId : this.getStudentId() } ).subscribe(e=>console.log(e));
     }
-
+    getHistory() {
+     return this._http.get(`${environment.STUDENTEVENTRESULT}${this.getStudentId()}`)
+    }
 }

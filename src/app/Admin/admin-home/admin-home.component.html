@@ -1,21 +1,20 @@
-<div  style="margin: 30px 30px 30px 30px ;"
-><!-- to change any style of a material of angular find the varaible thats defining the property and 
+<div *ngIf="studentData.length > 0"  style="margin: 30px 30px 30px 30px ;"
+><!-- to change any style of a material of angular find the variable that's defining the property and
  apply your own value to it and target it with your own class example for mat-form-field which
- has formfield class to change the height of the input box --mat-form-field-container-vertical-padding and 
- --mat-form-field-container-height;  use this inside the css of .formfield {}  -->
-    <table mat-table [dataSource]="studentList" class="mat-elevation-z8" >
-    
+ has form field class to change the height of the input box --mat-form-field-container-vertical-padding and
+ --mat-form-field-container-height;  use this inside the css of .form field {}  -->
+    <table mat-table [dataSource]="studentData" class="mat-elevation-z8" >
     <ng-container matColumnDef="No">
-        <th mat-header-cell  class="mat-header-cell" *matHeaderCellDef>No</th>
-        <td mat-cell class="mat-cell" data-header="No" *matCellDef="let student">{{student.No}}</td>
+      <th mat-header-cell  class="mat-header-cell" *matHeaderCellDef>Roll No</th>
+        <td mat-cell class="mat-cell" data-header="No" *matCellDef="let student">{{student.id}}</td>
     </ng-container>
     <ng-container matColumnDef="Name">
         <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Name</th>
-        <td mat-cell class="mat-cell" data-header="Name" *matCellDef="let student">{{student.Name}}</td>
+        <td mat-cell class="mat-cell" data-header="Name" *matCellDef="let student">{{student.name}}</td>
     </ng-container>
-    <!-- matColumnDef refers to the property of the object cellDef is for namefor the tabel -->
+    <!-- matColumnDef refers to the property of the object cellDef is for name for the table -->
     <ng-container matColumnDef="attendance">
-        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Attendance</th>   
+        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Attendance</th>
         <td mat-cell class="mat-cell" data-header="Attendance" *matCellDef="let student">
           <!-- Checkbox for attendance -->
           <mat-checkbox [(ngModel)]="student.ispresent" (change)="attendance(student)"></mat-checkbox>
@@ -39,7 +38,7 @@
     </ng-container>
     <ng-container matColumnDef="actions">
         <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>
-            <button mat-raised-button color="primary" style="align-items: center;" (click)="submitAllRow(studentList)">Submit All</button>
+            <button mat-raised-button color="primary" style="align-items: center;" (click)="submitAllRow(studentData)">Submit All</button>
         </th>
         <td mat-cell class="mat-cell" *matCellDef="let student" style="justify-content: center;">
             <button mat-button (click)="submitRow(student)">Submit</button>
@@ -48,5 +47,34 @@
     <tr mat-header-row class="headers" *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row class="" *matRowDef="let row;columns:displayedColumns" ></tr>
     </table>
-    
+
+</div>
+<div *ngIf="studentData.length === 0" >
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        margin: 30px 30px 30px 30px;
+        border: 4px solid #cecccc;
+        border-radius: 5px;
+        width: 300px;
+      "
+    >
+      <span class="material-icons no-data-icon" style="font-size: 30px"
+        >folder</span
+      >
+      <p style="font-size: 18px">No Student For this Slot</p>
+    </div>
+  </div>
 </div>

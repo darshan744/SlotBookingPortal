@@ -1,9 +1,6 @@
-import { event } from './../../../Models/slot-breaks';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewChecked,
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
   inject,
   OnInit,
@@ -11,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
+import { DatePipe } from '@angular/common';
 import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
 import { SlotDataSevice } from '../../../Services/SlotDataService/SlotData.service';
 import { UserService } from '../../../Services/StudentService/user.service';
@@ -25,16 +22,6 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { IComponent } from '../SharedComponent.interface';
 import { Slot } from '../../../Models/Slots.model';
-// interface Slot {
-//   slotId :string,
-//   startDate: string;
-//   endDate: string;
-//   slots: {
-//     venue: string;
-//     staffs: string[];
-//     slots: { time: string; limit: number }[];
-//   }[];
-// }
 export enum ResponseMessage {
   success = 'Slot Retrieved Successfully',
   noSlots = 'No slots found',
@@ -44,7 +31,7 @@ export enum ResponseMessage {
   selector: 'app-mi',
   standalone: true,
   imports: [
-    CommonModule,
+    CommonModule,DatePipe,
     MatButtonModule,
     MatTabsModule,
     MatSelectModule,
@@ -58,11 +45,12 @@ export enum ResponseMessage {
   styleUrls: ['../expansion.css'],
 })
 export class MiComponent implements OnInit, AfterViewChecked, IComponent {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource!: MatTableDataSource<Slot['slots'][0]['slots']>;
   dialogService = inject(DialogOpenService);
   slotDataService = inject(SlotDataSevice);
+
   eventType : string = 'Mi';
   selectedVenue: string = '';
   displayedColumns: string[] = ['Time', 'Slots', 'Action'];
@@ -72,6 +60,7 @@ export class MiComponent implements OnInit, AfterViewChecked, IComponent {
     date : '',
     time : ''
   }
+
   data : Slot = [] as any;
 
   constructor(private _Service: UserService) {}
@@ -92,7 +81,6 @@ export class MiComponent implements OnInit, AfterViewChecked, IComponent {
             date : 'bookingDate' in res.data ? res.data.bookingDate : '',
             time : 'bookingTime' in res.data ? res.data.bookingTime : ''
           }
-
           this.alreadyBooked.set(true);
         }
         else {
@@ -108,7 +96,6 @@ export class MiComponent implements OnInit, AfterViewChecked, IComponent {
   }
 
   dates: string[] = [];
-
   isOpened = signal(false);
 
   getDatesBetween(startDate: string, endDate: string): string[] {
@@ -128,6 +115,7 @@ export class MiComponent implements OnInit, AfterViewChecked, IComponent {
 
     return dates;
   }
+
   slotTimings: Slot['slots'][0]['slots'] = [];
   display: boolean = false;
 
@@ -151,4 +139,5 @@ export class MiComponent implements OnInit, AfterViewChecked, IComponent {
   bookSlot(date: string, time: string) {
     this.dialogService.openBookingSlotDialog(date, time, this.eventType,this.selectedVenue , this.data.slotId);
   }
+
 }

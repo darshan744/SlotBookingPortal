@@ -2,7 +2,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Slot } from '../../Models/Slots.model';
 
 export interface IComponent {
-  // Properties
   data : Slot
   selectedVenue: string;
   displayedColumns: string[];

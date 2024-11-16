@@ -12,4 +12,8 @@ export const environment = {
     STUDENT:`http://localhost:3000/api/v1/Students`,
     STUDENT_SLOT:`http://localhost:3000/api/v1/Students/slots/`,
     STUDENT_BOOKING:`http://localhost:3000/api/v1/Students/slots/`,
+    BOOKERS : `http://localhost:3000/api/v1/Admin/students/`,
+    STUDENTMARKS : `http://localhost:3000/api/v1/Admin/studentMarks/`,
+    STUDENTSMARKS : `http://localhost:3000/api/v1/Admin/studentMarks`,
+    STUDENTEVENTRESULT : `http://localhost:3000/api/v1/Students/eventResult/`,
 };

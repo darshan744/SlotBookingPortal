@@ -45,7 +45,6 @@ export class AdminEventsComponent implements AfterViewInit {
   private readonly _formate = inject(DateAdapter);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource!: MatTableDataSource<event>;
-  submitData = [];
   selectedDate: string = '';
   constructor(private service: AdminServiceService) {}
   private snackBar = inject(MatSnackBar);
