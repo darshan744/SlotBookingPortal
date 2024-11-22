@@ -15,10 +15,11 @@ import { Dashboard } from './SuperAdmin/dashboard/dashboard.component';
 import { CreateComponent } from './SuperAdmin/create/create.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { authGuard } from './Services/Guards/auth.guard';
+import { SlotGenerationComponent } from './SuperAdmin/slot-generation/slot-generation.component';
 
 
 export const routes: Routes = [
-    
+
     {
         path:"NotAUser",
         component:PageNotFoundComponent,
@@ -28,7 +29,7 @@ export const routes: Routes = [
     {
         path:'',
         component:LoginComponent,
-        
+
     },
     //SuperAdmin
     {
@@ -36,7 +37,8 @@ export const routes: Routes = [
         component:SuperadminComponent
         ,children:[
             {path:'Search',component:Dashboard},
-            {path:'Create',component:CreateComponent}
+            {path:'Create',component:CreateComponent},
+            {path:'slot-generation',component:SlotGenerationComponent}
         ]
     },
     //User
@@ -44,7 +46,7 @@ export const routes: Routes = [
         path:'user',
         canActivate :[authGuard],
         component:UserComponent,
-        
+
         children:[
             {path:'dashboard',component:DashboardComponent},
             {
@@ -61,11 +63,11 @@ export const routes: Routes = [
                 path:'Gd',component:GDComponent
             }
         ]
-        
+
     },
     //Admin
     {
-        path:'admin/:id',
+        path:'admin',
         component:AdminComponent,
         children:[
             {

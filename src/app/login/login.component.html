@@ -1,27 +1,42 @@
 <!-- client id:772453149406-40ctg1aupn8hok7uttrquur55tfd313g.apps.googleusercontent.com -->
 <meta name="google-signin-client_id"
   content="772453149406-40ctg1aupn8hok7uttrquur55tfd313g.apps.googleusercontent.com.apps.googleusercontent.com">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-<body>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<div class="container">
   <mat-card class="loginbox">
-    <mat-card-content style="display: flex; flex-direction: column; padding: 24px;">
-      <h4>Slot-booking Portal</h4>
-      <mat-form-field appearance="outline" style="margin-bottom: 16px;">
-        <mat-label>RegNumber</mat-label>
-        <input type="text" [(ngModel)]="rollNO" matInput style="border-radius: 4px;width: 100%;">
-      </mat-form-field>
-      <mat-form-field appearance="outline" style="margin-bottom: 16px;">
-        <mat-label>Password</mat-label>
-        <input type="password" [(ngModel)]="password" matInput style="border-radius: 4px;width: 100%;">
-      </mat-form-field>
+    <mat-card-content class="loginbox-card-content">
+      <div style="display: flex;align-items: center;
+      margin-bottom: 20px; gap: 5px;" >
+        <mat-icon>today</mat-icon>
+        <span>Slot-booking Portal</span>
+      </div>
+      <form class="form"[formGroup]="credentials">
+        <mat-form-field   appearance="outline" class="Reg-num-form-field">
+          <mat-label>RegNumber</mat-label>
+          <input type="text" formControlName="userName" matInput style="border-radius: 4px;width: 100%;">
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+        <mat-form-field class="pass-form-field" appearance="outline" >
+          <mat-label>Password</mat-label>
+          <input matInput [type]="password() === true ? 'password' : 'text' " formControlName="password"
+            style="border-radius: 4px;">
+          <button mat-icon-button matSuffix (click)="this.password.set(!this.password())">
+            <mat-icon>{{password() ? 'visibility' : 'visibility_off'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </form>
     </mat-card-content>
-    <mat-card-actions style="display: flex; margin-top: -32px; flex-direction: column;">
-      <button mat-fab extended type="submit" (click)="navigate()" class="submit-btn">Submit</button>
-      <p class="Sign-in" style="margin-top: 20px;font-size: large; font-weight: bold;">OR</p>
-      <div id="g_id_onload" data-client_id="772453149406-abjsh6ajdo61sr3rcsfqav4u3mj6b5ap.apps.googleusercontent.com"
-    data-context="signin" data-ux_mode="popup" data-callback="handleOauthResponse" data-auto_prompt="false" style="width: 300px;"></div>
-  <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="filled_white" data-text="signin_with"
-    data-size="medium" data-logo_alignment="left" id="G-btn">
-  </div>
+    <mat-card-actions class="card-action">
+      <button mat-fab extended type="submit" (click)="submit()" class="submit-btn">Submit</button>
+      <p class="Sign-in">OR</p>
+      <!-- 772453149406-abjsh6ajdo61sr3rcsfqav4u3mj6b5ap.apps.googleusercontent.com -->
+      <div id="g_id_onload" [attr.data-client_id]="clientId" data-context="signin" data-ux_mode="popup"
+        data-callback="handleOauthResponse" data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+        data-text="continue_with" data-size="large" data-logo_alignment="center" data-width=250>
+      </div>
     </mat-card-actions>
   </mat-card>
+</div>
+

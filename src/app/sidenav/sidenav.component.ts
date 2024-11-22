@@ -7,10 +7,12 @@ import { MatListItem, MatListItemIcon, MatNavList } from '@angular/material/list
 import { MatIconButton } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout'
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
 export interface items{
   name:string,
   path:string,
-  icon:string   
+  icon:string
 }
 @Component({
   selector: 'app-sidenav',
@@ -31,7 +33,7 @@ export class SidenavComponent implements OnInit, OnChanges {
   }
   @Input() list:items[]=[];
   @Input() role:string='';
-
+  private _http = inject(HttpClient);
   res = inject(BreakpointObserver)
   isHandset = signal(false);
   ngOnInit():void{
@@ -40,8 +42,6 @@ export class SidenavComponent implements OnInit, OnChanges {
       this.isHandset.set(response.matches);
     })
   }
-  
-
   router = inject(Router);
   collapsed = signal(true);
   width = computed(()=>{
@@ -51,9 +51,14 @@ export class SidenavComponent implements OnInit, OnChanges {
     return this.collapsed()?'65px':'225px'
   });
   handleSignOut(){
+    
     sessionStorage.removeItem('loggedInUser');
-    this.router.navigate(['/']).then(()=>{
-      window.location.reload();
+    this._http.post(`${environment.BASE_URL}/api/v1/logout`,{},{
+      withCredentials:true
+    }).subscribe(()=>{
+      this.router.navigate(['/']).then(()=>{
+        window.location.reload();
+      })
     })
   }
 }

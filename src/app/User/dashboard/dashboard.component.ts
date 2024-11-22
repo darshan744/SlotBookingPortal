@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartOptions, ChartType, } from 'chart.js';
 import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
 export interface eventResult{
   eventType:string,
   date:string,
@@ -19,16 +20,22 @@ export interface eventResult{
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    MatTableModule,DatePipe,MatCardModule,BaseChartDirective,CommonModule,MatIcon
+    MatTableModule,DatePipe,MatCardModule,BaseChartDirective,CommonModule,MatIcon,MatButton
 ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
+fileUrl: string = 'D:\abstractsABSTRACT.pdf';
+clearFile() {
+
+}
 
   @ViewChild('MockInterview') mockInterviewCanvas!:ElementRef<HTMLCanvasElement>
   @ViewChild('SelfIntroduction') selfIntroduction!:ElementRef<HTMLCanvasElement>
   @ViewChild('GroupDiscussion') groupDiscussion !: ElementRef<HTMLCanvasElement>
+  selectedFileName: string = '';
+  user: any ;
 
   constructor(private _service : UserService) {}
   eventResults : MatTableDataSource<eventResult> = new MatTableDataSource<eventResult>();
@@ -41,8 +48,16 @@ export class DashboardComponent implements OnInit {
     this.eventResults = new MatTableDataSource(e.data.EventHistory);
     this.assignDate();
   });
-    this.detais = (sessionStorage.getItem('loggedInUser'));
-    this.detais = JSON.parse(this.detais)
+    let ses = sessionStorage.getItem('loggedInUser')
+    if(ses){
+      let temp =  JSON.parse(ses);
+      this.user = {
+        RollNo : temp.studentId,
+        Name : temp.name,
+        Dept : temp.department,
+        Year : temp.year
+      }
+    }
   }
   ngAfterViewInit() {
     console.log(this.Mock_Interview);
@@ -65,8 +80,6 @@ export class DashboardComponent implements OnInit {
           this.Group_Discussion.datasets[0].data.push(res.marks);
         }
       }
-      console.log(this.Mock_Interview);
-      console.log(this.Group_Discussion);
     }
   }
   upcomingevents=[
@@ -110,11 +123,36 @@ export class DashboardComponent implements OnInit {
   type:ChartType = 'line';
   options:ChartOptions =  {
     responsive:true,
+    maintainAspectRatio:false,
     scales:{
+      x: {
+        ticks:{
+        font:{size:12}
+        }
+      },
       y:{
         min:0,
         max:20
       }
     }
+  }
+  onDragOver(event: DragEvent) {
+    event.preventDefault(); // Prevent default behavior (browser handling)
+    // Optionally, add visual indication for valid drag target (e.g., change border color)
+  }
+
+  // Handle file drop event
+  onDrop(event: DragEvent) {
+    console.log(event);
+    event.preventDefault(); // Prevent default handling (e.g., opening the file)
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      const file = files[0]; // Get the first file dropped
+      this.selectedFileName = file.name; // Store the file name
+    }
+  }
+  fileInput(e:any) {
+    this.selectedFileName = e.target.files[0].name;
+    console.log(e.target.files[0]);
   }
 }

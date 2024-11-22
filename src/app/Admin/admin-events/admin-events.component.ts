@@ -63,6 +63,7 @@ export class AdminEventsComponent implements AfterViewInit {
         this.dupData = this.dataSource.data;
         this.dataSource.paginator = this.paginator;
         this.isLoading.set(false);
+        console.log(this.isLoading())
         this.dataLength.set(this.dataSource.data.length);
       });
   }

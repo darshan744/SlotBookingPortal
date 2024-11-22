@@ -36,7 +36,10 @@ export class AdminHomeComponent implements OnInit{
 
       this._service.getStudentList().pipe(
         map((e:any)=>{
-          const eventType = e.eventType;
+          if(!e?.students) {
+            return;
+          }
+          const eventType = e.eventType ?? '';
           let students = e.students.map((el:any) => ({
             id : el.studentId,
             name : el.name,
@@ -48,9 +51,11 @@ export class AdminHomeComponent implements OnInit{
         return {eventType , students}
         })
       ).subscribe((res : any)=>{
-        console.log(res);
-        this.eventType = res.eventType;
-        this.studentData = res.students;
+        if(res) {
+          console.log(res)
+          this.eventType = res.eventType;
+          this.studentData = res.students;
+        }
       })
       console.log("This");
 

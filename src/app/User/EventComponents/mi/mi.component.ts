@@ -68,6 +68,7 @@ export class MiComponent implements OnInit, AfterViewChecked, IComponent {
     this._Service
       .getSlots(this.eventType)
       .subscribe((res: { success: boolean; message: string; data : Slot | {bookingTime : string , bookingDate : string}  }) => {
+        console.log(res)
         if (res.success === true && res.message === ResponseMessage.success
            && 'startDate' in res.data && 'endDate' in res.data && 'slots' in res.data) {
             console.log(res.data);

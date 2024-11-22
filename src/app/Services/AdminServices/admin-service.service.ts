@@ -17,10 +17,12 @@ export class AdminServiceService {
     const retreivedVal = (sessionStorage.getItem('loggedInUser'));
     let rollNo = '';
     if(retreivedVal) {
-      rollNo = JSON.parse(retreivedVal);
+      rollNo = (JSON.parse(retreivedVal)).staffId;
     }
     console.log(`${this._url}/getAvailability/${rollNo}`);
-   return  this.http.get<eventResponseServer>(`${this._url}/getAvailability/${rollNo}`)
+   return this.http.get<eventResponseServer>(`${this._url}/getAvailability/${rollNo}`,{
+    withCredentials : true
+   })
   }
 
   postAvailabilityResponse( e : event[]) {
@@ -45,7 +47,9 @@ export class AdminServiceService {
   getStudentList(){
     let staffId = this.getUserId();
     console.log("staffId",staffId);
-   return this.http.get(environment.BOOKERS + staffId);
+   return this.http.get(environment.BOOKERS + staffId
+    ,{ withCredentials : true }
+    );
 
   }
 
@@ -56,6 +60,7 @@ export class AdminServiceService {
 
   studentMarks(studentmarks:studentResult[] , eventType : string) {
     this.http.post(environment.STUDENTSMARKS, { studentmarks , eventType ,
-      staffId : this.getUserId() }).subscribe(e=>console.log(e));
+      staffId : this.getUserId()}
+    ,{withCredentials:true}).subscribe(e=>console.log(e));
   }
 }

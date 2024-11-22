@@ -35,18 +35,17 @@
                         <mat-date-range-picker #picker></mat-date-range-picker>
                     </mat-form-field>
                 </div>
-                
+
                 <button mat-raised-button class="btns" (click)="submit()">Send</button>
             </form>
         </div>
-        
+
     </mat-tab>
-    <mat-tab class="StatusTab" label="Status">
+    <mat-tab class="StatusTab"   label="Status">
         <app-status-tab />
     </mat-tab>
-    <mat-tab class="Slot-Generate" label="Generate-Slot">   
-        <div class="generation">
-            <app-slot-generation />
-        </div>
+    <mat-tab
+    class="Slot-Generate" label="Generate-Slot">
+        <app-slot-generation></app-slot-generation>
     </mat-tab>
 </mat-tab-group>

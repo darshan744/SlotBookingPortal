@@ -20,7 +20,7 @@ type AcceptedResponse = {
     instructorId: {
       staffId: string,
       name: string,
-    }, 
+    },
     unmodifiedCount: number ,
   }]
 }
@@ -102,19 +102,19 @@ export class SuperAdminService {
   }
 
   getAllStaff() {
-    return this.http.get<staffs>(this.allStaffURL)
+    return this.http.get<staffs>(this.allStaffURL,{withCredentials:true})
   }
 
   getAcceptedResponse() :Observable<AcceptedResponse>  {
-    return this.http.get<AcceptedResponse>(environment.ACCEPTEDRESPONSE);
+    return this.http.get<AcceptedResponse>(environment.ACCEPTEDRESPONSE,{withCredentials:true});
   }
   requestSlotAvailability(data: slotData) {
-    this.http.post(this.requestAvailability, data).subscribe(res => {
+    this.http.post(this.requestAvailability, data,{withCredentials:true}).subscribe(res => {
       console.log(res);
     });
   }
   getAllResponse() {
-    return this.http.get<{ message: string, result: AllResponse[] }>(this._getAllRespnose)
+    return this.http.get<{ message: string, result: AllResponse[] }>(this._getAllRespnose,{withCredentials:true})
   }
   openDialog(staffs: staffs["data"], slots: string[],
     startDate: string, endDate: string
@@ -129,9 +129,9 @@ export class SuperAdminService {
   getIndividualResponse(staff: data) {
     // let id = (sessionStorage.getItem('loggedInUser'))
     let id = staff.staffId;
-    return this.http.get<{ message: string, Result: Staff }>(`${environment.INDIVIDUALRESPONSE}/${id}`)
+    return this.http.get<{ message: string, Result: Staff }>(`${environment.INDIVIDUALRESPONSE}/${id}`,{withCredentials:true})
   }
   postSlot(data : any) : void {
-    this.http.post(environment.SLOT , data).subscribe(e=>console.log(e));
+    this.http.post(environment.SLOT , data , {withCredentials:true}).subscribe(e=>console.log(e));
   }
 }

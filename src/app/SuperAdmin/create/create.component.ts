@@ -19,7 +19,7 @@ import {StatusTabComponent} from '../status-tab/status-tab.component'
 @Component({
   selector: 'app-create',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatSelect, MatOption, CommonModule,
+  imports: [MatFormFieldModule, MatInputModule, MatOption, CommonModule,
     FormsModule, MatIconModule, MatButtonModule, MatDatepickerModule, MatTabsModule,
     MatAutocompleteModule, MatChipsModule, MatCardModule, SlotGenerationComponent,
     StatusTabComponent],
@@ -37,7 +37,7 @@ export class CreateComponent {
     var today = new Date();
     today.setHours(0,0,0,0);
     return day !== 0 && date >= today;
-  } 
+  }
 
   ngOnInit():void {
     this.Service.getAllStaff().subscribe((e : staffs)=>{
@@ -97,7 +97,7 @@ export class CreateComponent {
         return [...staffs,addStaff]
       }
       else {
-        e.option.deselect();  
+        e.option.deselect();
         return [...staffs]
       }
     }
@@ -113,12 +113,12 @@ export class CreateComponent {
       let staffs = this.displaySelectedStaff();
       this.Service.openDialog(staffs, this.slots(), this.startDate, this.endDate)
     }
-    
+
   }
   removeStaff(inputstaff: string) {
     this.displaySelectedStaff.update(staff => {
       return staff.filter(staff => staff.name !== inputstaff);
     })
   }
-  
+
 }
