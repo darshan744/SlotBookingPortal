@@ -45,4 +45,8 @@ body {
   }
 }
 
-
+.custom-form-field {
+  .mdc-text-field--filled, .mat-mdc-text-field-wrapper:hover, .mat-mdc-form-field-focus-overlay {
+    background-color: transparent !important
+  }
+}

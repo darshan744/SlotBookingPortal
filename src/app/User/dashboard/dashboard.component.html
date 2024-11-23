@@ -1,5 +1,5 @@
 <div class="container">
-  <!-- <h3 class="mat-h3" style="margin-top: 30px;margin-left: 30px;">Welcome {{detais.given_name}} {{detais.family_name}}</h3> -->
+  <h3 class="mat-h3" style="margin-top: 30px;margin-left: 30px;">Welcome {{user.Name}}</h3>
   <div class="userdata">
     <div class="user-info-upload">
       <div class="user-info">
@@ -9,7 +9,7 @@
         <h6>Department: {{user.Dept}}</h6>
         <h6>Upcoming Event</h6>
       </div>
-      <div *ngIf="selectedFileName !== '';else fileUploaded" (dragover)="onDragOver($event)" (drop)="onDrop($event)"
+      <div *ngIf="selectedFileName === '';else fileUploaded" (dragover)="onDragOver($event)" (drop)="onDrop($event)"
         class="file-input-container">
         <label class="file-input" for="ResumeInput">
           <mat-icon class="mat-18">upload</mat-icon>

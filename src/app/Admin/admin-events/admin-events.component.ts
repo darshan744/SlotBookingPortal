@@ -73,7 +73,7 @@ export class AdminEventsComponent implements AfterViewInit {
     this.dataSource.data = this.dataSource.data.filter(
       (el) => !(el.date === e.date && el.time === e.time)
     );
-    // this.data
+
   }
   cancelEvent(e: { date: string; time: string; isAvailable: string }) {
     e.isAvailable = 'Declined';
@@ -81,7 +81,6 @@ export class AdminEventsComponent implements AfterViewInit {
     this.dataSource.data = this.dataSource.data.filter(
       (el) => !(el.date === e.date && el.time === e.time)
     );
-    // this.data
   }
   submit() {
     const result = this.dupData.filter((e) => e.isAvailable !== 'unmodified');

@@ -20,5 +20,8 @@ export class UserComponent  {
     {name:"GroupDiscussion",path:'Gd',icon:'group'}
   ]
   role:string='User'
+  
+
+
 }
 

@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="wrapper">
+    <div class="details">
+      <p style="font-size: 20px;"><strong>{{userName}}</strong></p>
+      <p style="font-size: 18px;">{{currentEmail}}</p>
+    </div>
+    <h6><strong>Account Settings</strong></h6>
+    <div class="input-container">
+      <div class="user-name">
+        <div class="user-name-container">
+          <p><strong>UserName</strong></p>
+          <mat-form-field class="user-name-field" appearance="outline">
+            <mat-label>UserName</mat-label>
+            <input [value]="userName" matInput id="userName" type="text">
+          </mat-form-field>
+        </div>
+        <div class="email-container">
+          <p><strong>Email</strong></p>
+          <mat-form-field class="email-field" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input [value]="currentEmail" matInput type="text">
+          </mat-form-field>
+        </div>
+        <div class="submit-btn-container">
+          <button class="submit-btn" type="submit">
+            Save Changes
+          </button>
+        </div>
+      </div>
+      <mat-divider style="margin-top: 20px;"></mat-divider>
+      <div class="password">
+        <div class="curr-container">
+          <p style="display:flex; gap: 4px;align-items: center;"><strong>Current Password</strong>
+            <button (click)="this.displayPassword = !this.displayPassword" mat-icon-button>
+              <mat-icon mat-icon-button>
+                {{!displayPassword ? 'visibility' : 'visibility_off'}}
+              </mat-icon>
+            </button>
+          </p>
+          <mat-form-field class="current-password-field" appearance="outline">
+            <input [value]="currentPassword" disabled matInput [type]="displayPassword ? 'text' : 'password'">
+          </mat-form-field>
+        </div>
+        <div class="new-container">
+          <p style="display:flex; gap: 4px;align-items: center;"><strong>Current Password</strong>
+            <button (click)="this.displayNewPassword = !this.displayNewPassword" mat-icon-button>
+              <mat-icon mat-icon-button>
+                {{!displayNewPassword ? 'visibility' : 'visibility_off'}}
+              </mat-icon>
+            </button>
+          </p>
+          <mat-form-field class="new-password-field" appearance="outline">
+            <mat-label>New Password</mat-label>
+            <input matInput type="text">
+          </mat-form-field>
+        </div>
+        <div class="submit-btn-container">
+          <button class="submit-btn" type="submit">
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrapper">
+    <h4>Existing Events</h4>
+    <div class="event-list">
+      <mat-chip-listbox>
+        <mat-chip *ngFor="let event of items" color="primary">{{event}}</mat-chip>
+      </mat-chip-listbox>
+    </div>
+    <div style="margin-top: 30px;">
+      <h5>Create New Event</h5>
+      <div class="event-form-fields">
+        <div class="event-info-container">
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Event Name</mat-label>
+            <input matInput placeholder="E.g., Technical Round" />
+          </mat-form-field>
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Maximum Participants</mat-label>
+            <input matInput type="number" placeholder="E.g., 50" />
+          </mat-form-field>
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Slot Timing (in minutes)</mat-label>
+            <input matInput type="number" placeholder="E.g., 15" />
+          </mat-form-field>
+        </div>
+        <div class="desc-container">
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="3" placeholder="Describe the event..."></textarea>
+          </mat-form-field>
+        </div>
+        <div class="submit-btn-container">
+          <button class="submit-btn event-btn" color="primary">
+            <mat-icon>add</mat-icon>
+            Create Event
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

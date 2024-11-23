@@ -80,9 +80,6 @@ canvas {
   padding: 0px 25px 0px 25px;
 }
 
-
-
-
 @media (max-width: 790px) {
   .mat-header-cell {
     display: none;

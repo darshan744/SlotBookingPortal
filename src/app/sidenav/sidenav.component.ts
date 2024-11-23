@@ -1,8 +1,8 @@
-import { Component, computed, inject, Input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
+import { Component, computed, inject, Input, OnChanges, OnInit, signal, SimpleChanges, ViewChild } from '@angular/core';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule} from '@angular/material/toolbar'
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import {  MatSidenavModule } from '@angular/material/sidenav';
+import {  MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatListItem, MatListItemIcon, MatNavList } from '@angular/material/list';
 import { MatIconButton } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
@@ -25,6 +25,8 @@ export interface items{
 })
 
 export class SidenavComponent implements OnInit, OnChanges {
+
+  @ViewChild(MatSidenav) sidenav!:MatSidenav;
   ngOnChanges(changes: SimpleChanges): void {
     // console.log(changes);
     this.width();
@@ -51,7 +53,7 @@ export class SidenavComponent implements OnInit, OnChanges {
     return this.collapsed()?'65px':'225px'
   });
   handleSignOut(){
-    
+
     sessionStorage.removeItem('loggedInUser');
     this._http.post(`${environment.BASE_URL}/api/v1/logout`,{},{
       withCredentials:true
