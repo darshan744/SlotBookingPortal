@@ -26,10 +26,9 @@ interface event{
 })
 export class SuperadminComponent {
   list:items[] =[{name:'Dashboard',path:'Search',icon:'dashboard'},
-    {name:'Generate Request',path:'Create',icon:'event'},
-    {name:'Settings', path:'settings',icon:'settings'}
-  ]
-  
-
-
+    {name:'Request',path:'Create',icon:'event'},
+    {name:'Settings', path:'settings',icon:'settings'},
+    {name:'Status',path:'status',icon:'pending_actions'},
+    {name:'Slot',path:'slot',icon:'schedule'}]
+  role:string='SuperAdmin';
 }

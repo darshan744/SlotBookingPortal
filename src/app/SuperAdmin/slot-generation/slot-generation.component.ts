@@ -32,6 +32,7 @@ import {
 } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { map } from 'rxjs';
+import { provideNativeDateAdapter } from '@angular/material/core';
 interface Venues {
   venue: string;
   staffs: string[];
@@ -72,6 +73,7 @@ type AcceptedStaff = {
     FormsModule,
     MatIconModule,
   ],
+  providers:[provideNativeDateAdapter()],
   templateUrl: './slot-generation.component.html',
   styleUrl: './slot-generation.component.css',
 })

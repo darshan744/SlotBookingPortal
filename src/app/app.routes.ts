@@ -17,6 +17,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { authGuard } from './Services/Guards/auth.guard';
 import { SlotGenerationComponent } from './SuperAdmin/slot-generation/slot-generation.component';
 import { SettingsComponent } from './SuperAdmin/settings/settings.component';
+import { StatusTabComponent } from './SuperAdmin/status-tab/status-tab.component';
 
 
 export const routes: Routes = [
@@ -40,7 +41,10 @@ export const routes: Routes = [
             {path:'Search',component:Dashboard},
             {path:'Create',component:CreateComponent},
             {path:'slot-generation',component:SlotGenerationComponent},
-            {path : 'settings',component:SettingsComponent}
+            {path : 'settings',component:SettingsComponent},
+            {path : 'status',component:StatusTabComponent},
+            {path:'slot',component:SlotGenerationComponent},
+            {path:'**',redirectTo:'Search'}
         ]
     },
     //User

@@ -9,13 +9,13 @@
     flex: 0 0 150px; /* Fixed width */
 }
 .mat-column-status {
-    flex:1 ; 
+    flex:0.3;
 }
 .table-container {
     width: 1200px; /* Fixed width */
-    margin: 50px auto; /* Center horizontally with auto margins */
+    margin: 30px auto; /* Center horizontally with auto margins */
     padding-right: 30px;
-    padding-left: 50px;
+    padding-left: 20px;
     display: flex; /* Use flexbox */
     justify-content: center; /* Center content horizontally */
 }

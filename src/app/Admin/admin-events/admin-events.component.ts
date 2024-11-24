@@ -44,6 +44,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 export class AdminEventsComponent implements AfterViewInit {
   private readonly _formate = inject(DateAdapter);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  
   dataSource!: MatTableDataSource<event>;
   selectedDate: string = '';
   constructor(private service: AdminServiceService) {}
