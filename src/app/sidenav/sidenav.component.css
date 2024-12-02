@@ -3,14 +3,10 @@
     border-left-color: red;
 }
 
-.toolbar{
-    box-shadow: 8px 8px 8px 8px black;
-}
-
-
 mat-toolbar {
-  background: #d1e0e892;
+  background: #a6b9c4;
   color: rgb(0, 0, 0);
+  box-shadow: 0px 4px 15px rgba(0 , 0 ,0  ,0.2);
 }
 mat-icon {
   color: black;
@@ -18,9 +14,12 @@ mat-icon {
 
 mat-sidenav {
   margin: 16px;
-  width: 200px;
+  width: 220px;
   border-right: none;
-  background: #d1e0e8 ;
+  background: #a6b9c4 ;
+  /* background: #f1f4f8 ; */
+  /* background-color: #a6b9c4; */
+  /* background-color: #e4edf5; */
   color: rgb(2, 0, 0);
   border-radius: 10px;
   padding: 16px;

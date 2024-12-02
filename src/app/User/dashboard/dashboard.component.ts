@@ -1,6 +1,5 @@
 import { Component ,ElementRef,OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { GraphsComponent } from "./graphs/graphs.component";
 import { UserService } from '../../Services/StudentService/user.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -20,7 +19,7 @@ export interface eventResult{
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    MatTableModule,DatePipe,MatCardModule,BaseChartDirective,CommonModule,MatIcon,MatButton
+    MatTableModule,DatePipe,MatCardModule,BaseChartDirective,CommonModule,MatButton
 ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -44,7 +43,7 @@ clearFile() {
   detais:any;
   ngOnInit(){
     this._service.getHistory().subscribe((e : any)=>{
-      console.log(e);
+      // console.log(e);
     this.eventResults = new MatTableDataSource(e.data.EventHistory);
     this.assignDate();
   });
@@ -60,7 +59,7 @@ clearFile() {
     }
   }
   ngAfterViewInit() {
-    console.log(this.Mock_Interview);
+    // console.log(this.Mock_Interview);
   }
   assignDate() {
     let data = this.eventResults.data;
@@ -68,7 +67,7 @@ clearFile() {
       for(const res of data) {
         if(res.eventType === 'Mock Interview'){
           this.Mock_Interview.labels.push(new Date(res.date).toLocaleDateString());
-          console.log("marks"+res.marks);
+          // console.log("marks"+res.marks);
           this.Mock_Interview.datasets[0].data.push(res.marks);
         }
         if(res.eventType === 'Self Introduction') {

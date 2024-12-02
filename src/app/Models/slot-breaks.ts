@@ -25,5 +25,6 @@ export interface event{
 }
 export interface eventResponseServer {
     slots : event[],
-    message : string
+    message : string,
+    responseDeadline : Date,
 }

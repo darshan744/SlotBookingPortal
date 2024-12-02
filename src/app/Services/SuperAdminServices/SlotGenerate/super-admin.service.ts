@@ -5,44 +5,7 @@ import { environment } from '../../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { data, staffs } from '../../../Models/slot-breaks';
 import { Observable } from 'rxjs';
-type slotData = {
-  staffs: staffs["data"],
-  startDate: string, endDate: string
-}
-interface Slot {
-  time: string;
-  isAvailable: string; // "Accepted" or "Declined"
-}
-
-type AcceptedResponse = {
-  success: boolean,
-  data: [{
-    instructorId: {
-      staffId: string,
-      name: string,
-    },
-    unmodifiedCount: number ,
-  }]
-}
-
-interface AvailableSlot {
-  date: string; // Or Date if you prefer
-  slots: Slot[];
-}
-
-interface Staff {
-  availableSlots: AvailableSlot[];
-  staffId: string;
-  name: string;
-}
-
-type AllResponse = {
-  staffId: string,
-  phoneNumber: string,
-  name: string,
-  email: string,
-  unmodifiedCount: number
-}
+import { AcceptedResponse, AllResponse, IEventInfo, slotData, Staff } from '../../../Models/SuperAdmin.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -117,12 +80,12 @@ export class SuperAdminService {
     return this.http.get<{ message: string, result: AllResponse[] }>(this._getAllRespnose,{withCredentials:true})
   }
   openDialog(staffs: staffs["data"], slots: string[],
-    startDate: string, endDate: string
+    startDate: string, endDate: string , responseDeadline : Date
   ) {
     this.popover.open(ConfirmDialogComponent, {
       data: {
         staffs: staffs, /*Arrays*/
-        startDate: startDate, endDate: endDate
+        startDate: startDate, endDate: endDate , responseDeadline
       }
     })
   }
@@ -134,4 +97,12 @@ export class SuperAdminService {
   postSlot(data : any) : void {
     this.http.post(environment.SLOT , data , {withCredentials:true}).subscribe(e=>console.log(e));
   }
+
+  createEvents(data :IEventInfo):Observable<{message : string , success:boolean}>{
+    return this.http.post<{message : string , success:boolean}>(environment.CREATEEVENT , data , {withCredentials : true});
+  }
+  getEvents() : Observable<{message : string , data ?: {Name:string}[]} > {
+   return this.http.get<{message : string , data ?: {Name:string}[]} >(environment.EVENTURL)
+  }
+
 }

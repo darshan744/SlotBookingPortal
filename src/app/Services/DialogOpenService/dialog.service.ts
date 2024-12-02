@@ -5,6 +5,7 @@ import { ConfirmDialogComponent } from "../../SuperAdmin/confirm-dialog/confirm-
 import { data } from "../../Models/slot-breaks";
 import { StatusDialogComponent } from "../../SuperAdmin/status-dialog/status-dialog.component";
 import { SuperAdminService } from "../SuperAdminServices/SlotGenerate/super-admin.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable({
     providedIn:'root'
@@ -20,6 +21,7 @@ import { SuperAdminService } from "../SuperAdminServices/SlotGenerate/super-admi
   */
 export class DialogOpenService {
 
+  private snackBar = inject(MatSnackBar);
     readonly popOver = inject(MatDialog)
     slotRetrieveService = inject(SuperAdminService);
     openBookingSlotDialog(time:string,date:string,eventType:string , venue : string,slotId : string) {
@@ -43,7 +45,14 @@ export class DialogOpenService {
           width : '650px',height:'auto'
         })
       })
-
+    }
+    openSnackBar(message : string) {
+      this.snackBar.open(message , '✖️', {
+        duration : 2000,
+        panelClass : ['custom-snackbar'],
+        verticalPosition:'top',
+        horizontalPosition:'right'
+      })
     }
 
 }

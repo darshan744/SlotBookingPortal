@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 /* @import '@angular/material/prebuilt-themes/rose-red.css'; */
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 
 /* @import '@angular/material/prebuilt-themes/azure-blue.css'; */
 /* @import '@angular/material/prebuilt-themes/cyan-orange.css'; */
@@ -14,12 +16,11 @@
 html,
 body {
   height: 100%;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: poppins , sans-serif;
 }
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 html,
@@ -43,10 +44,39 @@ body {
     }
    }
   }
+  animation: fadeOut 3s forwards;
+}
+@keyframes fadeOut {
+  0% {
+    background-color: #888;
+  }
+  100% {
+    background-color: white;
+  }
 }
 
-.custom-form-field {
+.custom-form-field{
   .mdc-text-field--filled, .mat-mdc-text-field-wrapper:hover, .mat-mdc-form-field-focus-overlay {
     background-color: transparent !important
   }
+}
+.blue-btn {
+  padding: 8px 13px;
+  border-radius: 9px;
+  width: 130px;
+  background-color: white;
+  font-size: 15px;
+  font-family: Roboto;
+  border: none;
+  cursor: pointer;
+  background-color: blue;
+  color: white;
+  font-weight: 500;
+  height: 40px;
+  transition: all 200ms ease-in-out;
+}
+.blue-btn:hover {
+  background-color: white;
+  color: blue;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.45);
 }

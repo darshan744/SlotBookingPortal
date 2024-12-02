@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { AdminServiceService } from '../../Services/AdminServices/admin-service.service';
 import { event, eventResponseServer } from '../../Models/slot-breaks';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   MatDatepickerInputEvent,
@@ -45,21 +45,22 @@ export class AdminEventsComponent implements AfterViewInit {
   private readonly _formate = inject(DateAdapter);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  
+
   dataSource!: MatTableDataSource<event>;
   selectedDate: string = '';
-  constructor(private service: AdminServiceService) {}
+  constructor(private service: AdminServiceService) { }
   private snackBar = inject(MatSnackBar);
   dupData: event[] = [];
   isLoading = signal<Boolean>(true);
   dataLength = signal<Number>(0);
   columns = ['No', 'Date', 'Time', 'Action'];
-
+  responseDeadline : Date | null = null
   ngAfterViewInit(): void {
     this._formate.setLocale('en-In');
     this.service
       .getAvailabilityRequest()
       .subscribe((response: eventResponseServer) => {
+        this.responseDeadline = response.responseDeadline
         const slots = response.slots;
         this.dataSource = new MatTableDataSource<event>(slots);
         this.dupData = this.dataSource.data;

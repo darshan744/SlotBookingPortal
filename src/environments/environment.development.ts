@@ -19,4 +19,6 @@ export const environment = {
     STUDENTMARKS : `http://localhost:3000/api/v1/Admin/studentMarks/`,
     STUDENTSMARKS : `http://localhost:3000/api/v1/Admin/studentMarks`,
     STUDENTEVENTRESULT : `http://localhost:3000/api/v1/Students/eventResult/`,
+    EVENTURL : `http://localhost:3000/api/v1/events`,
+    CREATEEVENT:`http://localhost:3000/api/v1/SuperAdmin/events`,
 };

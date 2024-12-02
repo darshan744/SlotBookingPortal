@@ -6,7 +6,8 @@
     </ng-container>
     }
     <div #content [ngClass]="{'content-area': !(dataLength() === 0) , 'noContent' :(dataLength() === 0) }" class="content-area">
-        <div class="content">
+      <p>Please Response Before : <strong style="color: blue;">{{responseDeadline | date}} , {{responseDeadline | date:"hh:mm" }}</strong></p>
+      <div class="content">
             <mat-form-field>
                 <mat-label>FilterBy</mat-label>
                 <input (dateInput)="filter($event)" [(ngModel)]="selectedDate" [matDatepicker]="date" matInput />
@@ -18,7 +19,6 @@
             <button (click)="clear()" mat-raised-button><mat-icon>cancel</mat-icon>Clear</button>
             <button (click)="submit()" mat-raised-button>Submit Response</button>
         </div>
-
         <table mat-table [dataSource]="data" class="mat-elevation-z8">
             <ng-container matColumnDef="No">
                 <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>No</th>
@@ -32,7 +32,7 @@
 
             <ng-container matColumnDef="Date">
                 <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Date</th>
-                <td mat-cell class="mat-cell" data-header="Date" *matCellDef="let event">{{event.date}}</td>
+                <td mat-cell class="mat-cell" data-header="Date" *matCellDef="let event">{{event.date | date}}</td>
             </ng-container>
             <ng-container matColumnDef="Time">
                 <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Time</th>

@@ -8,7 +8,7 @@ import { staffs } from '../../Models/slot-breaks';
 import { SuperAdminService } from '../../Services/SuperAdminServices/SlotGenerate/super-admin.service';
 type slotData = {
   staffs : staffs["data"],
-    startDate : string , endDate : string
+    startDate : string , endDate : string , responseDeadline:Date
 }
 @Component({
   selector: 'app-confirm-dialog',
@@ -21,10 +21,10 @@ type slotData = {
 export class ConfirmDialogComponent{
   constructor(private _slotrequest : SuperAdminService){}
   data : slotData = inject(MAT_DIALOG_DATA);
-  
+
 
   submit() : void {
-    console.log("submit");
+    console.log(this.data);
     this._slotrequest.requestSlotAvailability(this.data)
-  } 
+  }
 }

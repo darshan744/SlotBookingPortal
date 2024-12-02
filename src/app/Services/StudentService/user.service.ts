@@ -18,9 +18,7 @@ export class UserService {
   }
   getStudentId() {
     let session: any = sessionStorage.getItem('loggedInUser');
-    console.log(JSON.parse(session).studentId);
     let studentId = session ? JSON.parse(session).studentId : null;
-    console.log(studentId);
     return studentId;
   }
   bookSlot(data: {
@@ -42,5 +40,9 @@ export class UserService {
       `${environment.STUDENTEVENTRESULT}${this.getStudentId()}`,
       { withCredentials: true }
     );
+  }
+
+  getEvents () {
+    return this._http.get<{message : string , data : {Name:string}[] } >(`${environment.EVENTURL}`, {withCredentials:true})
   }
 }

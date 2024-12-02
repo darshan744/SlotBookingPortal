@@ -1,7 +1,13 @@
+* {
+  color: #333333;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   border-radius: 4px;
+  border-radius: 22px;
+  margin: 10px;
 }
 
 .chart-container {
@@ -12,7 +18,7 @@
 }
 
 mat-card {
-  width: 600px;
+  width: 500px;
   height: 400px;
 }
 
@@ -28,26 +34,30 @@ canvas {
 .headers {
   background-color: #ddd;
 }
-.file_input{
-  cursor:pointer;
+
+.file_input {
+  cursor: pointer;
   width: 130px;
   display: flex;
   padding: 5px;
   font-size: medium;
-  gap:3px;
+  gap: 3px;
   background-color: white;
   border-radius: 7px;
   transition: all ease-in 250ms;
 }
+
 .file_input:hover {
   background-color: #1f5edc;
-  color:white;
+  color: white;
 }
+
 .file_input_container p {
   margin-top: 10px;
   font-size: 14px;
   color: #333;
 }
+
 .file_input_container {
   display: flex;
   align-items: center;
@@ -56,7 +66,7 @@ canvas {
   width: 300px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 5px;
-  padding: 5px 0px 5px 8px  ;
+  padding: 5px 0px 5px 8px;
 }
 
 .Remarks-columns,
@@ -67,6 +77,7 @@ canvas {
 #ResumeInput {
   display: none;
 }
+
 .resume {
   padding: 6px 6px 6px 6px;
 }
@@ -80,6 +91,191 @@ canvas {
   padding: 0px 25px 0px 25px;
 }
 
+
+
+mat-card {
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(106, 185, 196, 0.1);
+  overflow: hidden;
+}
+
+.chart-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+
+canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+
+
+.mat_card {
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  transition: all ease-in-out 0.2s;
+  background-color: white;
+  border-radius: 16px;
+}
+
+.mat_card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  transform: translate(1.05);
+}
+
+.userdata {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 100px 0px 55px;
+}
+
+.user-info-upload:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.352);
+  transform: translate(1.05);
+}
+
+.user-info-upload {
+  background-color: white;
+  margin: 30px;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.133);
+  display: flex;
+  align-items: center;
+  transition: all ease-in-out 200ms;
+}
+
+.upload-btn::file-selector-button {
+  padding: 10px;
+  border: 0.5px solid rgba(0, 0, 0, 0.319);
+  border-radius: 5px;
+  background-color: white;
+  transition: all 200ms;
+  font-family: monospace;
+  margin-right: 10px;
+  cursor: pointer;
+
+}
+.file-input-container {
+  padding: 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.upload-btn {
+  font-family: monospace;
+}
+
+.upload-btn::file-selector-button:hover {
+  background-color: #f3f4f6;
+}
+
+
+.user-info {
+  text-align: left;
+  width: 100%;
+  padding:20px;
+}
+
+.file-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #007bff;
+  width: 200px;
+  height: 200px;
+}
+
+.file-input p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.uploaded-file {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  margin: 20px;
+  width: 200px;
+  height: 200px;
+}
+
+.pdf-thumbnail {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.uploaded-file p {
+  font-size: 16px;
+  color: #333;
+  margin: 10px 0;
+}
+
+.clear-button {
+  background-color: #007bff;
+  color: white;
+  margin-top: 10px;
+}
+
+.clear-button:hover {
+  background-color: #0056b3;
+}
+
+
+
+/* ==================Media Queries ======================= */
+
+@media(max-width: 600px) {
+  .mat_card {
+    width: 600px;
+    height: 350px;
+  }
+
+  canvas {
+    height: 250px;
+    /* Set a fixed height for the canvas on small screens if necessary */
+  }
+}
+
+@media (max-width : 1100px) {
+  .user-info-upload {
+    padding: 30px;
+    flex-direction: column;
+  }
+}
+@media(max-width : 600px) {
+  .mat_card {
+    width: 600px;
+    height: 350px;
+  }
+
+  canvas {
+    height: 250px;
+    /* Set a fixed height for the canvas on small screens if necessary */
+  }
+}
+@media (max-width: 600px) {
+  mat-card {
+    margin: 0.5rem;
+  }
+}
 @media (max-width: 790px) {
   .mat-header-cell {
     display: none;
@@ -98,7 +294,7 @@ canvas {
     margin-bottom: 10px;
     border: 1px solid #ddd;
     padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(106, 185, 196, 0.1);
   }
 
   .mat-cell {
@@ -128,157 +324,4 @@ canvas {
   .input {
     height: 1px;
   }
-}
-
-mat-card {
-  margin: 1rem;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.chart-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-
-canvas {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-@media (max-width: 600px) {
-  mat-card {
-    margin: 0.5rem;
-  }
-}
-
-.mat_card {
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-  transition: all ease-in-out 0.2s;
-  border-radius: 16px;
-}
-
-.mat_card:hover {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-  transform: translate(1.05);
-}
-
-@media(max-width : 600px) {
-  .mat_card {
-    width: 600px;
-    height: 350px;
-  }
-
-  canvas {
-    height: 250px;
-    /* Set a fixed height for the canvas on small screens if necessary */
-  }
-}
-
-
-@media(max-width: 600px) {
-  .mat_card {
-    width: 600px;
-    height: 350px;
-  }
-
-  canvas {
-    height: 250px;
-    /* Set a fixed height for the canvas on small screens if necessary */
-  }
-}
-.userdata{
-  display: flex;
-  flex-direction: column;
-  padding: 0px 100px 0px 55px ;
-}
-.user-info-upload:hover {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  transform: translate(1.05);
-}
-.user-info-upload {
-  background-color: white;
-  margin: 30px;
-  padding: 10px;
-  border-radius: 15px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  transition: all ease-in-out 200ms;
-}
-
-.user-info {
-  text-align: left;
-  width: 100%;
-  margin: 20px;
-}
-.file-input-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  text-align: center;
-  cursor : pointer;
-  background-color: #e9f7fe;
-  border: 2px dashed #007bff;
-  border-radius: 4px;
-  margin-right: 30px;
-}
-.file-input {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap:10px;
-  cursor: pointer;
-  font-size: 16px;
-  color : #007bff;
-  width: 200px;
-  height: 200px;
-}
-.file-input p {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #333;
-}
-.uploaded-file {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  margin: 20px;
-  width: 200px;
-  height: 200px;
-}
-.pdf-thumbnail {
-  width: 100%;
-  max-width: 200px;
-  height: auto;
-  border: none;
-  margin-bottom: 10px;
-}
-
-.uploaded-file p {
-  font-size: 16px;
-  color: #333;
-  margin: 10px 0;
-}
-
-.clear-button {
-  background-color: #007bff;
-  color: white;
-  margin-top: 10px;
-}
-
-.clear-button:hover {
-  background-color: #0056b3;
 }

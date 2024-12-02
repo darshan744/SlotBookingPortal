@@ -14,15 +14,13 @@ import { SuperAdminService } from '../../Services/SuperAdminServices/SlotGenerat
 import { MatCardModule } from '@angular/material/card';
 import { SlotBreaks, staffs } from '../../Models/slot-breaks';
 import { MatTabsModule } from '@angular/material/tabs';
-import { SlotGenerationComponent } from "../slot-generation/slot-generation.component";
-import {StatusTabComponent} from '../status-tab/status-tab.component'
 @Component({
   selector: 'app-create',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatOption, CommonModule,
     FormsModule, MatIconModule, MatButtonModule, MatDatepickerModule, MatTabsModule,
     MatAutocompleteModule, MatChipsModule, MatCardModule,
-    ],
+  ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
@@ -30,20 +28,6 @@ import {StatusTabComponent} from '../status-tab/status-tab.component'
 })
 export class CreateComponent {
 
-
-  dateFilter = (date : Date):boolean=> {
-    if(!date)return false;
-    var day = (date || new Date()).getDay();
-    var today = new Date();
-    today.setHours(0,0,0,0);
-    return day !== 0 && date >= today;
-  }
-
-  ngOnInit():void {
-    this.Service.getAllStaff().subscribe((e : staffs)=>{
-      this.staffs = e.data
-    });
-  }
   /**Services */
   Service = inject(SuperAdminService);
   /**----------Variables-------------------- */
@@ -59,8 +43,8 @@ export class CreateComponent {
   }
   startDate: string = ''
   endDate: string = ''
-
-  staffs:staffs["data"] = [];
+  responseDeadline: Date | null = null;
+  staffs: staffs["data"] = [];
   /*---------------Sample Data---------------*/
   //both are to be retreived from backend
   // staffs: string[] = ['Jhon Doe', 'Steve Smith', 'Virat kholi', 'John smith',
@@ -78,7 +62,7 @@ export class CreateComponent {
         }
         else {
           let addStaff = this.staffs.find(staff => staff.name === value);
-          if(addStaff && !this.displaySelectedStaff().some(staff => staff.name === value) ){
+          if (addStaff && !this.displaySelectedStaff().some(staff => staff.name === value)) {
             return [...staffs, addStaff]
           }
           return staffs;
@@ -90,11 +74,11 @@ export class CreateComponent {
     let value = e.option.viewValue.split('-')[0].trim();
     console.log(value);
     this.enteredStaff.set('');
-    this.displaySelectedStaff.update((staffs: { _id: string, staffId: string, name: string, }[])  => {
+    this.displaySelectedStaff.update((staffs: { _id: string, staffId: string, name: string, }[]) => {
       let addStaff = this.staffs.find(staff => staff.name === value);
       if (addStaff && !this.displaySelectedStaff().some(staff => staff.name === value)) {
         e.option.deselect();
-        return [...staffs,addStaff]
+        return [...staffs, addStaff]
       }
       else {
         e.option.deselect();
@@ -103,22 +87,43 @@ export class CreateComponent {
     }
     )
   }
-  //Req to backend
-  submit() {
-    if ( this.displaySelectedStaff().length === 0
-      || this.startDate === '' || this.endDate === '') {
-      alert('enter Data');
-    }
-    else {
-      let staffs = this.displaySelectedStaff();
-      this.Service.openDialog(staffs, this.slots(), this.startDate, this.endDate)
-    }
+  dateFilter = (date: Date): boolean => {
+    if (!date) return false;
+    var day = (date || new Date()).getDay();
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return day !== 0 && date >= today;
+  }
 
+  ngOnInit(): void {
+    this.Service.getAllStaff().subscribe((e: staffs) => {
+      this.staffs = e.data
+    });
   }
   removeStaff(inputstaff: string) {
     this.displaySelectedStaff.update(staff => {
       return staff.filter(staff => staff.name !== inputstaff);
     })
   }
+  //Req to backend
+  submit() {
+    console.log(this.responseDeadline);
+    console.log(this.displaySelectedStaff());
+    console.log(this.startDate , this.endDate);
+    if (this.responseDeadline && this.displaySelectedStaff().length !== 0 &&
+      this.startDate !== '' && this.endDate !== '')
+    {
+      let staffs = this.displaySelectedStaff();
+      this.responseDeadline.setHours(23);
+      this.responseDeadline.setMinutes(59);
+      this.responseDeadline.setSeconds(59);
+      this.Service.openDialog(staffs, this.slots(), this.startDate, this.endDate, this.responseDeadline)
+    }
+    else {
+      alert('Enter Data');
+    }
+
+  }
+
 
 }

@@ -22,7 +22,7 @@
           </mat-form-field>
         </div>
         <div class="submit-btn-container">
-          <button class="submit-btn" type="submit">
+          <button class="blue-btn" type="submit">
             Save Changes
           </button>
         </div>
@@ -55,7 +55,7 @@
           </mat-form-field>
         </div>
         <div class="submit-btn-container">
-          <button class="submit-btn" type="submit">
+          <button class="blue-btn" type="submit">
             Save Changes
           </button>
         </div>
@@ -71,29 +71,25 @@
     </div>
     <div style="margin-top: 30px;">
       <h5>Create New Event</h5>
-      <div class="event-form-fields">
+      <div [formGroup]="eventData" class="event-form-fields">
         <div class="event-info-container">
           <mat-form-field class="form-field" appearance="outline">
             <mat-label>Event Name</mat-label>
-            <input matInput placeholder="E.g., Technical Round" />
+            <input formControlName="Name" matInput placeholder="E.g., Technical Round" />
           </mat-form-field>
           <mat-form-field class="form-field" appearance="outline">
             <mat-label>Maximum Participants</mat-label>
-            <input matInput type="number" placeholder="E.g., 50" />
-          </mat-form-field>
-          <mat-form-field class="form-field" appearance="outline">
-            <mat-label>Slot Timing (in minutes)</mat-label>
-            <input matInput type="number" placeholder="E.g., 15" />
+            <input formControlName="MaximumParticipant" matInput type="number" placeholder="E.g., 50" />
           </mat-form-field>
         </div>
         <div class="desc-container">
           <mat-form-field class="form-field" appearance="outline">
             <mat-label>Description</mat-label>
-            <textarea matInput rows="3" placeholder="Describe the event..."></textarea>
+            <textarea formControlName="Description" matInput rows="3" placeholder="Describe the event..."></textarea>
           </mat-form-field>
         </div>
         <div class="submit-btn-container">
-          <button class="submit-btn event-btn" color="primary">
+          <button (click)="createEvent()" class="blue-btn event-btn" type="submit" color="primary">
             <mat-icon>add</mat-icon>
             Create Event
           </button>

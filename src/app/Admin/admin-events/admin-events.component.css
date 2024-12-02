@@ -6,7 +6,7 @@
     .mat-header-cell {
       display: none;
     }
-    
+
     /* Style each row as a card */
     .mat-row {
       display: block;
@@ -15,7 +15,7 @@
       padding: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-  
+
     /* Flexbox layout for each cell */
     .mat-cell {
       display: flex;
@@ -23,7 +23,7 @@
       padding: 10px;
       border-bottom: 1px solid #eee;
     }
-  
+
     /* Make sure headers are bold */
     .mat-cell::before {
       content: attr(data-header);
@@ -31,24 +31,24 @@
       flex: 1;
       text-align: left;
     }
-  
+
     /* Align data next to the headers */
     .mat-cell {
       flex: 2;
       text-align: right;
     }
-  
+
     .formfield{
       width: 75px;
-      
+
     }
 
-    
+
     .input{
       height: 1px;
     }
     @media (max-width : 790px) {
-      
+
 
       .mat-cell[data-header="No"]{
         background-color: #ddd;
@@ -87,7 +87,7 @@
 }
 
 .content-area {
-  margin: 30px;
+  margin: 0px 30px 30px  30px;
 }
 .content {
   display: inline-flex;
@@ -111,15 +111,15 @@
 }
 
 .no-data-icon {
-  font-size: 60px; 
-  color: #ff6b6b; 
-  margin-bottom: 15px; 
+  font-size: 60px;
+  color: #ff6b6b;
+  margin-bottom: 15px;
 }
 
 .no-data p {
-  font-size: 18px; 
-  font-weight: bold; 
-  margin: 0; 
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
 }
 
 @keyframes fadeIn {

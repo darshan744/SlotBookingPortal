@@ -19,9 +19,8 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipEvent, MatChipsModule } from '@angular/material/chips';
-import { MatDivider, MatDividerModule } from '@angular/material/divider';
+import {  MatDividerModule } from '@angular/material/divider';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
-import { SlotBreaks } from '../../Models/slot-breaks';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SuperAdminService } from '../../Services/SuperAdminServices/SlotGenerate/super-admin.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -31,7 +30,6 @@ import {
   MatDatepickerModule,
 } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
-import { map } from 'rxjs';
 import { provideNativeDateAdapter } from '@angular/material/core';
 interface Venues {
   venue: string;
