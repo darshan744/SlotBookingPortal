@@ -5,15 +5,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatOption, MatSelect } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatOption } from '@angular/material/select';
+import { DateFilterFn, MatDatepickerModule } from '@angular/material/datepicker'
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { SuperAdminService } from '../../Services/SuperAdminServices/SlotGenerate/super-admin.service';
 import { MatCardModule } from '@angular/material/card';
-import { SlotBreaks, staffs } from '../../Models/slot-breaks';
 import { MatTabsModule } from '@angular/material/tabs';
+import { staffs } from '../../Models/slot-breaks';
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -30,25 +30,15 @@ export class CreateComponent {
 
   /**Services */
   Service = inject(SuperAdminService);
-  /**----------Variables-------------------- */
+
+  /**----------properties-------------------- */
   enteredStaff = signal('');
   displaySelectedStaff = signal<staffs["data"]>([])
   slots = signal<string[]>([]);
-  data: SlotBreaks = {
-    morningBreak: '',
-    eveningBreak: '',
-    lunchStart: '',
-    lunchEnd: '',
-    range: 0
-  }
   startDate: string = ''
   endDate: string = ''
   responseDeadline: Date | null = null;
   staffs: staffs["data"] = [];
-  /*---------------Sample Data---------------*/
-  //both are to be retreived from backend
-  // staffs: string[] = ['Jhon Doe', 'Steve Smith', 'Virat kholi', 'John smith',
-  //   'Rhodeans Joe', 'Vin Diesel', 'Paul', 'Gates', 'Subramani', 'Aaron', 'Rohith'];
 
   /*----------Methods----------*/
   add(e: MatChipInputEvent) {
@@ -71,11 +61,11 @@ export class CreateComponent {
     }
   }
   optionSelect(e: MatAutocompleteSelectedEvent) {
-    let value = e.option.viewValue.split('-')[0].trim();
+    let value = e.option.viewValue.split('-')[1].trimStart();
     console.log(value);
     this.enteredStaff.set('');
-    this.displaySelectedStaff.update((staffs: { _id: string, staffId: string, name: string, }[]) => {
-      let addStaff = this.staffs.find(staff => staff.name === value);
+    this.displaySelectedStaff.update((staffs: {id: string, name: string, }[]) => {
+      let addStaff = this.staffs.find(staff => staff.id === value);
       if (addStaff && !this.displaySelectedStaff().some(staff => staff.name === value)) {
         e.option.deselect();
         return [...staffs, addStaff]
@@ -87,7 +77,7 @@ export class CreateComponent {
     }
     )
   }
-  dateFilter = (date: Date): boolean => {
+  dateFilter :DateFilterFn<Date | null> = (date: Date | null): boolean => {
     if (!date) return false;
     var day = (date || new Date()).getDay();
     var today = new Date();
@@ -97,6 +87,7 @@ export class CreateComponent {
 
   ngOnInit(): void {
     this.Service.getAllStaff().subscribe((e: staffs) => {
+      console.log(e.data);
       this.staffs = e.data
     });
   }
@@ -105,7 +96,8 @@ export class CreateComponent {
       return staff.filter(staff => staff.name !== inputstaff);
     })
   }
-  //Req to backend
+
+  //Open Dialog
   submit() {
     console.log(this.responseDeadline);
     console.log(this.displaySelectedStaff());
@@ -113,17 +105,20 @@ export class CreateComponent {
     if (this.responseDeadline && this.displaySelectedStaff().length !== 0 &&
       this.startDate !== '' && this.endDate !== '')
     {
-      let staffs = this.displaySelectedStaff();
-      this.responseDeadline.setHours(23);
-      this.responseDeadline.setMinutes(59);
-      this.responseDeadline.setSeconds(59);
-      this.Service.openDialog(staffs, this.slots(), this.startDate, this.endDate, this.responseDeadline)
+      if(new Date(this.startDate).getDate() > this.responseDeadline.getDate()) {
+        let staffs = this.displaySelectedStaff();
+        this.responseDeadline.setHours(23);
+        this.responseDeadline.setMinutes(59);
+        this.responseDeadline.setSeconds(59);
+        this.Service.openDialog(staffs, this.slots(), this.startDate, this.endDate, this.responseDeadline)
+      }
+      else {
+        alert('Starting Date must be greater than Deadline')
+      }
     }
     else {
       alert('Enter Data');
     }
 
   }
-
-
 }

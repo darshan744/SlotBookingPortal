@@ -9,14 +9,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { AdminServiceService } from '../../Services/AdminServices/admin-service.service';
+import { AdminService } from '../../Services/AdminServices/admin-service.service';
 import { event, eventResponseServer } from '../../Models/slot-breaks';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  MatDatepickerInputEvent,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
+import {MatDatepickerInputEvent,MatDatepickerModule,} from '@angular/material/datepicker';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatInput } from '@angular/material/input';
 import { DateAdapter, provideNativeDateAdapter } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
@@ -35,7 +33,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatFormFieldModule,
     CommonModule,
     FormsModule,
-    MatCheckboxModule,
+    MatCheckboxModule,MatProgressSpinnerModule
   ],
   templateUrl: './admin-events.component.html',
   providers: [provideNativeDateAdapter()],
@@ -48,7 +46,7 @@ export class AdminEventsComponent implements AfterViewInit {
 
   dataSource!: MatTableDataSource<event>;
   selectedDate: string = '';
-  constructor(private service: AdminServiceService) { }
+  constructor(private service: AdminService) { }
   private snackBar = inject(MatSnackBar);
   dupData: event[] = [];
   isLoading = signal<Boolean>(true);
@@ -70,7 +68,7 @@ export class AdminEventsComponent implements AfterViewInit {
         this.dataLength.set(this.dataSource.data.length);
       });
   }
-  acceptEvent(e: { date: string; time: string; isAvailable: string }) {
+  acceptEvent(e: { date: Date; time: string; isAvailable: string }) {
     e.isAvailable = 'Accepted';
     console.log(e);
     this.dataSource.data = this.dataSource.data.filter(
@@ -78,7 +76,7 @@ export class AdminEventsComponent implements AfterViewInit {
     );
 
   }
-  cancelEvent(e: { date: string; time: string; isAvailable: string }) {
+  cancelEvent(e: { date: Date; time: string; isAvailable: string }) {
     e.isAvailable = 'Declined';
     console.log(e);
     this.dataSource.data = this.dataSource.data.filter(
@@ -96,47 +94,23 @@ export class AdminEventsComponent implements AfterViewInit {
   public get data() {
     return this.dataSource;
   }
-
-  acceptForSelectedDate() {
-    const date = new Date(this.selectedDate).toLocaleDateString('en-CA');
-    if (date === 'Invalid Date') {
-      alert('Please Select A Date');
-    }
-    const found = this.dataSource.data.find((e: any) => e.date === date);
-    let send: event[] = [];
-    if (!found) {
-      console.log('Not Found');
-    } else {
-      this.dataSource.data.forEach((e) => {
-        if (e.date === date) {
-          e.isAvailable = 'Accepted';
-          send.push(e);
-        }
-      });
-      this.dataSource.data = this.dataSource.data.filter(
-        (e) => !(e.date === date)
-      );
-      this.service.postAvailabilityResponse(send);
-    }
-  }
   clear() {
     this.selectedDate = '';
     this.dataSource.filter = '';
   }
-
-  cancelForSelectedDate() {
-    const date = new Date(this.selectedDate).toLocaleDateString('en-CA');
-    if (date === 'Invalid Date') {
+  fillFn(fill : string) {
+    const date = new Date(this.selectedDate);
+    if (date === null) {
       alert('Please Select A Date');
     }
-    const found = this.dataSource.data.find((e: any) => e.date === date);
+    const found = this.dataSource.data.find((e: event) => e.date === date);
     let send: event[] = [];
     if (!found) {
       console.log('Not Found');
     } else {
       this.dataSource.data.forEach((e) => {
         if (e.date === date) {
-          e.isAvailable = 'Declined';
+          e.isAvailable = fill;
           send.push(e);
         }
       });
@@ -146,20 +120,11 @@ export class AdminEventsComponent implements AfterViewInit {
       this.service.postAvailabilityResponse(send);
     }
   }
-
   filter(event: MatDatepickerInputEvent<Date>) {
-    let inputVal = event.value;
-    let filterVal = '';
-    if (inputVal) {
-      filterVal = new Date(inputVal).toLocaleDateString('en-CA', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      });
-      console.log(filterVal);
-    }
-    if (this.dataSource.data.find((e) => e.date === filterVal)) {
-      this.dataSource.filter = filterVal;
+    let inputVal = (event.value?.toISOString());
+    console.log(inputVal);
+    if (inputVal && this.dataSource.data.find((e) => e.date.toString() === inputVal.toString())) {
+      this.dataSource.filter = inputVal;
       this.dataSource.paginator?.firstPage();
     } else {
       alert('Date Not Found');

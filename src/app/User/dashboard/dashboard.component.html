@@ -1,24 +1,35 @@
 <div class="container">
   <!-- <h3 class="mat-h3" style="margin-top: 30px;margin-left: 30px;">Welcome {{user.Name}}</h3> -->
-  <div class="userdata">
-    <div class="user-info-upload">
-      <div class="user-info">
-        <h4>Name: {{user.Name}}</h4>
-        <h6>Roll No: {{user.RollNo}}</h6>
-        <h6>Year: {{user.Year}}</h6>
-        <h6>Department: {{user.Dept}}</h6>
-        <h6>Upcoming Event</h6>
-      </div>
-      <div *ngIf="selectedFileName === '';else fileUploaded"
-        class="file-input-container">
-        <input class="upload-btn" accept=".pdf" type="file" >
-      </div>
-      <ng-template #fileUploaded>
-        <div class="uploaded-file">
-          <a href="ABSTRACT.pdf" target="_blank">RESMUE.PDF</a>
-          <button  mat-flat-button (click)="clearFile()" class="clear-button">Clear File</button>
+  <div>
+    <div class="userdata">
+      <div class="user-card">
+        <div class="user-header">
+          <div class="user-details">
+            <h3>{{user.Name}}</h3>
+            <h3><strong>Roll No:</strong> {{user.RollNo}}</h3>
+            <h3><strong>Year:</strong> {{user.Year}}</h3>
+            <h3><strong>Department:</strong> {{user.Dept}}</h3>
+            <h3><strong>Upcoming Event</strong></h3>
+          </div>
         </div>
-      </ng-template>
+        <div class="user-footer">
+          <form *ngIf="selectedFileName === ''; else fileUploaded" class="file-upload-form">
+            <label for="resume-upload" class="file-upload-label">
+              <input id="resume-upload" class="file-upload-input" type="file" accept=".pdf" (input)="fileInput($event)" />
+              Upload Resume
+            </label>
+          </form>
+          <ng-template #fileUploaded>
+            <div class="uploaded-file">
+              <a [href]="resumeLink" target="_blank">Resume.pdf</a>
+              <button mat-button (click)="clearFile()" class="clear-button">Remove</button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="event details">
+      
     </div>
   </div>
   <div *ngIf="eventResults.data.length > 0" class="table-container">

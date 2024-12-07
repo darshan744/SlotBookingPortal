@@ -12,7 +12,7 @@ import {
   MatRowDef,
   MatTableModule
 } from '@angular/material/table';
-import { AdminServiceService } from '../../Services/AdminServices/admin-service.service';
+import { AdminService } from '../../Services/AdminServices/admin-service.service';
 import {map} from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
@@ -61,7 +61,7 @@ export class AdminHomeComponent implements OnInit{
 
   }
    studentData : studentResult[] = []
-  constructor(private _service : AdminServiceService){}
+  constructor(private _service : AdminService){}
   displayedColumns: string[] = ['No', 'Name','attendance', 'marks', 'remarks','actions'];
   submitRow(student:studentResult){
     this._service.studentMarks([student] , this.eventType)

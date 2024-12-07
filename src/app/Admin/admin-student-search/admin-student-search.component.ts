@@ -1,42 +1,51 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
-import { MatFormField, MatFormFieldControl, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { MatOption, MatSelect } from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
+import {  Component, inject } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {  MatInputModule } from '@angular/material/input';
+import { FormControl,  ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout'
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { AdminService } from '../../Services/AdminServices/admin-service.service';
+import { IStudentInfo } from '../../Models/Admin.model';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-admin-student-search',
   standalone: true,
-  imports: [MatFormField,MatLabel,MatInput,MatSelect,MatOption,FormsModule,CommonModule
-    ,MatButton,MatFabButton,MatIcon
+  imports: [MatInputModule,CommonModule,MatFormFieldModule
+    ,MatIcon,MatProgressSpinner,ReactiveFormsModule
   ],
   templateUrl: './admin-student-search.component.html',
   styleUrl: './admin-student-search.component.css'
 })
 export class AdminStudentSearchComponent {
-  Batch:string|null=null;
-  Search:string|null=null
-  list = ['2025','2026','2027','2028'];
-  
-  res = inject(BreakpointObserver);
-  isHandset:boolean = true;
-  ngOnInit(){
-    this.res.observe(Breakpoints.Handset).subscribe((res)=>{
-      this.isHandset = res.matches;
-      console.log(this.isHandset);
-      console.log(Breakpoints.Handset)
-    });
-  }
 
+  private _service = inject(AdminService);
+  identifier : FormControl = new FormControl<string>('',[Validators.required])
+  spinner : boolean = false;
+  student:boolean = false;
+  students : boolean = false;
+  noStudent:boolean  = false;
+
+  studentsInfo : IStudentInfo["data"] | null = null;
   search(){
-    if(this.Batch === null || this.Search=== null){
-      alert("Please Select A Input");
+    if(this.identifier.valid) {
+      console.log(this.identifier.value);
+      this.spinner = true;
+      console.log('time in');
+
+      setTimeout( function (this:AdminStudentSearchComponent) {
+        this.spinner = true;
+        console.log("timeout")
+      }, 1000)
+      const subscription :Subscription =  this._service.getStudentInfo(this.identifier.value)
+         .subscribe((e:IStudentInfo)=> {
+           this.studentsInfo = e.data;
+           this.spinner = false;
+         });
     }
-    else{
-      console.log(this.Batch , this.Search)
+    else {
+      alert('Enter Either One')
     }
   }
 }

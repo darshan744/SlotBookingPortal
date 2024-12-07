@@ -2,7 +2,7 @@
     @if(isLoading()) {
     <ng-container class="loading">
         <p>Loading...</p>
-        <div class="spinner"></div>
+        <mat-progress-spinner></mat-progress-spinner>
     </ng-container>
     }
     <div #content [ngClass]="{'content-area': !(dataLength() === 0) , 'noContent' :(dataLength() === 0) }" class="content-area">
@@ -14,8 +14,8 @@
                 <mat-datepicker-toggle matIconSuffix [for]="date"></mat-datepicker-toggle>
                 <mat-datepicker #date></mat-datepicker>
             </mat-form-field>
-            <button (click)="acceptForSelectedDate()" mat-raised-button>Accept date</button>
-            <button (click)="cancelForSelectedDate()" mat-raised-button>Reject date</button>
+            <button (click)="fillFn('Accepted')" mat-raised-button>Accept date</button>
+            <button (click)="fillFn('Declined')" mat-raised-button>Reject date</button>
             <button (click)="clear()" mat-raised-button><mat-icon>cancel</mat-icon>Clear</button>
             <button (click)="submit()" mat-raised-button>Submit Response</button>
         </div>

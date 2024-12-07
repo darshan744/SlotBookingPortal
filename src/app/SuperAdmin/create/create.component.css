@@ -3,60 +3,31 @@
     flex-direction: column;
     margin: 17px auto; /* Center the container */
     padding:30px;
-    height: 72vh;
+    height: fit-content;
     background-color: white;
     margin: 10px;
     border-radius: 13px;
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+    /* width: fit-content; */
 }
-.mat-mdc-tab-list,.mat-mdc-tab-label-container  {
-  background-color: white !important;
-}
-.wrapper {
-  /* background-color: rgb(212, 183, 183); */
-  display: flex;
-  gap: 50px;
-  padding: 50px;
-}
-.chip-div {
-  display: flex;
-  flex-direction: column;
-}
-.slot-generate {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-}
-.select-staff {
-    display: flex;
-    flex-direction: column; /* Stack the input and chips */
-    gap: 8px; /* Space between input and chips */
-    width: 100%; /* Full width */
-}
-
-.slot-generate .inputs {
-    display: flex;
-    flex-wrap: wrap; /* Allow inputs to wrap */
-    gap: 20px; /* Space between inputs */
-}
-.btns {
-    margin-top: 20px; /* Add space above buttons */
-    width: 100%; /* Make buttons full width */
-    padding: 10px; /* Increase padding for better appearance */
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.btns:hover {
-    background-color: #3f51b5; /* Change background on hover */
-    color: white; /* Change text color on hover */
-}
-.main-form {
-  display: flex;
-  gap: 40px;
+.form mat-form-field {
+  margin-top: 10px;
+  width: 100%;
 }
 .submit-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 17px;
+}
+.chips {
+  margin-top: 20px;
+}
+@media (min-width:1080px) {
+  .form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    /* justify-content: space-evenly; */
+  }
 }

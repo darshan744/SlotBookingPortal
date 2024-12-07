@@ -2,10 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../SuperAdmin/confirm-dialog/confirm-dialog.component';
 import { environment } from '../../../../environments/environment.development';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { data, staffs } from '../../../Models/slot-breaks';
 import { Observable } from 'rxjs';
 import { AcceptedResponse, AllResponse, IEventInfo, slotData, Staff } from '../../../Models/SuperAdmin.model';
+import { i } from '../../../helpers';
+import { DialogOpenService } from '../../DialogOpenService/dialog.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +18,7 @@ export class SuperAdminService {
   private _getAllRespnose = environment.GETALLREQUEST;
   constructor(private http: HttpClient) { }
   readonly popover = inject(MatDialog);
-
+  snackBarService = inject(DialogOpenService)
   private timeToMinutes(time: string): number {
     const [hours, minutes] = time.split(':').map(Number);
     return hours * 60 + minutes;
@@ -71,10 +73,17 @@ export class SuperAdminService {
   getAcceptedResponse() :Observable<AcceptedResponse>  {
     return this.http.get<AcceptedResponse>(environment.ACCEPTEDRESPONSE,{withCredentials:true});
   }
-  requestSlotAvailability(data: slotData) {
-    this.http.post(this.requestAvailability, data,{withCredentials:true}).subscribe(res => {
-      console.log(res);
-    });
+  requestSlotAvailability(data: i[]) {
+    this.http.post(this.requestAvailability, data,{withCredentials:true}).subscribe({
+      next : (res:any) => {
+        this.snackBarService.openSnackBar(res.message);
+        console.log(res);
+      },
+      error:(err : HttpErrorResponse)=> {
+        console.log(err.error);
+        this.snackBarService.openSnackBar(err.error.message);
+      }
+  });
   }
   getAllResponse() {
     return this.http.get<{ message: string, result: AllResponse[] }>(this._getAllRespnose,{withCredentials:true})

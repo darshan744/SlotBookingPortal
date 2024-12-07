@@ -168,7 +168,6 @@ export class SlotGenerationComponent implements OnInit {
         range: this.form.get('data.range')?.value as number,
       };
       this.slots.set(this.Service.generate(slotData));
-      console.log(this.slots());
       this.dialog.open(this.dialogComp);
     }
   }

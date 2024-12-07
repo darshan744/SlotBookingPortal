@@ -9,8 +9,8 @@ interface LoginResponse {
   role?: string,
   message: string,
   data?: {
-    staffId: string, name: string,
-    email: string
+    id: string, name: string,
+    email: string,department:string,resume:string
   }
 }
 @Injectable({
@@ -42,15 +42,16 @@ export class LoginService {
     this.http.post<LoginResponse>(environment.PASSWORD_LOGIN, { user: { name, password } },
       { withCredentials: true }
     ).subscribe((response: LoginResponse) => {
+      console.log(response);
       if (response.success === false) {
         this.message(response.message);
       }
-      else if (response.success === true && response.role === 'staff') {
+      else if (response.success === true && response.role === 'Staff') {
         sessionStorage.setItem('loggedInUser', JSON.stringify(response.data));
         this.message('Login Successful')
         this.router.navigate(['/admin/', 'Home']);
       }
-      else if (response.success === true && response.role === 'student') {
+      else if (response.success === true && response.role === 'Student') {
         this.message("Login Succssful")
         sessionStorage.setItem('loggedInUser', JSON.stringify(response.data));
         this.router.navigateByUrl('/user/dashboard');

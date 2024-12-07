@@ -23,7 +23,6 @@ export class DialogOpenService {
 
   private snackBar = inject(MatSnackBar);
     readonly popOver = inject(MatDialog)
-    slotRetrieveService = inject(SuperAdminService);
     openBookingSlotDialog(time:string,date:string,eventType:string , venue : string,slotId : string) {
         this.popOver.open(BookingDialogComponent, {
             width:'320px',height:'250px',
@@ -38,17 +37,15 @@ export class DialogOpenService {
              startDate : startDate , endDate : endDate }
         })
       }
-    openStatusDialog(staff : data) {
-      this.slotRetrieveService.getIndividualResponse(staff)?.subscribe(e => {
+    openStatusDialog(data : any) {
         this.popOver.open(StatusDialogComponent, {
-          data : e.Result ,
+          data : data.Result ,
           width : '650px',height:'auto'
         })
-      })
-    }
+      }
     openSnackBar(message : string) {
       this.snackBar.open(message , '✖️', {
-        duration : 2000,
+        duration : 2500,
         panelClass : ['custom-snackbar'],
         verticalPosition:'top',
         horizontalPosition:'right'

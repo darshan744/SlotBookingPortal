@@ -33,8 +33,10 @@ export const routes: Routes = [
     //SuperAdmin
     {
         path:'superAdmin',
-        component:SuperadminComponent
-        ,children:[
+        component:SuperadminComponent,
+        data:{role:"SuperAdmin"},
+        canActivate:[authGuard],
+        children:[
             {path:'Search',component:Dashboard},
             {path:'Create',component:CreateComponent},
             {path:'slot-generation',component:SlotGenerationComponent},
@@ -47,40 +49,26 @@ export const routes: Routes = [
     //User
     {
         path:'user',
+        data:{role:"Student"},
         canActivate :[authGuard],
         component:UserComponent,
-        runGuardsAndResolvers:'pathParamsChange',
         children:[
             {path:'dashboard',component:DashboardComponent},
-            {path:"Events/:eventType" ,component:EventBookingComponent
-            }
-              // runGuardsAndResolvers:'always'
-            // {
-            //     path:'Si',component:SiComponent
-            // },
-            // {
-            //     path:'Mi',component:MiComponent
-            // },
-            // {
-            //     path:'Gd',component:GDComponent
-            // }
+            {path:"Events/:eventType" ,component:EventBookingComponent}
+
         ]
 
     },
     //Admin
     {
         path:'admin',
+        data:{role:"Staff"},
+        canActivate:[authGuard],
         component:AdminComponent,
         children:[
-            {
-                path:'Home',component:AdminHomeComponent
-            },
-            {
-                path:'Events',component:AdminEventsComponent
-            },
-            {
-                path:'studentSearch',component:AdminStudentSearchComponent
-            }
+            {path:'Home',component:AdminHomeComponent},
+            {path:'Events',component:AdminEventsComponent},
+            {path:'studentSearch',component:AdminStudentSearchComponent}
         ]
     }
 ];

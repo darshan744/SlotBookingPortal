@@ -21,7 +21,7 @@ export class UserComponent  {
       .subscribe((e : {message : string , data : {Name:string}[] })=> {
       this.events = e;
       console.log(e);
-      this.events = e.data.map((el : {Name:string})=>({name:el.Name , path:`Events/${el.Name.replace(' ','_')}`,icon:"Business_center"}))
+      this.events = e.data.map((el : {Name:string})=>({name:el.Name , path:`Events/${el.Name.replace(' ','_')}`,icon:"event"}))
       console.log( this.events)
       this.list.push({name:"Dashboard",path:'dashboard',icon:'dashboard'},
       ...this.events)

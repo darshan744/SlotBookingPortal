@@ -1,89 +1,20 @@
 .headers{
   background-color: #ddd;
 }
-@media (max-width: 790px) {
-    /* Hide table header on mobile screens */
-    .mat-header-cell {
-      display: none;
-    }
-
-    /* Style each row as a card */
-    .mat-row {
-      display: block;
-      margin-bottom: 10px;
-      border: 1px solid #ddd;
-      padding: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Flexbox layout for each cell */
-    .mat-cell {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px;
-      border-bottom: 1px solid #eee;
-    }
-
-    /* Make sure headers are bold */
-    .mat-cell::before {
-      content: attr(data-header);
-      font-weight: bold;
-      flex: 1;
-      text-align: left;
-    }
-
-    /* Align data next to the headers */
-    .mat-cell {
-      flex: 2;
-      text-align: right;
-    }
-
-    .formfield{
-      width: 75px;
-
-    }
-
-
-    .input{
-      height: 1px;
-    }
-    @media (max-width : 790px) {
-
-
-      .mat-cell[data-header="No"]{
-        background-color: #ddd;
-      }
-      .headers{
-        display: none;
-      }
-    }
-
-  }
 
 .buttons {
   margin: 5px;
   transition: all ease-in 100ms;
 }
+
 .even {
   background-color: #f0f0f0;
 }
+
 .container {
   display: flex;
   flex-direction: column;
   margin-top: 30px; /* Adjust as needed */
-}
-.spinner {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top: 4px solid #3498db; /* Change color as needed */
-  width: 30px;
-  height: 30px;
-  animation: spin 1s linear infinite; /* Add spin animation */
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }
 
 .content-area {
@@ -128,4 +59,63 @@
 }
 .noContent {
   display: none;
+}
+
+@media (max-width: 790px) {
+  /* Hide table header on mobile screens */
+  .mat-header-cell {
+    display: none;
+  }
+
+  /* Style each row as a card */
+  .mat-row {
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Flexbox layout for each cell */
+  .mat-cell {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+
+  /* Make sure headers are bold */
+  .mat-cell::before {
+    content: attr(data-header);
+    font-weight: bold;
+    flex: 1;
+    text-align: left;
+  }
+
+  /* Align data next to the headers */
+  .mat-cell {
+    flex: 2;
+    text-align: right;
+  }
+
+  .formfield{
+    width: 75px;
+
+  }
+
+
+  .input{
+    height: 1px;
+  }
+  @media (max-width : 790px) {
+
+
+    .mat-cell[data-header="No"]{
+      background-color: #ddd;
+    }
+    .headers{
+      display: none;
+    }
+  }
+
 }

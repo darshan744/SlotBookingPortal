@@ -17,10 +17,10 @@ export type data = {
 
 export type staffs = {
     success : boolean,
-    data : {_id:string ,staffId : string, name : string}[]
+    data : {id : string, name : string}[]
 }
 export interface event{
-    date : string,
+    date : Date,
     time : string , isAvailable : string
 }
 export interface eventResponseServer {

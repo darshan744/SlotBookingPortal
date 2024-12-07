@@ -1,6 +1,6 @@
 <div class="container">
   <div class="wrapper">
-    <form class="main-form">
+    <form class="form">
       <div class="select-staff">
         <mat-form-field appearance="outline">
           <mat-label>
@@ -10,8 +10,9 @@
             [(ngModel)]="enteredStaff" (matChipInputTokenEnd)="add($event)">
           <mat-autocomplete (optionSelected)="optionSelect($event)" #auto="matAutocomplete">
             <mat-option [value]="staff.name" *ngFor="let staff of staffs">{{staff.name}} -
-              {{staff.staffId}}</mat-option>
+              {{staff.id}}</mat-option>
           </mat-autocomplete>
+          <mat-hint>Select Staffs</mat-hint>
         </mat-form-field>
       </div>
       <div class="date-div">
@@ -29,7 +30,7 @@
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Enter Date</mat-label>
-          <input matInput [(ngModel)]="responseDeadline" name="responseDealine" [matDatepicker]="responseDate" />
+          <input matInput [(ngModel)]="responseDeadline" [matDatepickerFilter]="dateFilter" name="responseDealine" [matDatepicker]="responseDate" />
           <mat-datepicker-toggle matSuffix [for]="responseDate"> </mat-datepicker-toggle>
           <mat-datepicker #responseDate></mat-datepicker>
           <mat-hint>Response Deadline</mat-hint>
@@ -38,7 +39,7 @@
     </form>
   </div>
 
-  <div class="chip-div">
+  <div class="chips">
     <h4>Staffs</h4>
     <mat-chip-grid  #grid>
       <p *ngIf="displaySelectedStaff().length === 0" style="cursor: none;">Selected Staff Will Appear Here </p>

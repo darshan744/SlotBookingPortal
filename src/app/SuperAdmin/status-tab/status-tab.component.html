@@ -1,4 +1,4 @@
-<div class="table-container" style="display: flex; flex-direction: column">
+<div *ngIf="dataSource.data.length > 0;" class="table-container" style="display: flex; flex-direction: column">
   <table mat-table class="table mat-elevation-z10" [dataSource]="dataSource">
 
     <ng-container matColumnDef="id">
@@ -52,4 +52,9 @@
     [pageSize]="5"
     [pageSizeOptions]="[5, 10, 15, 20, 25]">
   </mat-paginator>
+</div>
+
+<div class="no-data" *ngIf="dataSource.data.length === 0">
+  <p>No slots Available</p>
+  <span class="material-icons no-data-icon">folder</span>
 </div>

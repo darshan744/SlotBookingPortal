@@ -1,22 +1,46 @@
 <div matDialog class="container">
-    <h3 matDialogTitle>Are You Sure?</h3>
-    <mat-divider></mat-divider>
-    <mat-dialog-content>
-        <h5>Staffs</h5>
-        <div class="staffs">
-            @for(staff of data.staffs ; track $index) {
-                <mat-chip style="margin: 5px;">{{staff.name}}</mat-chip>
-            }
-        </div>
-        <div class="dates">
-            <h6>Start Date :  {{data.startDate | date:'shortDate'}}</h6>
-            <h6>End Date : {{data.endDate | date:'shortDate'}}</h6>
-            <h6>Deadline : {{data.responseDeadline | date:'shortDate'}}</h6>
-        </div>
-    </mat-dialog-content>
-    <mat-divider></mat-divider>
-    <mat-dialog-actions>
-        <button mat-dialog-close mat-button>Cancel</button>
-        <button mat-dialog-close mat-button (click)="submit()" cdkFocusInitial>Send</button>
-    </mat-dialog-actions>
+  <h3 matDialogTitle>Are You Sure?</h3>
+  <mat-divider></mat-divider>
+  <mat-dialog-content >
+    <div *ngIf="requestingData.length > 0;else no">
+      <h5>Slot Timings To be requested</h5>
+      <div style="margin-bottom: 10px;" *ngIf="requestingData[0].availableSlots.length > 0 && requestingData[0].availableSlots[0].slots.length > 0;else notime" >
+        @for (Timings of requestingData[0].availableSlots[0].slots; track $index)
+        {
+        <mat-chip (removed)="removeTime($event)" style="margin: 5px;" >{{ Timings.time }} <mat-icon matChipRemove class="mat-18">cancel</mat-icon> </mat-chip>
+        }
+      </div>
+      <ng-template #notime> No Dates Found Here Are You Sure Bruv!🤨 </ng-template>
+      <h5>Dates</h5>
+      <div style="margin-bottom: 10px;" *ngIf="requestingData[0].availableSlots.length > 0;else notime">
+        @for (Dates of requestingData[0].availableSlots; track $index) {
+            <mat-chip (removed)="removeDate($event)" style="margin: 5px;">{{ Dates.date | date }}  <mat-icon matChipRemove class="mat-18">cancel</mat-icon> </mat-chip>
+        }
+      </div>
+      <h5>Staffs</h5>
+      <div class="staffs" *ngIf="data.staffs.length > 0;else notime">
+        @for(staff of requestingData ; track $index) {
+          @let name = getter(staff.instructorId);
+            <mat-chip *ngIf="name !== undefined" (removed)="removeStaff($event)" style="margin: 5px">{{name?.name}} - {{name?.id}}<mat-icon matChipRemove class="mat-18">cancel</mat-icon> </mat-chip>
+        }
+      </div>
+      <ng-template #notime> No Dates Found Here Are You Serious Bruv!🤨 </ng-template>
+      <div class="dates">
+        <h6>Start Date : {{ data.startDate | date : "shortDate" }}</h6>
+        <h6>End Date : {{ data.endDate | date : "shortDate" }}</h6>
+        <h6>Deadline : {{ data.responseDeadline | date : "shortDate" }}</h6>
+      </div>
+    </div>
+    <ng-template #no>
+      You have deleted every thing
+    </ng-template>
+  </mat-dialog-content>
+
+  <mat-divider></mat-divider>
+  <mat-dialog-actions>
+    <button mat-dialog-close mat-button>Cancel</button>
+    <button mat-dialog-close mat-button (click)="submit()" cdkFocusInitial>
+      Send
+    </button>
+  </mat-dialog-actions>
 </div>

@@ -35,51 +35,10 @@ canvas {
   background-color: #ddd;
 }
 
-.file_input {
-  cursor: pointer;
-  width: 130px;
-  display: flex;
-  padding: 5px;
-  font-size: medium;
-  gap: 3px;
-  background-color: white;
-  border-radius: 7px;
-  transition: all ease-in 250ms;
-}
-
-.file_input:hover {
-  background-color: #1f5edc;
-  color: white;
-}
-
-.file_input_container p {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #333;
-}
-
-.file_input_container {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  gap: 7px;
-  width: 300px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
-  padding: 5px 0px 5px 8px;
-}
 
 .Remarks-columns,
 .Remarks-header {
   width: 350px;
-}
-
-#ResumeInput {
-  display: none;
-}
-
-.resume {
-  padding: 6px 6px 6px 6px;
 }
 
 
@@ -90,8 +49,6 @@ canvas {
   border-radius: 25%;
   padding: 0px 25px 0px 25px;
 }
-
-
 
 mat-card {
   margin: 1rem;
@@ -117,7 +74,6 @@ canvas {
 }
 
 
-
 .mat_card {
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
   transition: all ease-in-out 0.2s;
@@ -126,119 +82,21 @@ canvas {
 }
 
 .mat_card:hover {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-  transform: translate(1.05);
-}
-
-.userdata {
-  display: flex;
-  flex-direction: column;
-  padding: 0px 100px 0px 55px;
-}
-
-.user-info-upload:hover {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.352);
-  transform: translate(1.05);
-}
-
-.user-info-upload {
-  background-color: white;
-  margin: 30px;
-  padding: 10px;
-  border-radius: 15px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.133);
-  display: flex;
-  align-items: center;
-  transition: all ease-in-out 200ms;
-}
-
-.upload-btn::file-selector-button {
-  padding: 10px;
-  border: 0.5px solid rgba(0, 0, 0, 0.319);
-  border-radius: 5px;
-  background-color: white;
-  transition: all 200ms;
-  font-family: monospace;
-  margin-right: 10px;
-  cursor: pointer;
-
-}
-.file-input-container {
-  padding: 10px;
-  border-radius: 5px;
-  margin-right: 10px;
-}
-.upload-btn {
-  font-family: monospace;
-}
-
-.upload-btn::file-selector-button:hover {
-  background-color: #f3f4f6;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
 }
 
 
-.user-info {
-  text-align: left;
-  width: 100%;
-  padding:20px;
-}
-
-.file-input {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  color: #007bff;
-  width: 200px;
-  height: 200px;
-}
-
-.file-input p {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #333;
-}
 
 .uploaded-file {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #f9f9f9;
   border: 2px solid #ddd;
   border-radius: 8px;
   margin: 20px;
-  width: 200px;
-  height: 200px;
 }
-
-.pdf-thumbnail {
-  width: 100%;
-  max-width: 200px;
-  height: auto;
-  border: none;
-  margin-bottom: 10px;
-}
-
-.uploaded-file p {
-  font-size: 16px;
-  color: #333;
-  margin: 10px 0;
-}
-
-.clear-button {
-  background-color: #007bff;
-  color: white;
-  margin-top: 10px;
-}
-
-.clear-button:hover {
-  background-color: #0056b3;
-}
-
-
 
 /* ==================Media Queries ======================= */
 
@@ -325,3 +183,4 @@ canvas {
     height: 1px;
   }
 }
+

@@ -1,6 +1,5 @@
 
 .container {
-    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
@@ -32,30 +31,10 @@ h6 {
     margin-bottom: 15px;
 }
 
-.inputs {
-    display: flex;
-    flex-direction: column;
-}
-
-.inputs > div {
-    display: flex;
-    justify-content: space-between;
-}
-
-.inputs > div > div {
-    flex: 1;
-    margin-right: 10px;
-}
-
-.inputs > div > div:last-child {
-    margin-right: 0;
-}
-
 .btns {
     margin-top: 20px;
     width: 100%;
 }
-
 
 .venues {
     display: flex;
@@ -69,16 +48,11 @@ h6 {
 .mat-chip {
     margin: 5px;
 }
-.inputs > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Center items vertically */
-}
 .inputs {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
-    gap: 15px; /* Space between inputs */
-    margin-top: 15px; /* Space above the grid */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 15px;
 }
 
 .mat-form-field {

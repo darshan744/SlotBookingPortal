@@ -1,9 +1,9 @@
 export const environment = {
     GOOGLE_CLIENTID : "772453149406-abjsh6ajdo61sr3rcsfqav4u3mj6b5ap.apps.googleusercontent.com",
+    BASE_URL : `http://localhost:3000`,
     LOGIN_URL : `http://localhost:3000/api/v1/google/login`,
     PASSWORD_LOGIN : `http://localhost:3000/api/v1/login`,
     LOGOUT : `http://localhost:3000/api/v1/logout`,
-    BASE_URL : `http://localhost:3000`,
     BASE_SUPERADMIN_URL : `http://localhost:3000/api/v1/SuperAdmin`,
     ADMIN_URL : `http://localhost:3000/api/v1/Admin`,
     AVAILABILITY_REQUEST_ : `http://localhost:3000/api/v1/SuperAdmin/staffs/availability`,
@@ -21,4 +21,6 @@ export const environment = {
     STUDENTEVENTRESULT : `http://localhost:3000/api/v1/Students/eventResult/`,
     EVENTURL : `http://localhost:3000/api/v1/events`,
     CREATEEVENT:`http://localhost:3000/api/v1/SuperAdmin/events`,
+    INFORMATION_STUDENT:`http://localhost:3000/api/v1/Admin/information/students`,
+    FILE_UPLOAD : `http://localhost:3000/api/v1/Students/upload`
 };
