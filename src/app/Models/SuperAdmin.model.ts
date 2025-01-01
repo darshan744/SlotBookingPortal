@@ -14,7 +14,7 @@ export type AcceptedResponse = {
   success: boolean,
   data: [{
     instructorId: {
-      staffId: string,
+      id: string,
       name: string,
     },
     unmodifiedCount: number ,
@@ -33,11 +33,13 @@ export interface Staff {
 }
 
 export type AllResponse = {
-  staffId: string,
+  id: string,
   phoneNumber: string,
   name: string,
   email: string,
   unmodifiedCount: number
+  forYear : string,
+  eventType : string,
 }
 export interface IEventInfo {
   Name : string ,

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +14,7 @@ import { SuperAdminService } from '../../Services/SuperAdminServices/SlotGenerat
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { staffs } from '../../Models/slot-breaks';
+import {IStaff, IStaffAndEvents} from "../SuperAdmin.interface";
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -26,47 +27,32 @@ import { staffs } from '../../Models/slot-breaks';
   styleUrl: './create.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateComponent {
+export class CreateComponent implements OnInit{
 
   /**Services */
   Service = inject(SuperAdminService);
 
-  /**----------properties-------------------- */
+  /**Properties */
   enteredStaff = signal('');
   displaySelectedStaff = signal<staffs["data"]>([])
   slots = signal<string[]>([]);
   startDate: string = ''
   endDate: string = ''
   responseDeadline: Date | null = null;
-  staffs: staffs["data"] = [];
+  staffs: IStaff[] = [] as any;
+  events : string[] = [];
+  forYear : string = '';
+  eventTypeRequest : string = '';
 
-  /*----------Methods----------*/
-  add(e: MatChipInputEvent) {
-    var value = e.value.trim();
-    console.log(value);
-    this.enteredStaff.set('');
-    if (value) {
-      this.displaySelectedStaff.update((staffs) => {
-        if (this.displaySelectedStaff().some(staff => staff.name === value)) {
-          return [...staffs]
-        }
-        else {
-          let addStaff = this.staffs.find(staff => staff.name === value);
-          if (addStaff && !this.displaySelectedStaff().some(staff => staff.name === value)) {
-            return [...staffs, addStaff]
-          }
-          return staffs;
-        }
-      });
-    }
-  }
-  optionSelect(e: MatAutocompleteSelectedEvent) {
+  /**Methods*/
+
+  addStaffToChip(e: MatAutocompleteSelectedEvent) {
+    console.log('optionSelect');
     let value = e.option.viewValue.split('-')[1].trimStart();
-    console.log(value);
     this.enteredStaff.set('');
     this.displaySelectedStaff.update((staffs: {id: string, name: string, }[]) => {
       let addStaff = this.staffs.find(staff => staff.id === value);
-      if (addStaff && !this.displaySelectedStaff().some(staff => staff.name === value)) {
+      if (addStaff && !(this.displaySelectedStaff().some(staff => staff.id === value))) {
         e.option.deselect();
         return [...staffs, addStaff]
       }
@@ -74,43 +60,42 @@ export class CreateComponent {
         e.option.deselect();
         return [...staffs]
       }
-    }
-    )
+    })
   }
+
   dateFilter :DateFilterFn<Date | null> = (date: Date | null): boolean => {
     if (!date) return false;
-    var day = (date || new Date()).getDay();
-    var today = new Date();
+    let day = (date || new Date()).getDay();
+    let today = new Date();
     today.setHours(0, 0, 0, 0);
     return day !== 0 && date >= today;
   }
 
   ngOnInit(): void {
-    this.Service.getAllStaff().subscribe((e: staffs) => {
-      console.log(e.data);
-      this.staffs = e.data
+    this.Service.getStaffAndEvents().subscribe((e: IStaffAndEvents) => {
+      this.staffs = e.staffs
+      this.events = e.events;
+      console.log(this.events);
     });
   }
-  removeStaff(inputstaff: string) {
-    this.displaySelectedStaff.update(staff => {
-      return staff.filter(staff => staff.name !== inputstaff);
-    })
+
+  removeStaff(inputStaff: string) {
+    this.displaySelectedStaff.update(staff => staff.filter(staff => staff.name !== inputStaff)
+    )
   }
 
   //Open Dialog
   submit() {
-    console.log(this.responseDeadline);
-    console.log(this.displaySelectedStaff());
-    console.log(this.startDate , this.endDate);
     if (this.responseDeadline && this.displaySelectedStaff().length !== 0 &&
       this.startDate !== '' && this.endDate !== '')
     {
-      if(new Date(this.startDate).getDate() > this.responseDeadline.getDate()) {
-        let staffs = this.displaySelectedStaff();
+      if(new Date(this.startDate) > this.responseDeadline) {
+        let staffs = this.displaySelectedStaff() , forYear = this.forYear , eventTypeRequest  = this.eventTypeRequest;
+
         this.responseDeadline.setHours(23);
         this.responseDeadline.setMinutes(59);
         this.responseDeadline.setSeconds(59);
-        this.Service.openDialog(staffs, this.slots(), this.startDate, this.endDate, this.responseDeadline)
+        this.Service.openDialog(staffs,  this.startDate, this.endDate, this.responseDeadline , forYear , eventTypeRequest);
       }
       else {
         alert('Starting Date must be greater than Deadline')
@@ -119,6 +104,6 @@ export class CreateComponent {
     else {
       alert('Enter Data');
     }
-
   }
+
 }

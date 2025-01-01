@@ -1,7 +1,8 @@
 <div class="container">
+<!--  Password Changing -->
   <div class="wrapper">
     <div class="details">
-      <p style="font-size: 20px;"><strong>{{userName}}</strong></p>
+      <p style="font-size: 20px;"><strong>{{userName }}</strong></p>
       <p style="font-size: 18px;">{{currentEmail}}</p>
     </div>
     <h6><strong>Account Settings</strong></h6>
@@ -62,6 +63,7 @@
       </div>
     </div>
   </div>
+<!--  Events Settings-->
   <div class="wrapper">
     <h4>Existing Events</h4>
     <div class="event-list">
@@ -97,4 +99,75 @@
       </div>
     </div>
   </div>
+<!--  Breaks Settings -->
+  <div  class="wrapper">
+    <h4>Existing Combination</h4>
+    <div>
+      <mat-chip-listbox>
+        <mat-chip (click)="getBreaksById(b.configurationId)"  *ngFor="let b of retrievedBreaks"> ConfigurationID :  {{b.configurationId}} </mat-chip>
+      </mat-chip-listbox>
+    </div>
+    <h6>Create New Break Timing</h6>
+    <div class="event-form-fields" >
+    <!-- Morning Break -->
+    <form [formGroup]="breaks" class="config-field-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Configuration Identifier</mat-label>
+        <input matInput formControlName="configurationId" />
+        <mat-hint>Provide Unique Identifier</mat-hint>
+      </mat-form-field>
+    <mat-form-field class="config-field" appearance="outline">
+      <mat-label>Morning Break</mat-label>
+      <input [format]="24"  formControlName="morningBreak" name="morningBreak" required matInput [ngxMatTimepicker]="morning" />
+      <ngx-mat-timepicker-toggle matIconSuffix [for]="morning"></ngx-mat-timepicker-toggle>
+      <ngx-mat-timepicker [isEsc]="true" [format]="24" #morning></ngx-mat-timepicker>
+      <mat-hint>Morning Break</mat-hint>
+    </mat-form-field>
+    <!-- Evening Break -->
+    <mat-form-field class="config-field"  appearance="outline">
+      <mat-label>Evening Break</mat-label>
+      <input [format]="24" formControlName="eveningBreak" name="eveningBreak" required matInput [ngxMatTimepicker]="eveningBreak" />
+      <ngx-mat-timepicker-toggle matIconSuffix [for]="eveningBreak"></ngx-mat-timepicker-toggle>
+      <ngx-mat-timepicker #eveningBreak></ngx-mat-timepicker>
+      <mat-hint>Evening Break</mat-hint>
+    </mat-form-field>
+    <!-- Lunch Start -->
+    <mat-form-field class="config-field" appearance="outline">
+      <mat-label>Lunch Start Time</mat-label>
+      <input [format]="24" formControlName="lunchStart" name="lunchStart" required matInput [ngxMatTimepicker]="lunchStart" />
+      <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchStart"></ngx-mat-timepicker-toggle>
+      <ngx-mat-timepicker #lunchStart></ngx-mat-timepicker>
+      <mat-hint>Lunch Starting Time</mat-hint>
+    </mat-form-field>
+    <!-- Lunch End -->
+    <mat-form-field class="config-field" appearance="outline">
+      <mat-label>Lunch End</mat-label>
+      <input [format]="24" formControlName="lunchEnd" required name="lunchEnd" matInput [ngxMatTimepicker]="lunchEnd" />
+      <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchEnd"></ngx-mat-timepicker-toggle>
+      <ngx-mat-timepicker [format]="24" #lunchEnd></ngx-mat-timepicker>
+      <mat-hint>Lunch Ending Time</mat-hint>
+    </mat-form-field>
+      </form>
+    <div class="submit-btn-container">
+      <button (click)="onConfigSubmit()" class="blue-btn event-btn">Create New Config</button>
+    </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #breakTemplate let-data>
+
+  <h4 mat-dialog-title><strong>Configuration ID :</strong>{{data.configurationId}} </h4>
+  <mat-divider></mat-divider>
+  <mat-dialog-content style="margin:10px 0px 30px 30px">
+    <h6><strong>Morning Break :</strong> {{data.breaks.morningBreak}} </h6>
+    <h6><strong>Evening Break :</strong>{{data.breaks.eveningBreak}} </h6>
+    <h6><strong>Lunch Start :</strong> {{data.breaks.lunchStart}}</h6>
+    <h6> <strong> Lunch End :</strong>{{data.breaks.lunchEnd}} </h6>
+  </mat-dialog-content>
+  <mat-divider>
+  </mat-divider>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</ng-template>

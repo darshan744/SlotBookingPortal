@@ -1,6 +1,8 @@
 export type i = {
   instructorId: string;
   responseDeadline: string,
+  forYear : string,
+  eventType : string,
   availableSlots: {
       date: string;
       slots: {
@@ -14,12 +16,14 @@ type staff = {
   name: string
 }
 export type groupDates = { date: string; slots: string[] }
-export const assignToStaff = (staffs: staff[], slots: groupDates[], responseDeadline: Date): i[] => {
+export const assignToStaff = (staffs: staff[], slots: groupDates[], responseDeadline: Date , forYear : string , eventType : string): i[] => {
   const availabilityStaffArray: i[] = [];
   // let availabilityStaffArray = new Array<i>()
   staffs.forEach((staff) => {
       availabilityStaffArray.push({
           instructorId: staff.id,
+          forYear ,
+          eventType ,
           availableSlots: slots.map(slot => ({
               date: slot.date,
               slots: slot.slots.map((eachSlot: string) => ({
@@ -55,16 +59,16 @@ export const generateHoursForStaffs = (): string[] => {
   }
   let startTime: string = '8:45', endTime: string = '16:30';
   let startMinutes: number = timeToMinutes(startTime), endMinutes: number = timeToMinutes(endTime);
-  const hr: number = 60;
+  const hour: number = 60;
   while (startMinutes <= endMinutes) {
-      let timeInterval: string = `${minutesToTime(startMinutes)} - ${minutesToTime(startMinutes + hr)}`;
+      let timeInterval: string = `${minutesToTime(startMinutes)} - ${minutesToTime(startMinutes + hour)}`;
       if (timeInterval !== '12:45 - 13:45')
           if (timeInterval === '15:45 - 16:45')
               resultSlots.push('15:45 - 16:30');
           else
               resultSlots.push(timeInterval);
 
-      startMinutes += hr;
+      startMinutes += hour;
   }
   return resultSlots;
 }

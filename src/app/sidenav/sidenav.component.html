@@ -20,7 +20,7 @@
 <mat-sidenav-container style="background-color: #eef2f6;">
     <mat-sidenav #sidenav>
       <mat-nav-list >
-        <a style="margin-bottom: 10px; border-radius: 0%;" class="routes" mat-list-item *ngFor="let item of list"
+        <a style="margin-bottom: 10px; border-radius: 0;" class="routes" mat-list-item *ngFor="let item of list"
         routerLink='{{item.path}}' routerLinkActive="selected-route"
         #rla="routerLinkActive" [activated]="rla.isActive" [routerLinkActiveOptions]="{exact:true}">
         <mat-icon matListItemIcon>{{item.icon}}</mat-icon>

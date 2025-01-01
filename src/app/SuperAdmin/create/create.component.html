@@ -7,14 +7,15 @@
             Select Staff
           </mat-label>
           <input type="text" name="staffInput" #input matInput [matChipInputFor]="grid" [matAutocomplete]="auto"
-            [(ngModel)]="enteredStaff" (matChipInputTokenEnd)="add($event)">
-          <mat-autocomplete (optionSelected)="optionSelect($event)" #auto="matAutocomplete">
+            [(ngModel)]="enteredStaff" >
+          <mat-autocomplete (optionSelected)="addStaffToChip($event)" #auto="matAutocomplete">
             <mat-option [value]="staff.name" *ngFor="let staff of staffs">{{staff.name}} -
               {{staff.id}}</mat-option>
           </mat-autocomplete>
           <mat-hint>Select Staffs</mat-hint>
         </mat-form-field>
       </div>
+<!--  Date Range-->
       <div class="date-div">
         <mat-form-field appearance="outline">
           <mat-label>Enter Date Range</mat-label>
@@ -27,6 +28,7 @@
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
       </div>
+      <!-- Response Deadline -->
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Enter Date</mat-label>
@@ -34,6 +36,31 @@
           <mat-datepicker-toggle matSuffix [for]="responseDate"> </mat-datepicker-toggle>
           <mat-datepicker #responseDate></mat-datepicker>
           <mat-hint>Response Deadline</mat-hint>
+        </mat-form-field>
+      </div>
+    <!--For Year-->
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>For Year</mat-label>
+          <input matInput name="year" [(ngModel)]="forYear" [matAutocomplete]="year" />
+          <mat-autocomplete  #year>
+            <mat-option [value]="'Year 1'">Year 1</mat-option>
+            <mat-option [value]="'Year 2'" >Year 2</mat-option>
+            <mat-option [value]="'Year 3'">Year 3</mat-option>
+            <mat-option [value]="'Year 4'">Year 4</mat-option>
+          </mat-autocomplete>
+        <mat-hint>Select For Year</mat-hint>
+        </mat-form-field>
+      </div>
+<!-- event Type -->
+      <div>
+        <mat-form-field  appearance="outline">
+          <mat-label>Event Type</mat-label>
+          <input matInput name="eventTypeRequest" [(ngModel)]="eventTypeRequest" [matAutocomplete]="eventType" />
+          <mat-autocomplete #eventType>
+            <mat-option *ngFor="let e of events" [value]="e">{{e}}</mat-option>
+          </mat-autocomplete>
+          <mat-hint>Select Event Type</mat-hint>
         </mat-form-field>
       </div>
     </form>

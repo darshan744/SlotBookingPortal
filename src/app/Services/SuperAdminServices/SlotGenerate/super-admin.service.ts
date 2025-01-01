@@ -2,23 +2,27 @@ import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../SuperAdmin/confirm-dialog/confirm-dialog.component';
 import { environment } from '../../../../environments/environment.development';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { data, staffs } from '../../../Models/slot-breaks';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import { data } from '../../../Models/slot-breaks';
 import { Observable } from 'rxjs';
-import { AcceptedResponse, AllResponse, IEventInfo, slotData, Staff } from '../../../Models/SuperAdmin.model';
+import { AcceptedResponse, AllResponse, IEventInfo, Staff } from '../../../Models/SuperAdmin.model';
 import { i } from '../../../helpers';
 import { DialogOpenService } from '../../DialogOpenService/dialog.service';
+import {ISlot, IStaff, IStaffAndEvents , IBreaks , IBaseResponse} from "../../../SuperAdmin/SuperAdmin.interface";
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class SuperAdminService {
 
-  private allStaffURL = environment.ALLSTAFFURL;
+  private allStaffURL = environment.ALL_STAFF_URL;
   private requestAvailability = `${environment.AVAILABILITY_REQUEST_}`
-  private _getAllRespnose = environment.GETALLREQUEST;
+  private _getAllResponse = environment.GET_ALL_RESPONSE;
   constructor(private http: HttpClient) { }
   readonly popover = inject(MatDialog);
   snackBarService = inject(DialogOpenService)
+
   private timeToMinutes(time: string): number {
     const [hours, minutes] = time.split(':').map(Number);
     return hours * 60 + minutes;
@@ -31,9 +35,10 @@ export class SuperAdminService {
   }
 
   generate(data: { morningBreak: string; eveningBreak: string; lunchStart: string; lunchEnd: string; range: number }) {
-    console.log(`SERVICE OBJ : ,${data.morningBreak},${data.eveningBreak},${data.lunchStart},${data.lunchEnd} , ${data.range}`)
-    let startTime = '9:00';
-    const endTime = '16:15';
+    let startTime : string = '08:45';
+    const endTime : string = '16:30';
+    const endTimeInMinutes : number = this.timeToMinutes(endTime);
+    console.log(endTimeInMinutes)
     const slots: string[] = [];
     const breakRange: number = 15;
     let startMinutes = this.timeToMinutes(startTime);
@@ -42,7 +47,6 @@ export class SuperAdminService {
     let eveningBreakMinutes = this.timeToMinutes(data.eveningBreak);
     let lunchStartMinutes = this.timeToMinutes(data.lunchStart);
     let lunchEndMinutes = this.timeToMinutes(data.lunchEnd);
-    let i = 0;
     while (startMinutes <= endMinutes) {
       let newTime = this.minutesToTime(startMinutes);
       let newEndTime = this.minutesToTime(startMinutes + data.range);
@@ -54,11 +58,14 @@ export class SuperAdminService {
 
       if (overlapsWithBreak) {
         startMinutes += data.range;
-        console.log(i++);
         continue;
       }
 
-      let finalTime = newTime + " - " + newEndTime;
+      let finalTime = newTime + " - " + newEndTime;// example : 09:00 - 09:15
+      if(this.timeToMinutes(finalTime.split('-')[1].trimStart()) > endTimeInMinutes) {
+        startMinutes += data.range;
+        continue;
+      }
       slots.push(finalTime);
       startMinutes += data.range;
     }
@@ -66,13 +73,14 @@ export class SuperAdminService {
     return slots;
   }
 
-  getAllStaff() {
-    return this.http.get<staffs>(this.allStaffURL,{withCredentials:true})
+  getStaffAndEvents() {
+    return this.http.get<IStaffAndEvents>(this.allStaffURL,{withCredentials:true})
   }
 
   getAcceptedResponse() :Observable<AcceptedResponse>  {
-    return this.http.get<AcceptedResponse>(environment.ACCEPTEDRESPONSE,{withCredentials:true});
+    return this.http.get<AcceptedResponse>(environment.ACCEPTED_RESPONSE,{withCredentials:true});
   }
+
   requestSlotAvailability(data: i[]) {
     this.http.post(this.requestAvailability, data,{withCredentials:true}).subscribe({
       next : (res:any) => {
@@ -85,33 +93,67 @@ export class SuperAdminService {
       }
   });
   }
+
   getAllResponse() {
-    return this.http.get<{ message: string, result: AllResponse[] }>(this._getAllRespnose,{withCredentials:true})
+    return this.http.get<{ message: string, result: AllResponse[] }>(this._getAllResponse,{withCredentials:true})
   }
-  openDialog(staffs: staffs["data"], slots: string[],
-    startDate: string, endDate: string , responseDeadline : Date
-  ) {
+
+  openDialog(staffs: IStaff[], startDate: string, endDate: string , responseDeadline : Date ,
+             forYear : string , eventTypeRequest : string,) {
     this.popover.open(ConfirmDialogComponent, {
       data: {
+        forYear ,
         staffs: staffs, /*Arrays*/
-        startDate: startDate, endDate: endDate , responseDeadline
+        startDate: startDate,
+        endDate: endDate , responseDeadline , eventTypeRequest
       }
     })
   }
+
   getIndividualResponse(staff: data) {
     // let id = (sessionStorage.getItem('loggedInUser'))
-    let id = staff.staffId;
-    return this.http.get<{ message: string, Result: Staff }>(`${environment.INDIVIDUALRESPONSE}/${id}`,{withCredentials:true})
-  }
-  postSlot(data : any) : void {
-    this.http.post(environment.SLOT , data , {withCredentials:true}).subscribe(e=>console.log(e));
+    let id = staff.id;
+    return this.http.get<{ message: string, Result: Staff }>(`${environment.INDIVIDUAL_RESPONSE}/${id}`,{withCredentials:true})
   }
 
-  createEvents(data :IEventInfo):Observable<{message : string , success:boolean}>{
-    return this.http.post<{message : string , success:boolean}>(environment.CREATEEVENT , data , {withCredentials : true});
+  /**
+   * @Route api/v1/SuperAdmin/slots
+   * @param data of type ISlot
+   */
+  postSlot(data : ISlot) : void {
+    console.log(data);
+    this.http.post(environment.SLOT , data , { withCredentials:true }).subscribe(e=>console.log(e));
   }
+
+  /**
+   * @HTTPMETHOD POST
+   * @Route - api/v1/Events
+   * @param eventInfo
+   */
+  createEvents(eventInfo :IEventInfo):Observable<{message : string , success:boolean}>{
+    return this.http.post<{message : string , success:boolean}>(environment.CREATE_EVENT , eventInfo , {withCredentials : true});
+  }
+
   getEvents() : Observable<{message : string , data ?: {Name:string}[]} > {
-   return this.http.get<{message : string , data ?: {Name:string}[]} >(environment.EVENTURL)
+   return this.http.get<{message : string , data ?: {Name:string}[]} >(environment.EVENT_URL , {withCredentials : true})
   }
 
+
+  getBreaks(){
+    return this.http.get<IBaseResponse & { data :IBreaks[] }>(environment.BREAKS , {withCredentials:true})
+  }
+  getBreaksById(configurationID : string) {
+    const params = new HttpParams().set('configurationID', configurationID);
+    return this.http.get<IBaseResponse & {data : IBreaks}>(environment.BREAKS , { params , withCredentials : true})
+  }
+  postBreaks(breaks : IBreaks) {
+    return this.http.post<IBaseResponse>(environment.BREAKS , breaks , { withCredentials:true }).subscribe({
+      next : (response : IBaseResponse)=> {
+        this.snackBarService.openSnackBar(response.message);
+      },
+      error : (e:HttpErrorResponse)=> {
+        this.snackBarService.openSnackBar(e.message)
+      }
+    })
+  }
 }

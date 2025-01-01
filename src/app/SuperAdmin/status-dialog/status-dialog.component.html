@@ -23,7 +23,7 @@
                 <mat-expansion-panel *ngFor="let slot of data.availableSlots">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            {{ slot.date }}
+                            {{ slot.date | date}}
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <mat-chip-set>

@@ -6,7 +6,7 @@
 mat-toolbar {
   background: #a6b9c4;
   color: rgb(0, 0, 0);
-  box-shadow: 0px 4px 15px rgba(0 , 0 ,0  ,0.2);
+  box-shadow: 0 4px 15px rgba(0 , 0 ,0  ,0.2);
 }
 mat-icon {
   color: black;
@@ -14,7 +14,7 @@ mat-icon {
 
 mat-sidenav {
   margin: 16px;
-  width: 240px;
+  width: 230px;
   border-right: none;
   background: #a6b9c4 ;
   /* background: #f1f4f8 ; */
@@ -24,12 +24,13 @@ mat-sidenav {
   border-radius: 10px;
   padding: 16px;
   text-align: center;
-  box-shadow: 0px 4px 15px rgba(0 , 0 ,0  ,0.2);
+  box-shadow: 0 4px 15px rgba(0 , 0 ,0  ,0.2);
 }
 
 .content {
-  padding: 30px;
+  padding: 10px;
   height: 100%;
+  /*background-color : white;*/
 }
 
 mat-sidenav-container {

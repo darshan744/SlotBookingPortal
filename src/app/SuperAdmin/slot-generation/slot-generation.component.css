@@ -48,9 +48,10 @@ h6 {
 .mat-chip {
     margin: 5px;
 }
+
 .inputs {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 15px;
     margin-top: 15px;
 }
@@ -63,13 +64,31 @@ button.mat-raised-button {
     margin-top: 20px; /* Add space above buttons */
 }
 
+mat-divider {
+  margin-bottom: 30px;
+}
+
+.event-forms {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 30px;
+}
+
 @media (max-width: 600px) {
     .inputs {
         grid-template-columns: 1fr; /* Stack inputs on smaller screens */
     }
 }
+@media (max-width : 1080px) {
+  .event-forms {
+    display  : grid ;
+    grid-template-columns: 1fr 1fr;
+  }
+  .inputs {
+    grid-template-columns: 1fr 1fr ;
+  }
+}
 
 .slots-generated {
     margin: 30px;
-
 }

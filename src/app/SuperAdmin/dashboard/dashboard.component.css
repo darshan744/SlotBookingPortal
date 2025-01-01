@@ -1,42 +1,61 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-  margin-left: 50px;
-}
-
-.Welcome-msg {
+.top-bar{
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4,1fr);
   margin-bottom: 20px;
 }
 
-.cards-container {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+.graphs-container{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
-
-
-.settings-container {
-  margin-top: 30px;
-  width: 100%;
+.graph {
+  height: 350px;
+  width: 550px;
+}
+.graph-wrapper {
+  border-radius: 10px;
+  margin-right: 20px;
   padding: 20px;
-  border: 1px solid #ddd;
+  margin-bottom:20px;
+  background-color: white;
+}
+.events {
+  background-color: white;
   border-radius: 8px;
-  background-color: #f9f9f9;
-}
-
-.settings-options {
+  border: 3px solid #eef2f6;
+  padding: 20px;
   display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 
-.settings-item {
-  padding: 10px 0;
+.event-detail {
+  margin-left: 20px;
 }
 
-.form-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+p {
+  font-size: 20px;
 }
+
+.event-heading {
+  font-size: 20px; color: gray;
+  font-weight: 500;
+}
+
+.event-value {
+  font-size: 30px;
+}
+
+.table-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.mat-mdc-header-row {
+  background-color: #EAF5FA;
+}
+
+.mat-mdc-row {
+  background-color: rgb(255, 254, 254);
+}
+

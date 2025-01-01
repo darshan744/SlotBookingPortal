@@ -26,9 +26,11 @@
       </div>
       <ng-template #notime> No Dates Found Here Are You Serious Bruv!🤨 </ng-template>
       <div class="dates">
-        <h6>Start Date : {{ data.startDate | date : "shortDate" }}</h6>
-        <h6>End Date : {{ data.endDate | date : "shortDate" }}</h6>
-        <h6>Deadline : {{ data.responseDeadline | date : "shortDate" }}</h6>
+        <h6><strong>Start Date : </strong>{{ data.startDate | date : "shortDate" }}</h6>
+        <h6><strong>End Date : </strong>{{ data.endDate | date : "shortDate" }}</h6>
+        <h6><strong>Deadline : </strong>{{ data.responseDeadline | date : "shortDate" }}</h6>
+        <h6><strong>ForYear : </strong>{{ data.forYear }}</h6>
+        <h6><strong>EventType : </strong>{{ data.eventTypeRequest }}</h6>
       </div>
     </div>
     <ng-template #no>

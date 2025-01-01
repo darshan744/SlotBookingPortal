@@ -2,34 +2,14 @@
   <!-- Main Form -->
   <div class="slot-generate">
     <h5>Generate Slots</h5>
+    <mat-divider></mat-divider>
     <form class="inputs" [formGroup]="form">
-      <!-- Morning Break -->
-      <mat-form-field formGroupName="data" appearance="outline">
-        <mat-label>Morning Break</mat-label>
-        <input [format]="24" formControlName="morningBreak" name="morningBreak" required matInput [ngxMatTimepicker]="morning" />
-        <ngx-mat-timepicker-toggle matIconSuffix [for]="morning"></ngx-mat-timepicker-toggle>
-        <ngx-mat-timepicker [isEsc]="true" [format]="24" #morning></ngx-mat-timepicker>
-      </mat-form-field>
-      <!-- Evening Break -->
-      <mat-form-field formGroupName="data" appearance="outline">
-        <mat-label>Evening Break</mat-label>
-        <input [format]="24" formControlName="eveningBreak" name="eveningBreak" required matInput [ngxMatTimepicker]="eveningBreak" />
-        <ngx-mat-timepicker-toggle matIconSuffix [for]="eveningBreak"></ngx-mat-timepicker-toggle>
-        <ngx-mat-timepicker #eveningBreak></ngx-mat-timepicker>
-      </mat-form-field>
-      <!-- Lunch Start -->
-      <mat-form-field formGroupName="data" appearance="outline">
-        <mat-label>Lunch Start Time</mat-label>
-        <input [format]="24" formControlName="lunchStart" name="lunchStart" required matInput [ngxMatTimepicker]="lunchStart" />
-        <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchStart"></ngx-mat-timepicker-toggle>
-        <ngx-mat-timepicker #lunchStart></ngx-mat-timepicker>
-      </mat-form-field>
-      <!-- Lunch End -->
-      <mat-form-field formGroupName="data" appearance="outline">
-        <mat-label>Lunch End</mat-label>
-        <input [format]="24" formControlName="lunchEnd" required name="lunchEnd" matInput [ngxMatTimepicker]="lunchEnd" />
-        <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchEnd"></ngx-mat-timepicker-toggle>
-        <ngx-mat-timepicker [format]="24" #lunchEnd></ngx-mat-timepicker>
+
+      <mat-form-field appearance="outline" formGroupName="data">
+        <mat-label>Break Timings</mat-label>
+        <mat-select formControlName="selectedBreakConfig">
+          <mat-option [value]="b.configurationId" *ngFor="let b of breaks">{{b.configurationId}}</mat-option>
+        </mat-select>
       </mat-form-field>
       <!-- Slot Interval -->
       <mat-form-field formGroupName="data" appearance="outline">
@@ -63,11 +43,12 @@
 
   <form [formGroup]="form" class="event-types">
     <h5>Event and Batch</h5>
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr);gap: 30px;">
+    <mat-divider></mat-divider>
+    <div class="event-forms" style="">
       <!-- Event Selection -->
       <mat-form-field formGroupName="enteredData" appearance="outline">
         <mat-label>Select Event</mat-label>
-        <mat-select formControlName="selectedEvent">
+        <mat-select formControlName="selectedEvent" >
           <mat-option value="Mock Interview">Mock Interview</mat-option>
           <mat-option value="Self Introduction">Self Introduction</mat-option>
           <mat-option value="Group Discussion">Group Discussion</mat-option>
@@ -87,17 +68,17 @@
 
       <mat-form-field formGroupName="enteredData" appearance="outline">
         <mat-label>Venues</mat-label>
-        <input formControlName="venue" type="text" matInput />
+        <input formControlName="venue" name="venue" type="text" matInput />
       </mat-form-field>
 
       <!-- Staff Input -->
       <mat-form-field formGroupName="enteredData" appearance="outline">
         <mat-label>Staff</mat-label>
         <input [matAutocomplete]="auto" [matChipInputFor]="grid"
-        type="text" formControlName="staff" matInput />
+        type="text" formControlName="staff" name="staff" matInput />
         <mat-autocomplete #auto>
-          <mat-option *ngFor="let item of acceptedStaffs" [value]="item.staffId">
-            {{item.staffId}} - {{item.name}}
+          <mat-option *ngFor="let item of acceptedStaffs" [value]="item.id">
+            {{item.id}} - {{item.name}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -106,28 +87,6 @@
       <button mat-button type="button" (click)="addStaff()"><mat-icon>person_add</mat-icon> Add Staff</button>
     </div>
   </form>
-
-
-
-  <!-- <form [formGroup]="form" class="venues">
-    <h5>Venues and Staff</h5>
-    <mat-form-field formGroupName="enteredData" appearance="outline">
-      <mat-label>Venues</mat-label>
-      <input formControlName="venue" type="text" matInput />
-    </mat-form-field>
-    <mat-form-field formGroupName="enteredData" appearance="outline">
-      <mat-label>Staff</mat-label>
-      <input [matAutocomplete]="auto" [matChipInputFor]="grid"
-      type="text" formControlName="staff" matInput />
-      <mat-autocomplete #auto>
-        <mat-option *ngFor="let item of acceptedStaffs" [value]="item.staffId">
-          {{item.staffId}} - {{item.name}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <button mat-button (click)="addStaff()"><mat-icon>person_add</mat-icon> Add Staff</button>
-  </form> -->
 
   <button mat-raised-button (click)="submit()" class="btns" color="primary"><mat-icon>event</mat-icon> Generate Slots</button>
 
@@ -148,6 +107,8 @@
     </mat-chip-grid>
   </div>
 </div>
+
+
 <ng-template #DialogTemplate>
   <h3 matDialogTitle>Slots</h3>
 

@@ -1,28 +1,16 @@
 .table {
-    width: 700px; /* Ensure table takes full width */
-    overflow: hidden; /* Handle overflow */
-}
-
-
-
-.mat-column-id {
-    flex: 0 0 150px; /* Fixed width */
-}
-.mat-column-status {
-    flex:0.3;
+    width: 600px;
+    overflow: hidden;
 }
 .table-container {
-    width: 1200px; /* Fixed width */
-    margin: 30px auto; /* Center horizontally with auto margins */
+    width: 1100px;
+    margin: 30px auto;
     padding-right: 30px;
     padding-left: 20px;
-    display: flex; /* Use flexbox */
-    justify-content: center; /* Center content horizontally */
+    display: flex;
+    justify-content: center;
 }
 
-.table {
-    width: 100%; /* Ensure table takes full width of the container */
-}
 .status-accepted {
     background-color: #d4edda; /* Light green background */
     color: #155724; /* Dark green text */

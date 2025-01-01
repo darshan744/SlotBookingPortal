@@ -1,39 +1,79 @@
 <div class="container">
-
-  <div class="Welcome-msg">
-    <h2>Welcome Admin👋</h2>
-
-  <div class="cards-container">
-    <div class="cards">
-      <mat-card>
-        <mat-card-header>
-          <h5>Mock Interview</h5>
-        </mat-card-header>
-        <mat-card-content>
-          <h3>43</h3>
-        </mat-card-content>
-      </mat-card>
+  <div class="top-bar">
+    <div class="events">
+      <div class="event-detail">
+        <p class="event-heading">Total Events Created</p>
+        <p class="event-value">43</p>
+      </div>
     </div>
-    <div class="cards">
-      <mat-card>
-        <mat-card-header>
-          <h5>Self Introduction</h5>
-        </mat-card-header>
-        <mat-card-content>
-          <h3>54</h3>
-        </mat-card-content>
-      </mat-card>
+    <div class="events">
+      <div class="event-detail">
+        <p class="event-heading">Mock Interview</p>
+        <p class="event-value">43</p>
+      </div>
     </div>
-    <div class="cards">
-      <mat-card>
-        <mat-card-header>
-          <h5>Group Discussion</h5>
-        </mat-card-header>
-        <mat-card-content>
-          <h3>43</h3>
-        </mat-card-content>
-      </mat-card>
+    <div class="events">
+      <div class="event-detail">
+        <p class="event-heading">Self Introduction</p>
+        <p class="event-value">43</p>
+      </div>
+    </div>
+    <div class="events">
+    <div class="event-detail">
+      <p class="event-heading">Group Discussion</p>
+      <p class="event-value">43</p>
+    </div></div>
+  </div>
+  <div class="graphs-container">
+    <div class="graph-wrapper" *ngFor="let i of array">
+      <p style="color:gray;font-weight: 500;">{{i}}</p>
+      <div class="graph">
+        <canvas baseChart [options]="chartOptions"
+          type="line" [data]="chartData">
+        </canvas>
+      </div>
     </div>
   </div>
-
+  <div class="table-container">
+    <div style="display: flex;">
+      <h6 style="margin-right: 10px;color:gray; font-weight: 500;">Students Details</h6>
+      <mat-form-field appearance="outline" class="custom-width-form">
+        <mat-label>Search Student</mat-label>
+         <input matInput  />
+      </mat-form-field>
+    </div>
+    <mat-table class="round-table" [dataSource]="dataSource">
+      <ng-container *ngFor="let column of events" [matColumnDef]="column">
+        <mat-header-cell *matHeaderCellDef> {{column}}</mat-header-cell>
+        <mat-cell *matCellDef="let el" > {{el[column]}} </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="events"></mat-header-row>
+      <mat-row *matRowDef="let i ; columns:events;"></mat-row>
+    </mat-table>
+  </div>
+  <div style="margin-top: 10px;" class="table-container">
+    <div>
+      <h6 style="font-weight: 500;color:gray">Event Details</h6>
+    </div>
+    <mat-table class="round-table" [dataSource]="eventDetails">
+      <ng-container matColumnDef="Id">
+        <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+        <mat-cell *matCellDef="let i;"> {{i['Id']}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Type">
+        <mat-header-cell *matHeaderCellDef>EventType</mat-header-cell>
+        <mat-cell *matCellDef="let i;"> {{i["Type"]}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Date">
+        <mat-header-cell *matHeaderCellDef>From-To </mat-header-cell>
+        <mat-cell *matCellDef="let i;"> {{i['Date'] | date}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="For">
+        <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
+        <mat-cell *matCellDef="let i;"> {{i['For']}} </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="eventHeaders"></mat-header-row>
+      <mat-row *matRowDef="let i ; columns:eventHeaders"></mat-row>
+    </mat-table>
+  </div>
 </div>

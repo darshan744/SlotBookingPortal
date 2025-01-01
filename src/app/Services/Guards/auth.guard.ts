@@ -5,17 +5,18 @@ import { ActivatedRouteSnapshot, CanActivateFn , Router, RouterStateSnapshot} fr
 export const authGuard: CanActivateFn = (route : ActivatedRouteSnapshot, state : RouterStateSnapshot) => {
 
   const router = inject(Router);
-  const role = route.data;
+  const role : any = route.data;
   const session = sessionStorage.getItem('loggedInUser');
   if(!session) {
     return router.navigateByUrl('');
   }
   let userType = JSON.parse(session).role;
-  if(role === userType) {
+  if(role.role === userType) {
     return true;
   }
   else{
-   return false;
+    // console.log(role);
+   return router.navigateByUrl('');
   }
 
   // return true

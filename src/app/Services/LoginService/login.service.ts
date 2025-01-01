@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -23,7 +22,6 @@ export class LoginService {
   snackBar: MatSnackBar = inject(MatSnackBar);
   router = inject(Router);
   user: any = null;
-  private _url = environment.LOGIN_URL;
   constructor(private http: HttpClient) { }
   private decodeJWTToken(token: string) {
     return JSON.parse(atob(token.split(".")[1]))
@@ -43,18 +41,23 @@ export class LoginService {
       { withCredentials: true }
     ).subscribe((response: LoginResponse) => {
       console.log(response);
-      if (response.success === false) {
+      if (!response.success) {
         this.message(response.message);
       }
-      else if (response.success === true && response.role === 'Staff') {
+      else if (response.success && response.role === 'Staff') {
         sessionStorage.setItem('loggedInUser', JSON.stringify(response.data));
         this.message('Login Successful')
         this.router.navigate(['/admin/', 'Home']);
       }
-      else if (response.success === true && response.role === 'Student') {
+      else if (response.success && response.role === 'Student') {
         this.message("Login Succssful")
         sessionStorage.setItem('loggedInUser', JSON.stringify(response.data));
         this.router.navigateByUrl('/user/dashboard');
+      }
+      else if(response.success && response.role === 'SuperAdmin') {
+        this.message('Login Successfull');
+        sessionStorage.setItem('loggedInUser' , JSON.stringify(response.data))
+        this.router.navigateByUrl('/superAdmin/Search')
       }
       else {
         this.message('Invalid Credentials');
@@ -66,7 +69,7 @@ export class LoginService {
     this.http.post<LoginResponse>(environment.LOGIN_URL, { user: this.user }, {
       withCredentials: true
     }).subscribe((res: LoginResponse) => {
-      if (res.success === false) {
+      if (!res.success) {
         this.message('Login With BitSathy MailID')
       }
       else {

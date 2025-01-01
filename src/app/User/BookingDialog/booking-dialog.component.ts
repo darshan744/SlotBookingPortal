@@ -14,6 +14,6 @@ export class BookingDialogComponent {
   constructor(private _Service : UserService){}
   data :{time : string , date :string ,eventType : string , venue:string,slotId : string} = inject(MAT_DIALOG_DATA);
   bookSlot() {
-    this._Service.bookSlot(this.data);
+    // this._Service.bookSlot(this.data);
   }
 }

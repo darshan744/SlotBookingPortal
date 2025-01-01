@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   OnInit,
   signal,
   TemplateRef,
@@ -31,10 +32,10 @@ import {
 } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { provideNativeDateAdapter } from '@angular/material/core';
-interface Venues {
-  venue: string;
-  staffs: string[];
-}
+import { DialogOpenService } from '../../Services/DialogOpenService/dialog.service';
+import {TAcceptedStaff, Venues, ISlot, ITimeAndLimit, IBreaks} from "../SuperAdmin.interface";
+import {HttpErrorResponse} from "@angular/common/http";
+
 type AcceptedResponse = {
   success: boolean;
   data: {
@@ -44,11 +45,6 @@ type AcceptedResponse = {
     };
     unmodifiedCount: number;
   }[];
-};
-type AcceptedStaff = {
-  staffId: string;
-  name: string;
-  display: boolean;
 };
 
 @Component({
@@ -77,9 +73,10 @@ type AcceptedStaff = {
 })
 export class SlotGenerationComponent implements OnInit {
   form: FormGroup;
+  breaks : IBreaks[] = [] as any;
 
   constructor(
-    private Service: SuperAdminService,
+    private service: SuperAdminService,
     private _snackBar: MatSnackBar,
     private dialog: MatDialog,
     private formBuilder: FormBuilder
@@ -95,16 +92,15 @@ export class SlotGenerationComponent implements OnInit {
         selectedYear: new FormControl<string>('', [Validators.required]),
       }),
       data: new FormGroup({
-        morningBreak: new FormControl<string>('', [Validators.required]),
-        eveningBreak: new FormControl<string>('', [Validators.required]),
-        lunchStart: new FormControl<string>('', [Validators.required]),
-        lunchEnd: new FormControl<string>('', [Validators.required]),
+        selectedBreakConfig : new FormControl<string>('',Validators.required),
         range: new FormControl<number>(0, [Validators.required]),
       }),
     });
   }
+
   @ViewChild('DialogTemplate') dialogComp!: TemplateRef<string[]>;
 
+  dialogService = inject(DialogOpenService)
   /**--------------------------------Results -------------------------- */
 
   slots = signal<string[]>([]);
@@ -112,36 +108,18 @@ export class SlotGenerationComponent implements OnInit {
 
   /**-------------------------------Bindings--------------------- */
 
-  acceptedStaff = signal<AcceptedStaff[]>([]);
+  acceptedStaff = signal<TAcceptedStaff[]>([]);
 
-  selectedEvent = '';
-  selectedYear = '';
-  venueInput: string = '';
   staffInput: string = '';
-  limit: number = 0;
   startDate: string = '';
   endDate: string = '';
 
-  /**-----------------------------------Methods----------------------------------------- */
+  /**Methods */
   ngOnInit(): void {
-    this.Service.getAcceptedResponse().subscribe({
-      next: (res) => {
-        this.acceptedStaff.set(
-          res.data.map((e) => ({
-            staffId: e.instructorId.staffId,
-            name: e.instructorId.name,
-            display: true,
-          }))
-        );
-      },
-      error: (e) => {
-        console.log(e.message);
-      },
-      complete() {
-        console.log('Receieved Response');
-      },
-    });
+    this.getBreaks()
+    this.getAcceptedStaffs()
   }
+
   dateFilter: DateFilterFn<Date | null> = (date: Date | null): boolean => {
     if (!date) return false;
     let day = (date || new Date()).getDay();
@@ -149,40 +127,67 @@ export class SlotGenerationComponent implements OnInit {
     today.setHours(0, 0, 0, 0);
     return day !== 0 && date >= today;
   };
+
   generateSlot() {
+    console.log(this.form.value)
     if (
-      this.form.get('data.morningBreak')?.value === '' ||
-      this.form.get('data.eveningBreak')?.value === '' ||
-      this.form.get('data.lunchStart')?.value === '' ||
-      this.form.get('data.lunchEnd')?.value === '' ||
+      // this.form.get('data.morningBreak')?.value === '' ||
+      // this.form.get('data.eveningBreak')?.value === '' ||
+      // this.form.get('data.lunchStart')?.value === '' ||
+      // this.form.get('data.lunchEnd')?.value === '' ||
       this.form.get('data.range')?.value === 0
     ) {
       alert('enter data');
     } else {
+      const selectedBreakConfig = this.form.get('data.selectedBreakConfig');
+      console.log(selectedBreakConfig?.value);
+      if(selectedBreakConfig?.valid) {
+        const breakTimings = this.breaks.find(b => b.configurationId === selectedBreakConfig?.value );
+        console.log(breakTimings);
+        if(breakTimings) {
+          const slotData = {
+            morningBreak: breakTimings?.breaks.morningBreak,
+            eveningBreak: breakTimings?.breaks.eveningBreak,
+            lunchStart: breakTimings?.breaks.lunchStart,
+            lunchEnd: breakTimings?.breaks.lunchEnd,
+            range: this.form.get('data.range')?.value as number,
+          };
+
+          this.slots.set(this.service.generate(slotData));
+        }
+        else {
+          alert('Not Found');
+          return;
+        }
+      }
+      else {
+        alert('Not Valid');
+        return;
+      }
       this._snackBar.open('Generated Successfully', 'Done', { duration: 3000 });
-      const slotData = {
-        morningBreak: this.form.get('data.morningBreak')?.value as string,
-        eveningBreak: this.form.get('data.eveningBreak')?.value as string,
-        lunchStart: this.form.get('data.lunchStart')?.value as string,
-        lunchEnd: this.form.get('data.lunchEnd')?.value as string,
-        range: this.form.get('data.range')?.value as number,
-      };
-      this.slots.set(this.Service.generate(slotData));
       this.dialog.open(this.dialogComp);
     }
+
   }
+
   addStaff() {
-    if (this.venueInput !== '' && this.staffInput !== '') {
+    const venue = this.form.get('enteredData.venue');
+    const staffs = this.form.get('enteredData.staff');
+    console.log(venue?.value , staffs?.value);
+    if (venue?.valid && staffs?.valid) {
+      const venueValue : string = venue.value;
+      const staffValue : string = staffs.value;
       this.venues.update((value) => {
         const updatedVenues = value.map((el) => {
           // Check if the venue matches the input
-          if (el.venue === this.venueInput) {
+
+          if (el.venue === venueValue) {
             // If it exists, check if the staff already exists
-            if (!el.staffs.includes(this.staffInput)) {
+            if (!el.staffs.includes(staffValue)) {
               // Add the staff to the existing venue
               return {
                 ...el,
-                staffs: [...el.staffs, this.staffInput], // Create a new array for staffs
+                staffs: [...el.staffs, staffValue], // Create a new array for staffs
               };
             }
           }
@@ -190,17 +195,17 @@ export class SlotGenerationComponent implements OnInit {
         });
 
         // If venue does not exist, add it as a new entry
-        if (!updatedVenues.some((v) => v.venue === this.venueInput)) {
+        if (!updatedVenues.some((v) => v.venue === venueValue)) {
           updatedVenues.push({
-            venue: this.venueInput,
-            staffs: [this.staffInput],
+            venue: venueValue,
+            staffs: [staffValue],
           });
         }
         return updatedVenues;
       });
-      this.acceptedStaff.update((val): AcceptedStaff[] => {
+      this.acceptedStaff.update((val): TAcceptedStaff[] => {
         return val.map((e) => {
-          if (e.staffId === this.staffInput) {
+          if (e.id === staffValue) {
             return { ...e, display: false };
           }
           return e;
@@ -211,6 +216,7 @@ export class SlotGenerationComponent implements OnInit {
       this.staffInput = '';
     }
   }
+
   removeStaff(e: MatChipEvent) {
     let val = e.chip.value;
     this.venues.update((values) => {
@@ -219,51 +225,77 @@ export class SlotGenerationComponent implements OnInit {
         staffs: el.staffs.filter((e) => e !== val),
       }));
     });
-    this.acceptedStaff.update((el: AcceptedStaff[]) => {
-      return el.map((e: AcceptedStaff) => {
-        return e.staffId === val ? { ...e, display: true } : e;
+    this.acceptedStaff.update((el: TAcceptedStaff[]) => {
+      return el.map((e: TAcceptedStaff) => {
+        return e.id === val ? { ...e, display: true } : e;
       });
     });
     console.log(e.chip.value);
   }
+
   validate(obj: any): boolean {
+    console.log(obj)
     for (const [key, val] of Object.entries(obj)) {
-      if (
-        val === undefined ||
-        val === null ||
-        val === '' ||
-        (Array.isArray(val) && val.length === 0)
-      ) {
+      // console.log( key , val);
+      if ( val === undefined ||  val === null || val === '' ||  (Array.isArray(val) && val.length === 0) ) {
         return false;
       }
     }
     return true;
   }
 
-  public get acceptedStaffs(): AcceptedStaff[] {
+  public get acceptedStaffs(): TAcceptedStaff[] {
     return this.acceptedStaff().filter((e) => e.display);
   }
 
   submit(): void {
-    let slots = this.slots().map((e) => ({ time: e, limit: this.limit }));
+    let slots : ITimeAndLimit[] = this.slots().map((e:string):{time:string, limit:number} =>
+      ({ time: e, limit: this.form.get('enteredData.limit')?.value })
+    );
 
-    const data = {
-      startDate: this.startDate,
-      endDate: this.endDate,
-      eventType: this.selectedEvent,
-      year: this.selectedYear,
-      limit: this.limit,
-      slots: this.venues().map(({ venue, staffs }) => ({
-        venue,
-        staffs,
-        slots,
-      })),
-    };
+    const data :ISlot = {
+      startDate:this.form.get('enteredData.startDate')?.value,
+      endDate:this.form.get('enteredData.endDate')?.value,
+      eventType:this.form.get('enteredData.selectedEvent')?.value,
+      year:this.form.get('enteredData.selectedYear')?.value,
+      limit:this.form.get('enteredData.limit')?.value,
+      slots:slots,//{time:string, limit:number}[]
+      venuesAndStaffs: this.venues().map(e=>e)//venue:string , staffs:string[]
+    }
     if (this.validate(data)) {
-      this.Service.postSlot(data);
+      this.service.postSlot(data);
       console.log(data);
     } else {
       alert('enter Data ');
     }
+  }
+
+  getAcceptedStaffs() {
+    this.service.getAcceptedResponse().subscribe({
+      next: (res) => {
+        this.acceptedStaff.set(
+          res.data.map((e) => ({
+            id: e.instructorId.id,
+            name: e.instructorId.name,
+            display: true,
+          }))
+        );
+      },
+      error: (e) => {
+        console.log(e.message);
+        this.dialogService.openSnackBar(e.error.message);
+      },
+    });
+  }
+
+  getBreaks() {
+    this.service.getBreaks().subscribe({
+      next:data=> {
+        this.breaks = data.data;
+      },
+      error : (err : HttpErrorResponse) => {
+        this.dialogService.openSnackBar(err.message)
+      }
+    })
   }
 }

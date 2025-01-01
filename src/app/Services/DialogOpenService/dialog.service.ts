@@ -1,10 +1,8 @@
-import { inject, Injectable } from "@angular/core";
+import {inject, Injectable, TemplateRef} from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { BookingDialogComponent } from "../../User/BookingDialog/booking-dialog.component";
 import { ConfirmDialogComponent } from "../../SuperAdmin/confirm-dialog/confirm-dialog.component";
-import { data } from "../../Models/slot-breaks";
 import { StatusDialogComponent } from "../../SuperAdmin/status-dialog/status-dialog.component";
-import { SuperAdminService } from "../SuperAdminServices/SlotGenerate/super-admin.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable({
@@ -23,12 +21,21 @@ export class DialogOpenService {
 
   private snackBar = inject(MatSnackBar);
     readonly popOver = inject(MatDialog)
+
     openBookingSlotDialog(time:string,date:string,eventType:string , venue : string,slotId : string) {
         this.popOver.open(BookingDialogComponent, {
             width:'320px',height:'250px',
             data:{time,date,eventType ,venue ,slotId}
         })
     }
+
+    openDialogWithTemplate (template : TemplateRef<any> , data : any) {
+      this.popOver.open(template , {
+        data:data,
+        width: '600px',height : '350px'
+      })
+    }
+
     openSlotDialog(staffs : string[] , slots : string[],
         startDate : string , endDate : string
       ) {

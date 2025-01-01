@@ -7,7 +7,7 @@
   margin-top:20px ;
   background-color: white;
   padding: 20px 30px 20px 30px;
-  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
   border-radius: 10px;
 }
 
@@ -61,6 +61,12 @@
 .submit-btn:active {
   background-color: #F0F0F1;
 }
+.config-field-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 40px;
+  row-gap: 20px;
+}
 /* Media Queries */
 
 @media (min-width: 1080px ) {
@@ -81,8 +87,10 @@
 }
 
 @media (max-width : 1080px) {
-  .event-info-container {
+  .event-info-container  {
     flex-direction: column;
-    gap: 0px;
+  }
+  .config-field-container {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,4 +1,4 @@
-import { Signal } from "@angular/core"
+
 
 export interface SlotBreaks {
     morningBreak : string,
@@ -8,11 +8,13 @@ export interface SlotBreaks {
     range : number
 }
 export type data = {
-    staffId: string,
+    id: string,
     phoneNumber: string,
     name: string,
     email: string,
     unmodifiedCount: number
+    forYear : string,
+    eventType : string,
 }
 
 export type staffs = {
@@ -20,7 +22,7 @@ export type staffs = {
     data : {id : string, name : string}[]
 }
 export interface event{
-    date : Date,
+    date : string,
     time : string , isAvailable : string
 }
 export interface eventResponseServer {

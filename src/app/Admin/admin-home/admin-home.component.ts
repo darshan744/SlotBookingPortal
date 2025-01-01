@@ -13,9 +13,9 @@ import {
   MatTableModule
 } from '@angular/material/table';
 import { AdminService } from '../../Services/AdminServices/admin-service.service';
-import {map} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
-import { MatIcon } from '@angular/material/icon';
+import { of } from 'rxjs';
 export interface studentResult {
     id : string , name : string , attendance:string,
     ispresent:boolean,marks: number, remarks: string
@@ -49,6 +49,10 @@ export class AdminHomeComponent implements OnInit{
             remarks : ''
           }))
         return {eventType , students}
+        }),
+        catchError(err => {
+          console.error('Error occurred:', err);
+          return of({ eventType: '', students: [] });
         })
       ).subscribe((res : any)=>{
         if(res) {
@@ -57,10 +61,8 @@ export class AdminHomeComponent implements OnInit{
           this.studentData = res.students;
         }
       })
-      console.log("This");
-
   }
-   studentData : studentResult[] = []
+  studentData : studentResult[] = []
   constructor(private _service : AdminService){}
   displayedColumns: string[] = ['No', 'Name','attendance', 'marks', 'remarks','actions'];
   submitRow(student:studentResult){

@@ -7,19 +7,19 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { AdminService } from '../../Services/AdminServices/admin-service.service';
 import { event, eventResponseServer } from '../../Models/slot-breaks';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatDatepickerInputEvent,MatDatepickerModule,} from '@angular/material/datepicker';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatInput } from '@angular/material/input';
-import { DateAdapter, provideNativeDateAdapter } from '@angular/material/core';
+import {  provideNativeDateAdapter } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DialogOpenService } from '../../Services/DialogOpenService/dialog.service';
 @Component({
   selector: 'app-admin-events',
   standalone: true,
@@ -40,43 +40,49 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   styleUrl: './admin-events.component.css',
 })
 export class AdminEventsComponent implements AfterViewInit {
-  private readonly _formate = inject(DateAdapter);
+  // private readonly _formate = inject(DateAdapter);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
 
   dataSource!: MatTableDataSource<event>;
   selectedDate: string = '';
   constructor(private service: AdminService) { }
-  private snackBar = inject(MatSnackBar);
+  private snackBar = inject(DialogOpenService);
   dupData: event[] = [];
   isLoading = signal<Boolean>(true);
   dataLength = signal<Number>(0);
   columns = ['No', 'Date', 'Time', 'Action'];
   responseDeadline : Date | null = null
   ngAfterViewInit(): void {
-    this._formate.setLocale('en-In');
-    this.service
-      .getAvailabilityRequest()
-      .subscribe((response: eventResponseServer) => {
-        this.responseDeadline = response.responseDeadline
-        const slots = response.slots;
-        this.dataSource = new MatTableDataSource<event>(slots);
-        this.dupData = this.dataSource.data;
-        this.dataSource.paginator = this.paginator;
-        this.isLoading.set(false);
-        console.log(this.isLoading())
-        this.dataLength.set(this.dataSource.data.length);
+    try {
+      this.service
+        .getAvailabilityRequest()
+        .subscribe({
+          next:(response: eventResponseServer) => {
+            this.responseDeadline = response.responseDeadline
+            const slots = response.slots;
+            this.dataSource = new MatTableDataSource<event>(slots);
+            this.dupData = this.dataSource.data;
+            this.dataSource.paginator = this.paginator;
+            this.isLoading.set(false);
+            this.dataLength.set(this.dataSource.data.length);
+        },
+        error:()=> {
+          this.snackBar.openSnackBar('Please try after some time')
+        }
       });
+    } catch (error) {
+      this.snackBar.openSnackBar("Unknown Error Occured");
+    }
   }
-  acceptEvent(e: { date: Date; time: string; isAvailable: string }) {
+  acceptEvent(e: { date: string; time: string; isAvailable: string }) {
     e.isAvailable = 'Accepted';
-    console.log(e);
+    console.log(this.dupData);
     this.dataSource.data = this.dataSource.data.filter(
       (el) => !(el.date === e.date && el.time === e.time)
     );
-
+    // this.service.postAvailabilityResponse(e);
   }
-  cancelEvent(e: { date: Date; time: string; isAvailable: string }) {
+  cancelEvent(e: { date: string; time: string; isAvailable: string }) {
     e.isAvailable = 'Declined';
     console.log(e);
     this.dataSource.data = this.dataSource.data.filter(
@@ -99,7 +105,7 @@ export class AdminEventsComponent implements AfterViewInit {
     this.dataSource.filter = '';
   }
   fillFn(fill : string) {
-    const date = new Date(this.selectedDate);
+    const date = new Date(this.selectedDate).toISOString();
     if (date === null) {
       alert('Please Select A Date');
     }
@@ -117,14 +123,20 @@ export class AdminEventsComponent implements AfterViewInit {
       this.dataSource.data = this.dataSource.data.filter(
         (e) => !(e.date === date)
       );
+      console.log(send);
       this.service.postAvailabilityResponse(send);
     }
   }
   filter(event: MatDatepickerInputEvent<Date>) {
-    let inputVal = (event.value?.toISOString());
-    console.log(inputVal);
-    if (inputVal && this.dataSource.data.find((e) => e.date.toString() === inputVal.toString())) {
+    let inputVal : Date | null | string | undefined = (event.value);
+    inputVal?.setHours(20);
+    inputVal= inputVal?.toISOString();
+    // console.log(event.value);
+    // console.log(this.dataSource.data[0].date);
+    console.log(this.dataSource.data.find((e) => e.date === inputVal));
+    if (inputVal && this.dataSource.data.find((e) => e.date === inputVal)) {
       this.dataSource.filter = inputVal;
+      console.log(this.dataSource.filter);
       this.dataSource.paginator?.firstPage();
     } else {
       alert('Date Not Found');

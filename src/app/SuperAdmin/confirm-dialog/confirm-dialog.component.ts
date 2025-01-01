@@ -1,5 +1,5 @@
-import { Component, inject, OnInit, SimpleChanges } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Component, inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDivider } from '@angular/material/divider';
 import { MatChipEvent, MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,11 +13,14 @@ import {
   i,
 } from '../../helpers';
 import { MatIconModule } from '@angular/material/icon';
+
 type slotData = {
   staffs: staffs['data'];
   startDate: string;
   endDate: string;
   responseDeadline: Date;
+  forYear : string ,
+  eventTypeRequest : string,
 };
 @Component({
   selector: 'app-confirm-dialog',
@@ -36,18 +39,12 @@ type slotData = {
   styleUrl: './confirm-dialog.component.css',
 })
 export class ConfirmDialogComponent implements OnInit {
-  constructor(private _slotrequest: SuperAdminService) {}
+  constructor(private _slotRequest: SuperAdminService) {}
   data: slotData = inject(MAT_DIALOG_DATA);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class
-    console.log(changes);
-  }
-
   requestingData: i[] = [];
+
   ngOnInit(): void {
-    console.log(null === undefined);
     const groupedDates = assignSlotsToDate(
       this.data.startDate,
       this.data.endDate,
@@ -56,7 +53,9 @@ export class ConfirmDialogComponent implements OnInit {
     this.requestingData = assignToStaff(
       this.data.staffs,
       groupedDates,
-      this.data.responseDeadline
+      this.data.responseDeadline,
+      this.data.forYear,
+      this.data.eventTypeRequest
     );
     console.log(this.requestingData);
   }
@@ -70,6 +69,7 @@ export class ConfirmDialogComponent implements OnInit {
     }
     console.log(this.requestingData);
   }
+
   removeDate(event: MatChipEvent) {
     const value = new Date(event.chip.value);
     for (const request of this.requestingData) {
@@ -83,18 +83,19 @@ export class ConfirmDialogComponent implements OnInit {
       );
     }
   }
+
   removeStaff(event: MatChipEvent) {
     const value :string = event.chip.value.split('-')[1].trimStart();
     this.requestingData = this.requestingData.filter(
       e=>!(e.instructorId === value)
     )
-    console.log(this.requestingData);
   }
+
   getter (id:string) {
     return this.data.staffs.find(e=>e.id === id)
   }
+
   submit(): void {
-    console.log(this.data);
-   const sub$ = this._slotrequest.requestSlotAvailability(this.requestingData);
+   this._slotRequest.requestSlotAvailability(this.requestingData);
   }
 }
