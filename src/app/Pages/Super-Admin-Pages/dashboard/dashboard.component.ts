@@ -37,7 +37,7 @@ export interface IDashboard {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatCardModule,MatFormFieldModule,MatInputModule,BaseChartDirective,DatePipe,MatPaginator,
+  imports: [MatCardModule,MatFormFieldModule,MatInputModule,BaseChartDirective,DatePipe,
     MatExpansionModule,FormsModule,MatButtonModule,MatIconModule,CommonModule,MatTableModule
   ],
 

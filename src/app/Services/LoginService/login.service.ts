@@ -29,8 +29,8 @@ export class LoginService {
     return JSON.parse(atob(token.split(".")[1]))
   }
 
-  message(message: string , type?:"success"|"error") {
-    this.toastr.showToast(message);
+  message(message: string , isError : boolean) {
+    this.toastr.showToast(message , isError);
     //  const classMessage = type !== undefined ? type === "success" ? "success-snackbar":"error-snackbar" :'custom-snackbar'
   //   this.snackBar.open(message, '❌', {
   //     duration: 150000,
@@ -46,25 +46,25 @@ export class LoginService {
     ).subscribe((response: LoginResponse) => {
       console.log(response);
       if (!response.success) {
-        this.message(response.message);
+        this.message(response.message , true);
       }
       else if (response.success && response.role === 'Staff') {
         sessionStorage.setItem('loggedInUser', JSON.stringify(response.data));
-        this.message('Login Successful' , "success")
+        this.message('Login Successful' , false)
         this.router.navigate(['/admin/', 'Home']);
       }
       else if (response.success && response.role === 'Student') {
-        this.message("Login Succssful")
+        this.message("Login Succssful" , false)
         sessionStorage.setItem('loggedInUser', JSON.stringify(response.data));
         this.router.navigateByUrl('/user/dashboard');
       }
       else if(response.success && response.role === 'SuperAdmin') {
-        this.message('Login Successfull');
+        this.message('Login Successfull' , false);
         sessionStorage.setItem('loggedInUser' , JSON.stringify(response.data))
         this.router.navigateByUrl('/superAdmin/Search')
       }
       else {
-        this.message('Invalid Credentials');
+        this.message('Invalid Credentials' , true);
       }
     })
   }
@@ -74,7 +74,7 @@ export class LoginService {
       withCredentials: true
     }).subscribe((res: LoginResponse) => {
       if (!res.success) {
-        this.message('Login With BitSathy MailID')
+        this.message('Login With BitSathy MailID' , false)
       }
       else {
         sessionStorage.setItem('loggedInUser', JSON.stringify(res.data));

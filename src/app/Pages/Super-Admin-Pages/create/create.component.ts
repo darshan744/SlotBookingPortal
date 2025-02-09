@@ -14,7 +14,7 @@ import { SuperAdminService } from '../../../Services/SuperAdminServices/SlotGene
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { staffs } from '../../../Models/slot-breaks';
-import {IStaff, IStaffAndEvents} from "../../../SuperAdmin/SuperAdmin.interface";
+import {IStaff, IStaffAndEvents} from "../../Super-Admin-Pages/SuperAdmin.interface";
 @Component({
   selector: 'app-create',
   standalone: true,

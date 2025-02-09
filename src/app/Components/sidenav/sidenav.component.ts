@@ -9,6 +9,7 @@ import { CommonModule} from '@angular/common';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout'
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
+import { ToastComponent } from "../toast/toast.component";
 export interface items{
   name:string,
   path:string,
@@ -17,9 +18,8 @@ export interface items{
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [MatToolbarModule,MatSidenavModule,MatIcon,RouterOutlet,RouterLink,RouterLinkActive,MatNavList,
-    MatListItemIcon,MatListItem,MatIconModule,MatIconButton,CommonModule
-  ],
+  imports: [MatToolbarModule, MatSidenavModule, MatIcon, RouterOutlet, RouterLink, RouterLinkActive, MatNavList,
+    MatListItemIcon, MatListItem, MatIconModule, MatIconButton, CommonModule, ToastComponent],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.css'
 })

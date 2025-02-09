@@ -16,7 +16,6 @@ import { ToastComponent } from '../../Components/toast/toast.component';
   standalone: true,
   imports: [
     MatIconModule,
-    ToastComponent,
     MatFormFieldModule,
     MatInputModule,
     MatLabel,
@@ -31,7 +30,6 @@ export class LoginComponent {
 
   constructor(
     private service: LoginService,
-    private router: Router,
   ) {}
 
   credentials = new FormGroup({

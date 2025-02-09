@@ -8,35 +8,41 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { studentResult } from '../../Pages/Admin-Pages/admin-home/admin-home.component';
 import { IBaseResponse, IStudentInfo } from '../../Models/Admin.model';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
   private _url = environment.ADMIN_URL;
-  constructor(private http: HttpClient, private _snackBar: MatSnackBar , private loading:LoadingService) {}
+  constructor(
+    private http: HttpClient,
+    private _snackBar: MatSnackBar,
+    private loading: LoadingService
+  ) {}
 
   getAvailabilityRequest(): Observable<eventResponseServer> {
-
     const retreivedVal = sessionStorage.getItem('loggedInUser');
     let rollNo = '';
     if (!retreivedVal) {
-       throw new Error("Can't Retrive Data")
+      throw new Error("Can't Retrive Data");
     }
     rollNo = JSON.parse(retreivedVal).id;
     console.log(rollNo);
     console.log(`${this._url}/getAvailability/${rollNo}`);
-    return this.http.get<eventResponseServer>(
-      `${this._url}/getAvailability/${rollNo}`,
-      {
+    return this.http
+      .get<eventResponseServer>(`${this._url}/getAvailability/${rollNo}`, {
         withCredentials: true,
-      }
-    ).pipe(map(e=>(
-      { message:e.message , responseDeadline:e.responseDeadline,
-        slots:e.slots.map(el=>({date:new Date(el.date).toISOString() , isAvailable:el.isAvailable , time:el.time}))
       })
-    )
-  );
+      .pipe(
+        map((e) => ({
+          message: e.message,
+          responseDeadline: e.responseDeadline,
+          slots: e.slots !== undefined ? e.slots.map((el) => ({
+            date: new Date(el.date).toISOString(),
+            isAvailable: el.isAvailable,
+            time: el.time,
+          })) : [],
+        }))
+      );
   }
 
   postAvailabilityResponse(e: event[]) {
@@ -46,7 +52,9 @@ export class AdminService {
     if (ret) {
       rollNo = JSON.parse(ret).id;
       this.http
-        .post(`${this._url}/postAvailability/${rollNo}`, e , {withCredentials:true})
+        .post(`${this._url}/postAvailability/${rollNo}`, e, {
+          withCredentials: true,
+        })
         .subscribe((res: any) => {
           let msg: string =
             res.message === 'Success' ? ' ✅Done' : ' ❌Could Not Update';
@@ -62,8 +70,13 @@ export class AdminService {
   }
 
   getStudentList() {
-    let staffId  = this.getUserId();
-    return this.http.get<IBaseResponse & {students : {id:string , name : string }[] , eventType:string}>(environment.BOOKERS + staffId, {withCredentials: true,});
+    let staffId = this.getUserId();
+    return this.http.get<
+      IBaseResponse & {
+        students: { id: string; name: string }[];
+        eventType: string;
+      }
+    >(environment.BOOKERS + staffId, { withCredentials: true });
   }
 
   getUserId() {
@@ -86,14 +99,15 @@ export class AdminService {
     console.log('params');
     console.log(params);
 
-    return this.http.get<IStudentInfo>(environment.INFORMATION_STUDENT,
-      { params, withCredentials: true }
-    );
+    return this.http.get<IStudentInfo>(environment.INFORMATION_STUDENT, {
+      params,
+      withCredentials: true,
+    });
   }
 
   getAllStudent() {
-    return this.http.get<IStudentInfo>(environment.ALLSTUDENTS , {withCredentials : true});
+    return this.http.get<IStudentInfo>(environment.ALLSTUDENTS, {
+      withCredentials: true,
+    });
   }
-
 }
-

@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
+import { ToastrService } from '../../../Services/Toastr/toastr.service';
 @Component({
   selector: 'app-admin-events',
   standalone: true,
@@ -47,6 +48,7 @@ export class AdminEventsComponent implements AfterViewInit {
   selectedDate: string = '';
   constructor(private service: AdminService) { }
   private snackBar = inject(DialogOpenService);
+  private toast = inject(ToastrService);
   dupData: event[] = [];
   isLoading = true;
   dataLength = signal<Number>(0);
@@ -66,12 +68,15 @@ export class AdminEventsComponent implements AfterViewInit {
             this.dataSource.paginator = this.paginator;
             this.dataLength.set(this.dataSource.data.length);
         },
-        error:()=> {
-          this.snackBar.openSnackBar('Please try after some time')
+        error:(err)=> {
+          console.log(err);
+          this.toast.showToast(err.message, false , 'info');
+          //this.snackBar.openSnackBar('Please try after some time')
         }
       });
     } catch (error) {
-      this.snackBar.openSnackBar("Unknown Error Occured");
+      this.toast.showToast('Unknown Error Occured', true);
+      //this.snackBar.openSnackBar("Unknown Error Occured");
     }
   }
   ngAfterViewInit(): void {

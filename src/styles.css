@@ -7,7 +7,6 @@ body {
   font-family: poppins, sans-serif;
   height: 100%;
   margin: 0;
-  position: relative;
 }
 
 body {
@@ -149,6 +148,3 @@ body {
 
 }
 
-app-toast {
-  z-index: 10000;
-}

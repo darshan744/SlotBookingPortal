@@ -1,17 +1,16 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, Input } from '@angular/core';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, Inject, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ToastrService } from '../../Services/Toastr/toastr.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-toast',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule , MatIcon , AsyncPipe],
   templateUrl: './toast.component.html',
   styleUrl: './toast.component.css',
 })
 export class ToastComponent {
-  @Inject(ToastrService)
-  toastrService !: ToastrService;
 
-
+  constructor(public toastrService : ToastrService){}
 }

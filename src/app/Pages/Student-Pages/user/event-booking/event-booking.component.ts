@@ -10,6 +10,7 @@ import {IBookingStatus, ISlot, TimeSlot} from '../../../Student.interface'
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatDivider} from '@angular/material/divider'
 import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
+import { ToastrService } from '../../../../Services/Toastr/toastr.service';
 export enum ResponseMessage {
   success = 'Slot Retrieved Successfully',
   noSlots = 'No slots found',
@@ -27,7 +28,7 @@ export class EventBookingComponent implements OnInit  {
 
   @ViewChild('dialogTemplate') dialogTemplate !: TemplateRef<any>;
   dialogService = inject(DialogOpenService);
-
+  toastService = inject(ToastrService)
   eventType : string = '';
   data : ISlot | null = null;
   alreadyBooked : IBookingStatus | null = null;
@@ -60,7 +61,8 @@ export class EventBookingComponent implements OnInit  {
   fetchSlots() {
     this._Service.getSlots(this.eventType).subscribe({
       next:(res) => {
-        this.dialogService.openSnackBar(res.message);
+        //this.dialogService.openSnackBar(res.message);
+        this.toastService.showToast(res.message , false , 'info')
         console.log(res);
         const data = res.data;
         if(data && 'slotId' in data && 'startDate' in data && 'endDate' in data ){

@@ -1,6 +1,16 @@
-<ng-template class="toast-container" *ngIf="toastrService.show">
-  <div class="toast">
-    {{ toastrService.message }}
-    <div class="progress-bar"></div>
+<div class="toast-container" *ngIf="toastrService.message$ | async as message"
+[ngClass]="{'show' : toastrService.message$ | async}" >
+  <div class="toast"
+  [ngClass]="{
+   'error' : (toastrService.isError|async) && ( (toastrService.iconName |async) !== 'info'),
+   'success' : !(toastrService.isError | async) && ( (toastrService.iconName |async) !== 'info'),
+   'info' : !(toastrService.isError | async) && ((toastrService.iconName | async) === 'info')
+   }"
+  >
+    <mat-icon>
+     {{toastrService.iconName | async}}
+      </mat-icon>
+     {{message}}
+    <div class="progress-bar"  [ngStyle]="{width:(toastrService.progress$ | async) + '%'}" ></div>
   </div>
-</ng-template>
+</div>
