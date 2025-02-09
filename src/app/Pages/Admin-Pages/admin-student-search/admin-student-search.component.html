@@ -1,0 +1,60 @@
+<div class="container mat-elevation-z8">
+  <form method="get" class="inputs">
+    <mat-form-field class="custom-form" subscriptSizing="dynamic" appearance="outline">
+      <mat-label>Search</mat-label>
+      <input (input)="filter()" [(ngModel)]="filterValue" appearance="outline" name="filterValue" matInput type="text"
+       placeholder="Name or id or Department">
+      <div matSuffix style="width: fit-content;padding: 5px;">
+      </div>
+    </mat-form-field>
+  </form>
+  <div class="data">
+    <mat-spinner *ngIf="spinner"></mat-spinner>
+    <div>
+      <div class="table">
+        <table mat-table class="mat-elevation-z8" [dataSource]="studentData">
+          <ng-container matColumnDef="Id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let data">{{data.id}}</td>
+          </ng-container>
+          <ng-container matColumnDef="Name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let data">{{data.name}}</td>
+          </ng-container>
+          <ng-container matColumnDef="Email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let data">{{data.email}}</td>
+          </ng-container>
+          <ng-container matColumnDef="Department">
+            <th mat-header-cell *matHeaderCellDef>Department</th>
+            <td mat-cell *matCellDef="let data">{{data.department}}</td>
+          </ng-container>
+          <ng-container matColumnDef="Year">
+            <th mat-header-cell *matHeaderCellDef>Year</th>
+            <td mat-cell *matCellDef="let data">{{data.year}}</td>
+          </ng-container>
+          <ng-container matColumnDef="Resume">
+            <th mat-header-cell *matHeaderCellDef>Resume</th>
+            <td mat-cell *matCellDef="let data">
+            @if(data.resume) {
+              <a href="{{url(data.resume)}}">Resume</a>
+            }
+            @else {
+              <p>Not Uploaded</p>
+            }
+              <!-- <p>Resume</p> -->
+            </td>
+          </ng-container>
+
+          <tr mat-header-row style="background-color: #ddd;" *matHeaderRowDef="displayColumns"></tr>
+          <tr mat-row [ngClass]="(i+1) % 2 === 0 ? 'even' : ''" *matRowDef="let row ; let i = index;columns:displayColumns"></tr>
+        </table>
+        <mat-paginator class="mat-elevation-z8" #paginator
+          [length]="studentData.data.length"
+          [pageSize]="8"
+          [pageSizeOptions]="[5, 10, 25 ,100]">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

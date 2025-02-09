@@ -1,21 +1,23 @@
+import { LoadingService } from './../Loading/loading.service';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { event, eventResponseServer } from '../../Models/slot-breaks';
 import { map, Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { studentResult } from '../../Admin/admin-home/admin-home.component';
+import { studentResult } from '../../Pages/Admin-Pages/admin-home/admin-home.component';
 import { IBaseResponse, IStudentInfo } from '../../Models/Admin.model';
-import { User } from '../../Models/User.model';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
   private _url = environment.ADMIN_URL;
-  constructor(private http: HttpClient, private _snackBar: MatSnackBar) {}
+  constructor(private http: HttpClient, private _snackBar: MatSnackBar , private loading:LoadingService) {}
 
   getAvailabilityRequest(): Observable<eventResponseServer> {
+
     const retreivedVal = sessionStorage.getItem('loggedInUser');
     let rollNo = '';
     if (!retreivedVal) {
@@ -60,20 +62,13 @@ export class AdminService {
   }
 
   getStudentList() {
-    let staffId : User | null = this.getUserId();
-    console.log('staffId', staffId);
-    if(staffId)
-    return this.http.get(environment.BOOKERS + staffId.id, {
-      withCredentials: true,
-    });
-    return new Observable<Error>(observer => {
-      observer.error(new Error("Staff ID not found"));
-    });
+    let staffId  = this.getUserId();
+    return this.http.get<IBaseResponse & {students : {id:string , name : string }[] , eventType:string}>(environment.BOOKERS + staffId, {withCredentials: true,});
   }
 
-  getUserId(): User | null {
+  getUserId() {
     let session = sessionStorage.getItem('loggedInUser');
-    return session !== null ? JSON.parse(session) : null;
+    return session !== null ? JSON.parse(session).id : null;
   }
 
   studentMarks(studentmarks: studentResult[], eventType: string) {
@@ -95,4 +90,10 @@ export class AdminService {
       { params, withCredentials: true }
     );
   }
+
+  getAllStudent() {
+    return this.http.get<IStudentInfo>(environment.ALLSTUDENTS , {withCredentials : true});
+  }
+
 }
+

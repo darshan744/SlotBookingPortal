@@ -11,6 +11,5 @@ export interface IStudentInfo extends IBaseResponse {
     department: string;
     year: string;
     resume: string;
-    EventHistory: [];
   }[];
 }

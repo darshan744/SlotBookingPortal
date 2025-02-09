@@ -1,9 +1,10 @@
 import {inject, Injectable, TemplateRef} from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { BookingDialogComponent } from "../../User/BookingDialog/booking-dialog.component";
-import { ConfirmDialogComponent } from "../../SuperAdmin/confirm-dialog/confirm-dialog.component";
-import { StatusDialogComponent } from "../../SuperAdmin/status-dialog/status-dialog.component";
+import { BookingDialogComponent } from "../../Components/BookingDialog/booking-dialog.component";
+import { ConfirmDialogComponent } from "../../Components/confirm-dialog/confirm-dialog.component";
+import { StatusDialogComponent } from "../../Components/status-dialog/status-dialog.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { ToastComponent } from "../../Components/toast/toast.component";
 
 @Injectable({
     providedIn:'root'

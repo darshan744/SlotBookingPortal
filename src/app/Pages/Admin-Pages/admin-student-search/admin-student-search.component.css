@@ -1,0 +1,28 @@
+.container {
+  padding: 20px;
+  background-color: white;
+  height: 80vh;
+  border-radius: 9px;
+  margin-left: 20px;
+  margin-top:10px;
+}
+.inputs {
+  display: flex;
+  gap: 30px;
+}
+.custom-width-form {
+  width: 300px;
+}
+.custom-form{
+  --mat-form-field-container-vertical-padding:9px;
+  --mat-form-field-container-height: 48px;
+  width: 400px;
+}
+
+.table {
+  margin-top:10px;
+}
+
+.even {
+  background-color: #f0f0f0;
+}

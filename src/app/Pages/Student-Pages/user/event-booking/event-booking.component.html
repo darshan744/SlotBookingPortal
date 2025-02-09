@@ -1,0 +1,185 @@
+<ng-container *ngIf="data !== null" class="container">
+<div class="header">
+  <h3>Event Booking </h3>
+</div>
+  <div class="wrapper">
+<!--    <div class="venue">-->
+      <mat-form-field appearance="outline" >
+        <mat-label>Venue Selection</mat-label>
+        <mat-select [(ngModel)]="selectedVenue" (selectionChange)="mapStaffsToSelectedVenue()" >
+          <mat-option *ngFor="let venue of data?.slots" [value]="venue.venue">
+            {{venue.venue}}
+          </mat-option>
+        </mat-select>
+        <mat-hint>Select Venue</mat-hint>
+      </mat-form-field>
+<!--    </div>-->
+<!--    <div class="staffs">-->
+    <mat-form-field appearance="outline" >
+      <mat-label>Staff Select</mat-label>
+      <mat-select [(ngModel)]="selectedStaff" (selectionChange)="mapSlotsToSelectedStaff()" >
+        <mat-option *ngFor="let staff of selectedVenueStaffArray" [value]="staff.id">{{staff.id}}</mat-option>
+      </mat-select>
+      <mat-hint>Select Instructor</mat-hint>
+    </mat-form-field>
+<!--    </div>-->
+  </div>
+  <div class="slots-container">
+    <div class="slots">
+      <div class="date" [class.selectedDate]="slot.date.toString() === currentDate" (click)="mapTimingsToSelectedDate(slot.date)" *ngFor="let slot of selectedSlotsArray" >
+        {{slot.date | date}}
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div  class="timings-container">
+      <div  class="timing" [class.selectedTime]="timing.time === currentTime" (click)="this.currentTime = timing.time" *ngFor="let timing of selectedTiming">
+          {{ timing.time }}
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <button (click)="openDialog()" class="confirm-button">Confirm Booking</button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="alreadyBooked !== null">
+  <div class="notification">
+    <h2>You are already booked for the following event:</h2>
+    <p><strong>Booking Date:</strong> {{ alreadyBooked.bookingDate | date:'shortDate' }}</p>
+    @let timingString = alreadyBooked.bookingTime;
+    <div *ngIf="timingString">
+      @let times = timingString.split('/');
+      <p><strong>Booking Time:</strong> {{ times[0]  }}</p>
+      <p><strong>Booking Staff: </strong>{{ times[1] }}</p>
+      <p><strong>Booking Venue: </strong>{{ times[2] }}</p>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="alreadyBooked === null && data === null">
+  <div class="notification">
+    <h2>No new slots are available at the moment.</h2>
+    <p>Please check back later or contact support if you need assistance.</p>
+  </div>
+</ng-container>
+
+
+
+<!-- ============== ================= ================-->
+<ng-template #dialogTemplate let-data>
+  <h4 matDialogTitle>Confirm?</h4>
+  <mat-divider></mat-divider>
+  <mat-dialog-content>
+    <h6>Are You sure you want to book slot on </h6>
+    <p style="font-size:18px"><strong>Date : </strong>{{data.date | date}}</p>
+    <p style="font-size:18px"><strong>Time : </strong>{{data.time}}</p>
+    <p style="font-size:18px"><strong>Venue : </strong>{{data.venue}}</p>
+    <p style="font-size:18px"><strong>Staff : </strong>{{data.staff}}</p>
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <mat-dialog-actions>
+    <div>
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-button mat-dialog-close (click)="submit()" cdkFocusInitial>Confirm</button>
+    </div>
+  </mat-dialog-actions>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<ng-container *ngIf="!noSlots()">-->
+<!--  <mat-tab-group (selectedTabChange)="onTabChange($event)" dynamicHeight>-->
+<!--    @for (date of dates; track date) {-->
+<!--    <mat-tab label="{{ date }}">-->
+<!--      <div class="container">-->
+<!--        <div class="tab-container">-->
+<!--          <div class="select-venue">-->
+<!--            <mat-form-field subscriptSizing="dynamic" class="formfield" appearance="outline">-->
+<!--              <mat-label>Select Venue:</mat-label>-->
+<!--              <mat-select [(ngModel)]="selectedVenue" class="options">-->
+<!--                <mat-option *ngFor="let venue of data.slots" [value]="venue.venue">-->
+<!--                  {{ venue.venue }}-->
+<!--                </mat-option>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--            <button class="btn btn-primary" (click)="getSlots()">Get Slots</button>-->
+<!--          </div>-->
+<!--          <div *ngIf="dataSource.data.length > 0;else loadin" class="slots-table">-->
+<!--            <table mat-table [dataSource]="dataSource" class="table table-striped table-hover">-->
+
+<!--              <ng-container matColumnDef="Time">-->
+<!--                <th mat-header-cell *matHeaderCellDef="">Time</th>-->
+<!--                <td mat-cell *matCellDef="let slot">-->
+<!--                  {{ slot.time }}-->
+<!--                </td>-->
+<!--              </ng-container>-->
+
+<!--              <ng-container matColumnDef="Slots">-->
+<!--                <th mat-header-cell *matHeaderCellDef>Available Slots</th>-->
+<!--                <td mat-cell *matCellDef="let slot">-->
+<!--                  {{ slot.limit }}-->
+<!--                </td>-->
+<!--              </ng-container>-->
+
+<!--              <ng-container matColumnDef="Action">-->
+<!--                <th mat-header-cell *matHeaderCellDef>Action</th>-->
+<!--                <td mat-cell *matCellDef="let slot">-->
+<!--                  <button class="time-button" (click)="bookSlot(slot.time , date)">Book</button>-->
+<!--                </td>-->
+<!--              </ng-container>-->
+
+<!--              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>-->
+<!--            </table>-->
+<!--            <mat-paginator class="paginator" #paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons-->
+<!--              aria-label="Select page of periodic elements">-->
+<!--            </mat-paginator>-->
+<!--          </div>-->
+<!--          <ng-template #loadin>-->
+<!--            <p>SLots loading </p>-->
+<!--          </ng-template>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </mat-tab>-->
+<!--    }-->
+<!--  </mat-tab-group>-->
+<!--</ng-container>-->
+
+
+<!--<div class="no-data" *ngIf="noSlots()">-->
+<!--  <p>No slots Available</p>-->
+<!--  <span class="material-icons no-data-icon">folder</span>-->
+<!--</div>-->
+<!--<div class="alreadyBooked" *ngIf="alreadyBooked()">-->
+<!--  <div class="already-booked-container">-->
+<!--    <span class="material-icons">assignment_turned_in</span>-->
+<!--    <p>You have Aready booked a slot </p>-->
+<!--    <p>Date : <strong>{{ bookedDate.date | date }}</strong> </p>-->
+<!--    <p>Time : <strong>{{ bookedDate.time-->
+<!--        }}</strong></p>-->
+<!--        <p>Venue : <strong>{{bookedDate.venue}}</strong>  </p>-->
+<!--  </div>-->
+<!--</div>-->

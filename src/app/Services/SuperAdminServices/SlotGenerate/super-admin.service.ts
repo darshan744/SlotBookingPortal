@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../SuperAdmin/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../Components/confirm-dialog/confirm-dialog.component';
 import { environment } from '../../../../environments/environment.development';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import { data } from '../../../Models/slot-breaks';
@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 import { AcceptedResponse, AllResponse, IEventInfo, Staff } from '../../../Models/SuperAdmin.model';
 import { i } from '../../../helpers';
 import { DialogOpenService } from '../../DialogOpenService/dialog.service';
-import {ISlot, IStaff, IStaffAndEvents , IBreaks , IBaseResponse} from "../../../SuperAdmin/SuperAdmin.interface";
+import {ISlot, IStaff, IStaffAndEvents , IBreaks , IBaseResponse} from "../../../Pages/Super-Admin-Pages/SuperAdmin.interface";
+import {IDashboard} from "../../../Pages/Super-Admin-Pages/dashboard/dashboard.component";
 
 
 @Injectable({
@@ -155,5 +156,9 @@ export class SuperAdminService {
         this.snackBarService.openSnackBar(e.message)
       }
     })
+  }
+
+  dashboard () {
+    return this.http.get<IDashboard>(environment.DASHBOARD , {withCredentials:true});
   }
 }

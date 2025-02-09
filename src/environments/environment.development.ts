@@ -24,4 +24,6 @@ export const environment = {
     INFORMATION_STUDENT:`http://localhost:3000/api/v1/Admin/information/students`,
     FILE_UPLOAD : `http://localhost:3000/api/v1/Students/upload`,
     BREAKS : 'http://localhost:3000/api/v1/SuperAdmin/breaks',
+    ALLSTUDENTS : 'http://localhost:3000/api/v1/Admin/students',
+    DASHBOARD : 'http://localhost:3000/api/v1/SuperAdmin/dashboard',
 };

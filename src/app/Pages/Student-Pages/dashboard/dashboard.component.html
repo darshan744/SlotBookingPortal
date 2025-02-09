@@ -1,0 +1,99 @@
+<div class="container">
+  <!-- <h3 class="mat-h3" style="margin-top: 30px;margin-left: 30px;">Welcome {{user.Name}}</h3> -->
+  <div>
+    <div class="user-details-container">
+      <div class="left">
+        <h3>{{user.Name}}</h3>
+        <h5><strong>Roll No:</strong> {{user.RollNo}}</h5>
+        <h5><strong>Year:</strong> {{user.Year}}</h5>
+        <h5><strong>Department:</strong> {{user.Dept}}</h5>
+        <h5><strong>Upcoming Event</strong></h5>
+      </div>
+      <div class="right">
+        <div class="password">
+          <h6 style="margin-right:10px;"><strong> Change Password :</strong></h6>
+          <mat-form-field appearance="outline" class="custom-width-form">
+            <mat-label>Change Password</mat-label>
+            <input matInput />
+          </mat-form-field>
+          <button mat-button >Change Password</button>
+        </div>
+        <div class="user-footer">
+          <form *ngIf="selectedFileName === ''; else fileUploaded" class="file-upload-form">
+            <label for="resume-upload" class="file-upload-label">
+              <input id="resume-upload" class="file-upload-input" type="file" accept=".pdf" (input)="fileInput($event)" />
+              Upload Resume
+            </label>
+          </form>
+          <ng-template #fileUploaded >
+            <div class="uploaded-file">
+              <h6><strong>Your Resume :</strong> </h6>
+              <a [href]="resumeLink" target="_blank" style="display: flex;align-content: center;text-decoration: none;color:black;margin-bottom: 8px"><mat-icon>link</mat-icon>Resume</a>
+              <mat-icon (click)="clearFile()" style="cursor: pointer;margin-bottom:8px">delete</mat-icon>
+<!--              <button (click)="clearFile()" mat-button><mat-icon>delete</mat-icon></button>-->
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="event details">
+
+    </div>
+  </div>
+  <div *ngIf="eventResults.data.length > 0" class="table-container">
+    <table mat-table [dataSource]="eventResults" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="No">
+        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef="">No</th>
+        <td mat-cell class="mat-cell" data-header="No" *matCellDef="let data;let i = index">{{i+1}}</td>
+      </ng-container>
+      <ng-container matColumnDef="eventName">
+        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Events</th>
+        <td mat-cell class="mat-cell" data-header="Events" *matCellDef="let event">{{event.eventType}}</td>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Date</th>
+        <td mat-cell class="mat-cell" data-header="Date" *matCellDef="let event">
+          {{(convertDate(event.resultId) | date) || 'Absent' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="marks">
+        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Marks</th>
+        <td mat-cell class="mat-cell" data-header="Marks" *matCellDef="let event">{{event.marks}}</td>
+      </ng-container>
+      <ng-container matColumnDef="remarks">
+        <th mat-header-cell class="mat-header-cell Remarks-header" *matHeaderCellDef>Remarks</th>
+        <td mat-cell class="mat-cell Remarks-column" data-header="Remarks" *matCellDef="let event">{{event.remarks}}
+        </td>
+      </ng-container>
+      <tr mat-header-row class="headers" *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row;columns:columns"></tr>
+    </table>
+  </div>
+  <div>
+    <div class="chart-container">
+      <div *ngFor="let eventType of chartData | keyvalue">
+        <mat-card class="mat_card" >
+          <mat-card-header>{{eventType.key}}</mat-card-header>
+          <mat-card-content>
+            <canvas class="canvas" baseChart
+            [labels]="chartData[eventType.key].labels"
+            [datasets]="chartData[eventType.key].datasets" [options]="options" [type]="type" >
+          </canvas>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <ng-template #noData>
+    <mat-card-header>
+      <h6>No Event Attended</h6>
+    </mat-card-header>
+    <mat-card-content
+    style="display: flex;flex-direction: column;justify-content: center;
+    align-items: center;padding: 50px;font-family: monospace;">
+      <p style="font-size: 25px;">No Data Available</p>
+      <span class="material-icons" style="font-size: 60px;color: #ff6b6b;">folder</span>
+    </mat-card-content>
+  </ng-template>
+</div>

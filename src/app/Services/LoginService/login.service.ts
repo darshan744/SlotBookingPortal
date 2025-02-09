@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogOpenService } from '../DialogOpenService/dialog.service';
+import { ToastrService } from '../Toastr/toastr.service';
 interface LoginResponse {
   success: boolean,
   role?: string,
@@ -18,7 +20,7 @@ interface LoginResponse {
 
 
 export class LoginService {
-
+  toastr:ToastrService = inject(ToastrService);
   snackBar: MatSnackBar = inject(MatSnackBar);
   router = inject(Router);
   user: any = null;
@@ -27,13 +29,15 @@ export class LoginService {
     return JSON.parse(atob(token.split(".")[1]))
   }
 
-  message(message: string) {
-    this.snackBar.open(message, '❌', {
-      duration: 2000,
-      verticalPosition: 'top',
-      horizontalPosition: 'right',
-      panelClass: ['custom-snackbar']
-    })
+  message(message: string , type?:"success"|"error") {
+    this.toastr.showToast(message);
+    //  const classMessage = type !== undefined ? type === "success" ? "success-snackbar":"error-snackbar" :'custom-snackbar'
+  //   this.snackBar.open(message, '❌', {
+  //     duration: 150000,
+  //     verticalPosition: 'top',
+  //     horizontalPosition: 'right',
+  //     panelClass: [classMessage]
+  //   })
   }
 
   authenticate(name: string, password: string) {
@@ -46,7 +50,7 @@ export class LoginService {
       }
       else if (response.success && response.role === 'Staff') {
         sessionStorage.setItem('loggedInUser', JSON.stringify(response.data));
-        this.message('Login Successful')
+        this.message('Login Successful' , "success")
         this.router.navigate(['/admin/', 'Home']);
       }
       else if (response.success && response.role === 'Student') {

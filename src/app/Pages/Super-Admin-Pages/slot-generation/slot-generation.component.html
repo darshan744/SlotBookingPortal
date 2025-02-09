@@ -1,0 +1,128 @@
+<div class="container">
+  <!-- Main Form -->
+  <div class="slot-generate">
+    <h5>Generate Slots</h5>
+    <mat-divider></mat-divider>
+    <form class="inputs" [formGroup]="form">
+
+      <mat-form-field appearance="outline" formGroupName="data">
+        <mat-label>Break Timings</mat-label>
+        <mat-select formControlName="selectedBreakConfig">
+          <mat-option [value]="b.configurationId" *ngFor="let b of breaks">{{b.configurationId}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- Slot Interval -->
+      <mat-form-field formGroupName="data" appearance="outline">
+        <mat-label>Slot-Interval</mat-label>
+        <input formControlName="range" type="number" required matInput name="Intervals" placeholder="Enter Intervals" />
+      </mat-form-field>
+      <!-- Slot Limit -->
+      <mat-form-field formGroupName="enteredData" appearance="outline">
+        <mat-label>Slot Limit</mat-label>
+        <input formControlName="limit" type="number" matInput />
+      </mat-form-field>
+      <!-- Start Date -->
+      <mat-form-field formGroupName="enteredData" appearance="outline">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepickerFilter]="dateFilter" formControlName="startDate" [matDatepicker]="Startdate" />
+        <mat-datepicker-toggle matIconSuffix [for]="Startdate"></mat-datepicker-toggle>
+        <mat-datepicker #Startdate />
+      </mat-form-field>
+      <!-- End Date -->
+      <mat-form-field formGroupName="enteredData" appearance="outline">
+        <mat-label>End Date</mat-label>
+        <input [matDatepickerFilter]="dateFilter" matInput formControlName="endDate" [matDatepicker]="EndDate" />
+        <mat-datepicker-toggle matIconSuffix [for]="EndDate"></mat-datepicker-toggle>
+        <mat-datepicker #EndDate />
+      </mat-form-field>
+    </form>
+    <div style="display: flex;justify-content: center;">
+      <button mat-button type="button" (click)="generateSlot()"><mat-icon>autorenew</mat-icon> Generate</button>
+    </div>
+  </div>
+
+  <form [formGroup]="form" class="event-types">
+    <h5>Event and Batch</h5>
+    <mat-divider></mat-divider>
+    <div class="event-forms">
+      <!-- Event Selection -->
+      <mat-form-field formGroupName="enteredData" appearance="outline">
+        <mat-label>Select Event</mat-label>
+        <mat-select formControlName="selectedEvent" >
+          <mat-option value="Mock Interview">Mock Interview</mat-option>
+          <mat-option value="Self Introduction">Self Introduction</mat-option>
+          <mat-option value="Group Discussion">Group Discussion</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Batch Selection -->
+      <mat-form-field formGroupName="enteredData" appearance="outline">
+        <mat-label>Select Batch</mat-label>
+        <mat-select formControlName="selectedYear">
+          <mat-option value="Year 1">Year 1</mat-option>
+          <mat-option value="Year 2">Year 2</mat-option>
+          <mat-option value="Year 3">Year 3</mat-option>
+          <mat-option value="Year 4">Year 4</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field formGroupName="enteredData" appearance="outline">
+        <mat-label>Venues</mat-label>
+        <input formControlName="venue" name="venue" type="text" matInput />
+      </mat-form-field>
+
+      <!-- Staff Input -->
+      <mat-form-field formGroupName="enteredData" appearance="outline">
+        <mat-label>Staff</mat-label>
+        <input [matAutocomplete]="auto" [matChipInputFor]="grid"
+        type="text" formControlName="staff" name="staff" matInput />
+        <mat-autocomplete #auto>
+          <mat-option *ngFor="let item of acceptedStaffs" [value]="item.id">
+            {{item.id}} - {{item.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div style="display: flex;justify-content: center;">
+      <button mat-button type="button" (click)="addStaff()"><mat-icon>person_add</mat-icon> Add Staff</button>
+    </div>
+  </form>
+
+  <button mat-raised-button (click)="submit()" class="btns" color="primary"><mat-icon>event</mat-icon> Generate Slots</button>
+
+  <div class="slots-generated">
+    <h5>Generated Slots</h5>
+    <mat-chip-grid #grid>
+      <div style="margin: 10px;" *ngFor="let venue of venues()">
+        <ng-container *ngIf="venue.staffs.length > 0">
+          <h6>{{venue.venue}}</h6>
+          <div style="margin: 5px;" *ngFor="let staff of venue.staffs; let i = index">
+            <mat-chip (removed)="removeStaff($event)">
+              {{staff}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+          </div>
+        </ng-container>
+      </div>
+    </mat-chip-grid>
+  </div>
+</div>
+
+
+<ng-template #DialogTemplate>
+  <h3 matDialogTitle>Slots</h3>
+
+  <mat-dialog-content>
+    <ng-container style="margin: 10px;">
+      <mat-chip-set>
+        <div *ngFor="let slot of slots()" style="margin: 5px;">
+          <mat-chip>{{slot}}</mat-chip>
+        </div>
+      </mat-chip-set>
+    </ng-container>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-dialog-close mat-flat-button cdFocusInitial>Close</button>
+  </mat-dialog-actions>
+</ng-template>

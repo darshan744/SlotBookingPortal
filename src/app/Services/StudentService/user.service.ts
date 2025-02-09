@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment.development';
 import {Observable} from 'rxjs';
 import {IBaseResponse, IFileUploadError, IFileUploadSuccess} from '../../Models/Student.model';
-import {IBookingStatus, ISlot} from "../../User/Student.interface";
+import {IBookingStatus, ISlot} from "../../Pages/Student.interface";
 
 @Injectable({
   providedIn: 'root',

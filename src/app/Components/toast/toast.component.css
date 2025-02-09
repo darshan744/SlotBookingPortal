@@ -1,0 +1,64 @@
+.toast-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  transform: translateX(110%);
+  transition: transform 0.3s ease-in;
+  z-index: 10000;
+}
+
+.toast {
+  position: relative;
+  border: 1px solid black;
+  width: 250px;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  background-color: #eee;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.toast-container.show {
+  transform: translateX(0);
+}
+
+/* Progress Bar */
+.toast .progress-bar {
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background-color: rgb(192, 131, 131);
+  bottom: 0;
+  left: 0;
+  animation: progress-animation 3s linear forwards;
+}
+
+/* Progress bar animation */
+@keyframes progress-animation {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0;
+  }
+}
+
+/* Hide toast after animation */
+.toast-container.show {
+  animation: hide-toast 3s linear forwards;
+}
+
+@keyframes hide-toast {
+  0% {
+    transform: translateX(0);
+  }
+
+  90% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(110%);
+  }
+}

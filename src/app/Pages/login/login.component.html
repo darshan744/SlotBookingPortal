@@ -1,0 +1,38 @@
+<!-- client id:772453149406-40ctg1aupn8hok7uttrquur55tfd313g.apps.googleusercontent.com -->
+
+<div class="container">
+
+  <div class="form-container">
+    <h6><strong>Welcome Back</strong></h6>
+    <form class="form"[formGroup]="credentials">
+      <p><strong>User Name</strong></p>
+      <mat-form-field  class="custom-width-form" appearance="outline">
+        <mat-label>User Name</mat-label>
+        <input type="text" formControlName="userName" matInput >
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+      <p>
+        <strong>Password</strong>
+      </p>
+      <mat-form-field class="custom-width-form" appearance="outline" >
+        <mat-label>Password</mat-label>
+        <input matInput [type]="password() === true ? 'password' : 'text' " formControlName="password"
+          style="border-radius: 4px;">
+        <button mat-icon-button matSuffix (click)="this.password.set(!this.password())">
+          <mat-icon>{{password() ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <div class="submittion">
+        <button class="button" (click)="submit()">Login</button>
+        <div id="g_id_onload" [attr.data-client_id]="clientId" data-context="signin" data-ux_mode="popup"
+            data-callback="handleOauthResponse" data-auto_prompt="false">
+          </div>
+          <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+            data-text="continue_with" data-size="large" data-logo_alignment="center" data-width=250>
+          </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+
