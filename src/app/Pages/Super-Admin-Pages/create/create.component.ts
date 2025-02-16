@@ -47,7 +47,6 @@ export class CreateComponent implements OnInit{
   /**Methods*/
 
   addStaffToChip(e: MatAutocompleteSelectedEvent) {
-    console.log('optionSelect');
     let value = e.option.viewValue.split('-')[1].trimStart();
     this.enteredStaff.set('');
     this.displaySelectedStaff.update((staffs: {id: string, name: string, }[]) => {
@@ -75,7 +74,7 @@ export class CreateComponent implements OnInit{
     this.Service.getStaffAndEvents().subscribe((e: IStaffAndEvents) => {
       this.staffs = e.staffs
       this.events = e.events;
-      console.log(this.events);
+
     });
   }
 

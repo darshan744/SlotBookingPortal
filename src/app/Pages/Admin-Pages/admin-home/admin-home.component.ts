@@ -39,7 +39,7 @@ export class AdminHomeComponent implements OnInit{
             ispresent:false,marks: 0, remarks: ''}))}))
       ).subscribe((res)=>{
         if(res) {
-          console.log(res)
+          (res)
           this.eventType = res.eventType;
           this.studentData = res.students;
         }
@@ -50,19 +50,17 @@ export class AdminHomeComponent implements OnInit{
   displayedColumns: string[] = ['No', 'Name','attendance', 'marks', 'remarks','actions'];
 
   submitRow(student:studentResult){
-    console.log(this.eventType);
+    (this.eventType);
     this._service.studentMarks([student] , this.eventType)
     this.studentData = this.studentData.filter(std => std.id !== student.id)
   }
 
   attendance(student:studentResult){
     student.attendance = student.ispresent?'Present':'Absent'
-    console.log(this.studentData);
   }
 
   submitAllRow(student:studentResult[]){
     this._service.studentMarks(student , this.eventType);
-    console.log("All Student",student);
   }
 
 }

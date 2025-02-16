@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe , KeyValuePipe} from '@angular/common';
-import {Component, OnInit ,inject} from '@angular/core';
+import {Component, OnInit ,ViewChild,inject} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -13,42 +13,44 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {SuperAdminService} from "../../../Services/SuperAdminServices/SlotGenerate/super-admin.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MatPaginator} from "@angular/material/paginator";
-import {ISlot} from "../SuperAdmin.interface";
-export interface IDashboard {
-  totalEvents:number;
-  events : {[key:string]: ISlot};
-  slots : {
-    slotId: string,
-    startDate: Date,
-    endDate: Date,
-    eventType: string,
-  }[];
-  groupedEvents : {
-    event:string;
-    numberOfEvents:number;
-  }[];
-  students : {
-    id : string ,
-    name : string ,
-    department : string ,
-    eventHistory : {key : string , avg : number }[]
-  }[]
-}
+import {IDashboard, ISlot, IStudent} from "../SuperAdmin.interface";
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatCardModule,MatFormFieldModule,MatInputModule,BaseChartDirective,DatePipe,
-    MatExpansionModule,FormsModule,MatButtonModule,MatIconModule,CommonModule,MatTableModule
+  imports: [
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BaseChartDirective,
+    MatPaginator,
+    DatePipe,
+    MatExpansionModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    CommonModule,
+    MatTableModule,
   ],
 
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
 })
 export class Dashboard implements OnInit {
-  array = ['first year' , 'Second Year' , 'Third Year' , 'Fourth Year' ];
-  eventTypes :string[] = ['January', 'February', 'March', 'April', 'May', 'June']
-  chartData :ChartData<'line'> = {
-    labels:this.eventTypes ,
+  @ViewChild('paginator') paginator: MatPaginator | null = null;
+  array = ['first year', 'Second Year', 'Third Year', 'Fourth Year'];
+  eventTypes: string[] = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+  ];
+  studentTableHeader: string[] = ['Id', 'Name', 'Year', 'Department'];
+  eventsHeaderArray: string[] = [];
+  chartData: ChartData<'line'> = {
+    labels: this.eventTypes,
     datasets: [
       {
         label: 'Mock Interviews',
@@ -70,18 +72,18 @@ export class Dashboard implements OnInit {
         borderColor: 'rgba(75, 192, 192, 1)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         tension: 0.4,
-      }
+      },
     ],
   };
   chartOptions: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    plugins:{
-      tooltip:{
-        callbacks:{
-          label:(c)=>`${c.dataset.label} : ${c.raw}`
-        }
-      }
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (c) => `${c.dataset.label} : ${c.raw}`,
+        },
+      },
     },
     scales: {
       x: {
@@ -90,55 +92,65 @@ export class Dashboard implements OnInit {
         },
       },
       y: {
-        beginAtZero:true
+        beginAtZero: true,
       },
     },
   };
-  service : SuperAdminService = inject(SuperAdminService);
-  events:string[] = [];
-  studentData : IDashboard | null = null;
+  service: SuperAdminService = inject(SuperAdminService);
+  events: string[] = [];
+  studentData: IDashboard | null = null;
 
-  dataSource:MatTableDataSource<any> = new MatTableDataSource<any>();
+  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
   ngOnInit(): void {
     this.service.dashboard().subscribe({
-      next:  (res : IDashboard) =>{
-        console.log(res);
+      next: (res: IDashboard) => {
+        this.studentTableHeader.push(...res.listOfEvents);
+        this.events.push(...res.listOfEvents);
         this.studentData = res;
+        this.eventDetails = res.events;
+        const studentsData = this.setStudentData(res.students);
+        this.dataSource = new MatTableDataSource(studentsData);
+        this.dataSource.paginator = this.paginator;
       },
-      error : (err : HttpErrorResponse) =>{
-        console.log(err);
-      }
-    })
+      error: (err: HttpErrorResponse) => {},
+    });
+
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    const events = ['Id' , 'Name' , 'Year' , 'Department','MockInterview', 'SelfIntroduction', 'GroupDiscussion'];
+     const events = [
+       'Id',
+       'Name',
+       'Year',
+       'Department',
+     ];
 
-    this.events = events;
-    // Simulated data
-    const data = [
-      {
-        Name: 'John Doe',
-        Id:'7376221EC135',
-        Department:'ECE',
-        Year:"First Year",
-        MockInterview: 85,
-        SelfIntroduction: 90,
-        GroupDiscussion: 80,
-      },
-      {
-        Name: 'Jane Smith',
-        Id:'7376221EC134',
-        Department:'ECE',
-        Year:"First Year",
-        MockInterview: 88,
-        SelfIntroduction: 92,
-        GroupDiscussion: 78,
-      },
-    ];
-    this.dataSource.data = data;
+     this.events = events;
+     // Simulated data
   }
-  eventHeaders = ['Id' , 'Type', 'Date','For']
-  eventDetails = [
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+  setStudentData(studentData: IDashboard['students']) {
+    const data = studentData.map((student) => {
+      let datum: any = {
+        Id: student.id,
+        Name: student.name,
+        Year: student.year,
+        Department: student.department,
+      };
+      student.eventHistory.forEach((event) => {
+        const key = event.key;
+        console.log(key);
+        datum[key] = event.avg;
+      });
+      return datum;
+    });
+    return data;
+  }
+  eventHeaders = ['Id', 'Type', 'Date', 'For'];
+  eventDetails = [] as any;
+}
+const d = [
     {
       "Id": "MI202401",
       "Type": "Mock Interview",
@@ -176,4 +188,3 @@ export class Dashboard implements OnInit {
       "For": "Year 2"
     }
   ]
-}

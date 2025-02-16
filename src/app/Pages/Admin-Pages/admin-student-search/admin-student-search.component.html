@@ -11,47 +11,46 @@
   <div class="data">
     <div>
       <div class="table">
-        <table mat-table class="mat-elevation-z8" [dataSource]="studentData">
+        <table mat-table class="mat-elevation-z8 round-table" [dataSource]="studentData">
           <ng-container matColumnDef="Id">
             <th mat-header-cell *matHeaderCellDef>ID</th>
-            <td mat-cell *matCellDef="let data">{{data.id}}</td>
+            <td class="mat-cell" data-head="ID" mat-cell *matCellDef="let data">{{data.id}}</td>
           </ng-container>
           <ng-container matColumnDef="Name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
-            <td mat-cell *matCellDef="let data">{{data.name}}</td>
+            <td class="mat-cell" data-head="Name" mat-cell *matCellDef="let data">{{data.name}}</td>
           </ng-container>
           <ng-container matColumnDef="Email">
             <th mat-header-cell *matHeaderCellDef>Email</th>
-            <td mat-cell *matCellDef="let data">{{data.email}}</td>
+            <td class="mat-cell" data-head="Email" mat-cell *matCellDef="let data">{{data.email}}</td>
           </ng-container>
           <ng-container matColumnDef="Department">
             <th mat-header-cell *matHeaderCellDef>Department</th>
-            <td mat-cell *matCellDef="let data">{{data.department}}</td>
+            <td class="mat-cell"data-head="Department" mat-cell *matCellDef="let data">{{data.department}}</td>
           </ng-container>
           <ng-container matColumnDef="Year">
             <th mat-header-cell *matHeaderCellDef>Year</th>
-            <td mat-cell *matCellDef="let data">{{data.year}}</td>
+            <td class="mat-cell"data-head="Year" mat-cell *matCellDef="let data">{{data.year}}</td>
           </ng-container>
           <ng-container matColumnDef="Resume">
             <th mat-header-cell *matHeaderCellDef>Resume</th>
-            <td mat-cell *matCellDef="let data">
+            <td class="mat-cell"data-head="Resume" mat-cell *matCellDef="let data">
             @if(data.resume) {
               <a href="{{url(data.resume)}}">Resume</a>
             }
             @else {
               <p>Not Uploaded</p>
             }
-              <!-- <p>Resume</p> -->
             </td>
           </ng-container>
 
-          <tr mat-header-row style="background-color: #ddd;" *matHeaderRowDef="displayColumns"></tr>
+          <tr class="headers" mat-header-row style="background-color: #ddd;" *matHeaderRowDef="displayColumns"></tr>
           <tr mat-row [ngClass]="(i+1) % 2 === 0 ? 'even' : ''" *matRowDef="let row ; let i = index;columns:displayColumns"></tr>
         </table>
         <mat-paginator class="mat-elevation-z8" #paginator
           [length]="studentData.data.length"
           [pageSize]="8"
-          [pageSizeOptions]="[5, 10, 25 ,100]">
+          [pageSizeOptions]="isMobile ? [2,4,6,8] : [5, 8, 25 ,100]">
         </mat-paginator>
       </div>
     </div>

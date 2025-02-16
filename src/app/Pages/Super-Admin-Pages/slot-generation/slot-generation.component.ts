@@ -131,7 +131,6 @@ export class SlotGenerationComponent implements OnInit {
   };
 
   generateSlot() {
-    console.log(this.form.value)
     if (
       // this.form.get('data.morningBreak')?.value === '' ||
       // this.form.get('data.eveningBreak')?.value === '' ||
@@ -142,10 +141,8 @@ export class SlotGenerationComponent implements OnInit {
       alert('enter data');
     } else {
       const selectedBreakConfig = this.form.get('data.selectedBreakConfig');
-      console.log(selectedBreakConfig?.value);
       if(selectedBreakConfig?.valid) {
         const breakTimings = this.breaks.find(b => b.configurationId === selectedBreakConfig?.value );
-        console.log(breakTimings);
         if(breakTimings) {
           const slotData = {
             morningBreak: breakTimings?.breaks.morningBreak,
@@ -175,7 +172,6 @@ export class SlotGenerationComponent implements OnInit {
   addStaff() {
     const venue = this.form.get('enteredData.venue');
     const staffs = this.form.get('enteredData.staff');
-    console.log(venue?.value , staffs?.value);
     if (venue?.valid && staffs?.valid) {
       const venueValue : string = venue.value;
       const staffValue : string = staffs.value;
@@ -214,7 +210,6 @@ export class SlotGenerationComponent implements OnInit {
         });
       });
       this.acceptedStaffs;
-      console.log(this.venues());
       this.staffInput = '';
     }
   }
@@ -232,13 +227,10 @@ export class SlotGenerationComponent implements OnInit {
         return e.id === val ? { ...e, display: true } : e;
       });
     });
-    console.log(e.chip.value);
   }
 
   validate(obj: any): boolean {
-    console.log(obj)
     for (const [key, val] of Object.entries(obj)) {
-      // console.log( key , val);
       if ( val === undefined ||  val === null || val === '' ||  (Array.isArray(val) && val.length === 0) ) {
         return false;
       }
@@ -266,7 +258,6 @@ export class SlotGenerationComponent implements OnInit {
     }
     if (this.validate(data)) {
       this.service.postSlot(data);
-      console.log(data);
     } else {
       alert('enter Data ');
     }
@@ -275,7 +266,6 @@ export class SlotGenerationComponent implements OnInit {
   getAcceptedStaffs() {
     this.service.getAcceptedResponse().subscribe({
       next: (res) => {
-        console.log(res);
         this.acceptedStaff.set(
           res.data.map((e) => ({
             id: e.instructorId.id,
@@ -284,10 +274,8 @@ export class SlotGenerationComponent implements OnInit {
             forYear: e.forYear
           }))
         );
-        console.log(this.acceptedStaff());
       },
       error: (e) => {
-        console.log(e.message);
         this.dialogService.openSnackBar(e.error.message);
       },
     });

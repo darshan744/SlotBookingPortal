@@ -34,8 +34,6 @@ export const assignToStaff = (staffs: staff[], slots: groupDates[], responseDead
           responseDeadline : responseDeadline.toISOString()
       })
   });
-  console.log('assignToStaff');
-  console.log(availabilityStaffArray);
   return availabilityStaffArray;
 }
 
@@ -79,7 +77,6 @@ export const assignSlotsToDate = (startDateStr: string, endDateStr: string, slot
   // Set the hours to 20 (8 PM) to handle the timezone offset when sending the date to the backend.
   startDate.setHours(20);
   endDate.setHours(20);
-  // console.log('startDate' , startDate , 'endDate',endDate);
   while (startDate <= endDate) {
       if (startDate.getDay() !== 0) {
           let date = new Date(startDate).toISOString();

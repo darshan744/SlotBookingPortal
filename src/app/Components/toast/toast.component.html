@@ -6,6 +6,7 @@
    'success' : !(toastrService.isError | async) && ( (toastrService.iconName |async) !== 'info'),
    'info' : !(toastrService.isError | async) && ((toastrService.iconName | async) === 'info')
    }"
+   [style.width.%]="{isHandset : '250px'}"
   >
     <mat-icon>
      {{toastrService.iconName | async}}

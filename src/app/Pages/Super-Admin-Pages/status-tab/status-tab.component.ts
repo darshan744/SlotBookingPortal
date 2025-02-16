@@ -28,7 +28,6 @@ export class StatusTabComponent implements AfterViewInit , OnInit{
     this._Service.getAllResponse().subscribe({
       next:  (res) =>{
         this.dataSource = new MatTableDataSource(res.result);
-        console.log(res);
       },
       error:  (err: HttpErrorResponse) =>{
         this._dialogService.openSnackBar(err.message);
@@ -40,7 +39,6 @@ export class StatusTabComponent implements AfterViewInit , OnInit{
       try {
         this.dataSource = new MatTableDataSource<data>(res.result);
         this.dataSource.paginator = this.paginator;
-        console.log(res);
       } catch (e) {
         console.warn(e);
       }
@@ -55,7 +53,6 @@ export class StatusTabComponent implements AfterViewInit , OnInit{
         this._dialogService.openStatusDialog(e);
       },
       error : (e : HttpErrorResponse)=>{
-        console.log(e);
         this._dialogService.openSnackBar(e.error.message);
       }
     })

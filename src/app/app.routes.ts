@@ -50,7 +50,7 @@ export const routes: Routes = [
         component:UserComponent,
         children:[
             {path:'dashboard',component:DashboardComponent},
-            {path:"Events/:eventType" ,loadComponent:()=>import('./Pages/Student-Pages/user/event-booking/event-booking.component').then(e=>e.EventBookingComponent)},
+            {path:"Events/:eventType" ,loadComponent:()=>import('./Pages/Student-Pages/event-booking/event-booking.component').then(e=>e.EventBookingComponent)},
             {path:"**" ,redirectTo:'dashboard'}
         ]
 

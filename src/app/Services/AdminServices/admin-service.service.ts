@@ -26,8 +26,6 @@ export class AdminService {
       throw new Error("Can't Retrive Data");
     }
     rollNo = JSON.parse(retreivedVal).id;
-    console.log(rollNo);
-    console.log(`${this._url}/getAvailability/${rollNo}`);
     return this.http
       .get<eventResponseServer>(`${this._url}/getAvailability/${rollNo}`, {
         withCredentials: true,
@@ -64,7 +62,6 @@ export class AdminService {
             horizontalPosition: 'right',
             panelClass: 'custom-snackbar',
           });
-          console.log(res);
         });
     }
   }
@@ -91,13 +88,10 @@ export class AdminService {
         { studentmarks, eventType, staffId: this.getUserId() },
         { withCredentials: true }
       )
-      .subscribe((e) => console.log(e));
   }
 
   getStudentInfo(identifier: string): Observable<IStudentInfo> {
     const params = new HttpParams().set('identifier', identifier);
-    console.log('params');
-    console.log(params);
 
     return this.http.get<IStudentInfo>(environment.INFORMATION_STUDENT, {
       params,

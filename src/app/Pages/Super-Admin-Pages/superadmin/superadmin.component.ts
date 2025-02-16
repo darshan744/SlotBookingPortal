@@ -29,6 +29,6 @@ export class SuperadminComponent {
     {name:'Request',path:'Create',icon:'event'},
     {name:'Settings', path:'settings',icon:'settings'},
     {name:'Status',path:'status',icon:'pending_actions'},
-    {name:'Slot',path:'slot',icon:'schedule'}]
+    {name:'Create-Slot',path:'slot',icon:'schedule'}]
   role:string='SuperAdmin';
 }

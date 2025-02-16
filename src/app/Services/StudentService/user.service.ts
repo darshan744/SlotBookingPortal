@@ -44,7 +44,6 @@ export class UserService {
   }
   fileDelete(fileName : string)  {
     const params : HttpParams = new HttpParams().set('fileName' ,fileName )
-    console.log(params);
    return this._http.delete(environment.FILE_UPLOAD , {params , withCredentials : true});
   }
 }

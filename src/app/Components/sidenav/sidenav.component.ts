@@ -18,49 +18,64 @@ export interface items{
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [MatToolbarModule, MatSidenavModule, MatIcon, RouterOutlet, RouterLink, RouterLinkActive, MatNavList,
-    MatListItemIcon, MatListItem, MatIconModule, MatIconButton, CommonModule, ToastComponent],
+  imports: [
+    MatToolbarModule,
+    MatSidenavModule,
+    MatIcon,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatNavList,
+    MatListItemIcon,
+    MatListItem,
+    MatIconModule,
+    MatIconButton,
+    CommonModule,
+  ],
   templateUrl: './sidenav.component.html',
-  styleUrl: './sidenav.component.css'
+  styleUrl: './sidenav.component.css',
 })
+export class SidenavComponent implements OnInit {
+  @Input() list: items[] = [];
+  @Input() role: string = '';
+  @ViewChild(MatSidenav) sidenav!: MatSidenav;
 
-export class SidenavComponent implements OnInit,AfterViewInit {
+  router = inject(Router);
+  res = inject(BreakpointObserver);
+  private _http = inject(HttpClient);
 
-  @ViewChild(MatSidenav) sidenav!:MatSidenav;
+
 
   ngAfterViewInit(): void {
-    this.res.observe(["(max-width: 800px)"]).subscribe((response) => {
-      if (response.matches) {
-        this.isHandset.set(true);
-        this.sidenav.mode = "over";
-        this.sidenav.close();
-      } else {
-        this.sidenav.mode = "side";
+    this.res.observe(['(max-width:800px)']).subscribe((response) => {
+      if (!response.matches) {
+        this.sidenav.mode = 'side';
         this.sidenav.open();
+      } else {
+        this.sidenav.mode = 'over';
+        this.sidenav.close();
       }
     });
   }
-  @Input() list:items[]=[];
-  @Input() role:string='';
-  private _http = inject(HttpClient);
-  res = inject(BreakpointObserver)
-  isHandset = signal(false);
-  ngOnInit():void{
-    this.res.observe(Breakpoints.Handset)
-    .subscribe((response)=>{
-      this.isHandset.set(response.matches);
-    })
-  }
-  router = inject(Router);
-  handleSignOut(){
 
+  ngOnInit(): void {
+
+  }
+
+  handleSignOut() {
     sessionStorage.removeItem('loggedInUser');
-    this._http.post(`${environment.BASE_URL}/api/v1/logout`,{},{
-      withCredentials:true
-    }).subscribe(()=>{
-      this.router.navigate(['/']).then(()=>{
-        window.location.reload();
-      })
-    })
+    this._http
+      .post(
+        `${environment.BASE_URL}/api/v1/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .subscribe(() => {
+        this.router.navigate(['/']).then(() => {
+          window.location.reload();
+        });
+      });
   }
 }

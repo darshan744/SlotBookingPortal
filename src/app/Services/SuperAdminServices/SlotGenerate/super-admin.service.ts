@@ -9,7 +9,8 @@ import { AcceptedResponse, AllResponse, IEventInfo, Staff } from '../../../Model
 import { i } from '../../../helpers';
 import { DialogOpenService } from '../../DialogOpenService/dialog.service';
 import {ISlot, IStaff, IStaffAndEvents , IBreaks , IBaseResponse} from "../../../Pages/Super-Admin-Pages/SuperAdmin.interface";
-import {IDashboard} from "../../../Pages/Super-Admin-Pages/dashboard/dashboard.component";
+import {IDashboard} from "../../../Pages/Super-Admin-Pages/SuperAdmin.interface";
+import { ToastrService } from '../../Toastr/toastr.service';
 
 
 @Injectable({
@@ -20,7 +21,8 @@ export class SuperAdminService {
   private allStaffURL = environment.ALL_STAFF_URL;
   private requestAvailability = `${environment.AVAILABILITY_REQUEST_}`
   private _getAllResponse = environment.GET_ALL_RESPONSE;
-  constructor(private http: HttpClient) { }
+
+  constructor(private toastService : ToastrService , private http: HttpClient) { }
   readonly popover = inject(MatDialog);
   snackBarService = inject(DialogOpenService)
 
@@ -39,7 +41,6 @@ export class SuperAdminService {
     let startTime : string = '08:45';
     const endTime : string = '16:30';
     const endTimeInMinutes : number = this.timeToMinutes(endTime);
-    console.log(endTimeInMinutes)
     const slots: string[] = [];
     const breakRange: number = 15;
     let startMinutes = this.timeToMinutes(startTime);
@@ -86,10 +87,8 @@ export class SuperAdminService {
     this.http.post(this.requestAvailability, data,{withCredentials:true}).subscribe({
       next : (res:any) => {
         this.snackBarService.openSnackBar(res.message);
-        console.log(res);
       },
       error:(err : HttpErrorResponse)=> {
-        console.log(err.error);
         this.snackBarService.openSnackBar(err.error.message);
       }
   });
@@ -122,8 +121,11 @@ export class SuperAdminService {
    * @param data of type ISlot
    */
   postSlot(data : ISlot) : void {
-    console.log(data);
-    this.http.post(environment.SLOT , data , { withCredentials:true }).subscribe(e=>console.log(e));
+    this.http
+      .post(environment.SLOT, data, { withCredentials: true })
+      .subscribe({
+        next: (res: any) => this.toastService.showToast(res.message, false),
+      error:(err)=>this.toastService.showToast(err.message , false)});
   }
 
   /**
@@ -138,7 +140,6 @@ export class SuperAdminService {
   getEvents() : Observable<{message : string , data ?: {Name:string}[]} > {
    return this.http.get<{message : string , data ?: {Name:string}[]} >(environment.EVENT_URL , {withCredentials : true})
   }
-
 
   getBreaks(){
     return this.http.get<IBaseResponse & { data :IBreaks[] }>(environment.BREAKS , {withCredentials:true})
@@ -157,7 +158,6 @@ export class SuperAdminService {
       }
     })
   }
-
   dashboard () {
     return this.http.get<IDashboard>(environment.DASHBOARD , {withCredentials:true});
   }

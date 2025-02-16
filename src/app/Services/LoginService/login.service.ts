@@ -44,7 +44,6 @@ export class LoginService {
     this.http.post<LoginResponse>(environment.PASSWORD_LOGIN, { user: { name, password } },
       { withCredentials: true }
     ).subscribe((response: LoginResponse) => {
-      console.log(response);
       if (!response.success) {
         this.message(response.message , true);
       }
@@ -79,11 +78,9 @@ export class LoginService {
       else {
         sessionStorage.setItem('loggedInUser', JSON.stringify(res.data));
         if (res.role === 'staff') {
-          console.log('staff');
           this.router.navigateByUrl('admin/Home')
         }
         else {
-          console.log('student');
           this.router.navigateByUrl('user/dashboard');
         }
       }

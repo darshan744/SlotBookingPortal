@@ -69,7 +69,6 @@ export class AdminEventsComponent implements AfterViewInit {
             this.dataLength.set(this.dataSource.data.length);
         },
         error:(err)=> {
-          console.log(err);
           this.toast.showToast(err.message, false , 'info');
           //this.snackBar.openSnackBar('Please try after some time')
         }
@@ -84,7 +83,6 @@ export class AdminEventsComponent implements AfterViewInit {
   }
   acceptEvent(e: { date: string; time: string; isAvailable: string }) {
     e.isAvailable = 'Accepted';
-    console.log(this.dupData);
     this.dataSource.data = this.dataSource.data.filter(
       (el) => !(el.date === e.date && el.time === e.time)
     );
@@ -92,14 +90,13 @@ export class AdminEventsComponent implements AfterViewInit {
   }
   cancelEvent(e: { date: string; time: string; isAvailable: string }) {
     e.isAvailable = 'Declined';
-    console.log(e);
     this.dataSource.data = this.dataSource.data.filter(
       (el) => !(el.date === e.date && el.time === e.time)
     );
   }
   submit() {
     const result = this.dupData.filter((e) => e.isAvailable !== 'unmodified');
-    console.log(result);
+    (result);
     if (!(result.length === 0)) {
       this.service.postAvailabilityResponse(result);
     }
@@ -120,7 +117,7 @@ export class AdminEventsComponent implements AfterViewInit {
     const found = this.dataSource.data.find((e: event) => e.date === date);
     let send: event[] = [];
     if (!found) {
-      console.log('Not Found');
+      ('Not Found');
     } else {
       this.dataSource.data.forEach((e) => {
         if (e.date === date) {
@@ -131,7 +128,7 @@ export class AdminEventsComponent implements AfterViewInit {
       this.dataSource.data = this.dataSource.data.filter(
         (e) => !(e.date === date)
       );
-      console.log(send);
+      (send);
       this.service.postAvailabilityResponse(send);
     }
   }

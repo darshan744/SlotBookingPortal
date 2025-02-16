@@ -34,11 +34,19 @@
     <mat-table class="round-table" [dataSource]="dataSource">
       <ng-container *ngFor="let column of events" [matColumnDef]="column">
         <mat-header-cell *matHeaderCellDef> {{column}}</mat-header-cell>
-        <mat-cell *matCellDef="let el" > {{el[column]}} </mat-cell>
+        <mat-cell *matCellDef="let el">
+         @if(el[column]) {
+          {{el[column]}}
+         }
+         @else {
+          N/A
+         }
+        </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="events"></mat-header-row>
       <mat-row *matRowDef="let i ; columns:events;"></mat-row>
     </mat-table>
+    <mat-paginator #paginator [pageSizeOptions]="[5,10,15,20]" showFirstLastButtons></mat-paginator>
   </div>
   <div style="margin-top: 10px;" class="table-container">
     <div>
@@ -47,19 +55,24 @@
     <mat-table class="round-table" [dataSource]="eventDetails">
       <ng-container matColumnDef="Id">
         <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-        <mat-cell *matCellDef="let i;"> {{i['Id']}} </mat-cell>
+        <mat-cell *matCellDef="let i;"> {{i['slotId']}} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="Type">
         <mat-header-cell *matHeaderCellDef>EventType</mat-header-cell>
-        <mat-cell *matCellDef="let i;"> {{i["Type"]}} </mat-cell>
+        <mat-cell *matCellDef="let i;"> {{i["eventType"]}} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="Date">
         <mat-header-cell *matHeaderCellDef>From-To </mat-header-cell>
-        <mat-cell *matCellDef="let i;"> {{i['Date'] | date}} </mat-cell>
+
+        <mat-cell *matCellDef="let i;">
+          @let startDate = i.startDate.split('T')[0];
+          @let endDate = i.endDate.split("T")[0];
+          {{startDate}} - {{endDate}}
+         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="For">
         <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
-        <mat-cell *matCellDef="let i;"> {{i['For']}} </mat-cell>
+        <mat-cell *matCellDef="let i;"> {{i['year']}} </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="eventHeaders"></mat-header-row>
       <mat-row *matRowDef="let i ; columns:eventHeaders"></mat-row>

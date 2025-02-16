@@ -49,5 +49,34 @@ export interface IBreaks {
   }
 }
 
+export interface IDashboard {
+  totalEvents:number;
+  events : {[key:string]: ISlot};
+  slots : {
+    slotId: string,
+    startDate: Date,
+    endDate: Date,
+    eventType: string,
+  }[];
+  groupedEvents : {
+    event:string;
+    numberOfEvents:number;
+  }[];
+  students : {
+    id : string ,
+    name : string ,
+    department : string ,
+    year : string,
+    eventHistory : {key : string , avg : number }[]
+  }[],
+  listOfEvents: string[]
+}
+export interface IStudent {
+  "Id" : string,
+  "Name" :string,
+  "Year":string,
+  "department":string
+  
+}
 /** Old Interface of the slots */
 

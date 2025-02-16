@@ -10,11 +10,9 @@ export class LoadingService {
   constructor() { }
 
   show() {
-    console.log("showing");
     this.loading.next(true);
   }
   hide() {
-    console.log("close");
     this.loading.next(false);
   }
 }

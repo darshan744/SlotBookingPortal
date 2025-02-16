@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this._service.getHistory().subscribe((e: any) => {
-      console.log(e);
+      (e);
       this.eventResults = new MatTableDataSource(e.data.EventHistory);
       this.assignDate();
     });
@@ -102,7 +102,7 @@ export class DashboardComponent implements OnInit {
         (result[current['eventType']] = result[current['eventType']] || []).push(current);
         return result;
       },{})
-    console.log(this.eventResultGraphs);
+    (this.eventResultGraphs);
     this.processChartData()
   }
 
@@ -145,18 +145,18 @@ export class DashboardComponent implements OnInit {
         ]
       };
     });
-    console.log(this.chartData)
+    (this.chartData)
   }
 
   fileInput(e: Event) {
     const target = e.target as HTMLInputElement;
     if (target && target.files) {
       const file: File = target.files[0];
-      console.log('sending');
+      ('sending');
       this._service.fileUpload(file).subscribe({
         next: (e: IFileUploadSuccess | IFileUploadError) => {
-          console.log('data');
-          console.log(e);
+          ('data');
+          (e);
           if (e.success && 'fileName' in e) {
             this.selectedFileName = e.fileName;
             this.openDialog.openSnackBar(e.message);
@@ -166,13 +166,11 @@ export class DashboardComponent implements OnInit {
           }
         },
         error: (err)=> {
-          //handling the error
-          console.log(err);
+
         }
       });
     }
-    // this.selectedFileName = e.target.files[0].name;
-    // console.log(e.target.files[0]);
+
   }
 
   clearFile() {
@@ -185,7 +183,7 @@ export class DashboardComponent implements OnInit {
         this.openDialog.openSnackBar('successfully deleted');
       },
       error: (err : HttpErrorResponse) => {
-        console.log(err.error);
+        (err.error);
         this.openDialog.openSnackBar(err.error.message);
       },
     });

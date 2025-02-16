@@ -57,7 +57,6 @@ export class ConfirmDialogComponent implements OnInit {
       this.data.forYear,
       this.data.eventTypeRequest
     );
-    console.log(this.requestingData);
   }
 
   removeTime(event: MatChipEvent) {
@@ -67,7 +66,6 @@ export class ConfirmDialogComponent implements OnInit {
         e.slots = e.slots.filter((e) => !(e.time === value));
       });
     }
-    console.log(this.requestingData);
   }
 
   removeDate(event: MatChipEvent) {

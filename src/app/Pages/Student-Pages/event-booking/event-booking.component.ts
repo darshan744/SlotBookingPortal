@@ -1,16 +1,16 @@
 import {  Component, inject,  OnInit ,ViewChild , TemplateRef} from '@angular/core';
-import { UserService } from '../../../../Services/StudentService/user.service';
-import { DialogOpenService } from '../../../../Services/DialogOpenService/dialog.service';
+import { UserService } from '../../../Services/StudentService/user.service';
+import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { CommonModule , DatePipe} from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, ActivatedRoute } from '@angular/router';
-import {IBookingStatus, ISlot, TimeSlot} from '../../../Student.interface'
+import {IBookingStatus, ISlot, TimeSlot} from '../../Student.interface'
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatDivider} from '@angular/material/divider'
 import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
-import { ToastrService } from '../../../../Services/Toastr/toastr.service';
+import { ToastrService } from '../../../Services/Toastr/toastr.service';
 export enum ResponseMessage {
   success = 'Slot Retrieved Successfully',
   noSlots = 'No slots found',
@@ -63,7 +63,6 @@ export class EventBookingComponent implements OnInit  {
       next:(res) => {
         //this.dialogService.openSnackBar(res.message);
         this.toastService.showToast(res.message , false , 'info')
-        console.log(res);
         const data = res.data;
         if(data && 'slotId' in data && 'startDate' in data && 'endDate' in data ){
             this.data = data;
@@ -76,15 +75,15 @@ export class EventBookingComponent implements OnInit  {
   }
 
   mapStaffsToSelectedVenue() {
-    console.log(this.selectedVenue);
+    (this.selectedVenue);
     const venue = this.data?.slots.filter(
       slot => slot.venue === this.selectedVenue
     )
-    // console.log(venue);
+    // (venue);
     if(venue) {
       this.selectedVenueStaffArray = venue[0].staffs;
     }
-    // console.log(this.selectedVenueStaffArray());
+    // (this.selectedVenueStaffArray());
   }
 
   mapSlotsToSelectedStaff() {
@@ -94,7 +93,7 @@ export class EventBookingComponent implements OnInit  {
     if(slots) {
       this.selectedSlotsArray = slots[0].slots;
     }
-    console.log(this.selectedSlotsArray);
+    (this.selectedSlotsArray);
   }
 
   mapTimingsToSelectedDate(date : Date) {
@@ -105,7 +104,7 @@ export class EventBookingComponent implements OnInit  {
       )
     this.selectedTiming = slotTimings[0].timings;
     }
-    // console.log(this.selectedTiming);
+    // (this.selectedTiming);
   }
 
   openDialog () {
@@ -119,7 +118,7 @@ export class EventBookingComponent implements OnInit  {
       staff : this.selectedStaff , venue : this.selectedVenue , eventType : this.eventType};
     this._Service.bookSlot(data).subscribe({
       next : (res: any) => {
-        console.log(res);
+        (res);
         this.dialogService.openSnackBar(res.message);
       }
     });

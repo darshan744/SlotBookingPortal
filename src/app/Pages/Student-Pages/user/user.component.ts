@@ -20,13 +20,11 @@ export class UserComponent  {
       // map((el:any)=>({name:el.name , path:`Events/${el.name}`,icon:"Business_center"})))
       .subscribe((e : {message : string , data : {Name:string}[] })=> {
       this.events = e;
-      console.log(e);
-      this.events = e.data.map((el : {Name:string})=>({name:el.Name , path:`Events/${el.Name.replace(' ','_')}`,icon:"event"}))
-      console.log( this.events)
+      (e);
+      this.events = e.data.map((el : {Name:string})=>({name:el.Name , path:`Events/${el.Name.replace(' ','_')}`,icon:"event"}));
       this.list.push({name:"Dashboard",path:'dashboard',icon:'dashboard'},
       ...this.events)
-    })
-    console.log(this.list);
+    });
   }
   list : any= []
   role:string='User'

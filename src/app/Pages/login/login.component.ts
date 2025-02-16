@@ -1,15 +1,12 @@
-import { Component, signal, ViewChild } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { MatButtonModule} from '@angular/material/button';
-import { MatCard, MatCardActions, MatCardContent } from '@angular/material/card';
 import {  MatFormFieldModule, MatLabel, } from '@angular/material/form-field';
 import {  MatInputModule } from '@angular/material/input';
 import { LoginService } from '../../Services/LoginService/login.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { FormGroup , FormControl ,Validators} from '@angular/forms';
 import { environment } from '../../../environments/environment.development';
 import { MatIconModule } from '@angular/material/icon';
-import { ToastComponent } from '../../Components/toast/toast.component';
 
 @Component({
   selector: 'app-login',
@@ -36,6 +33,7 @@ export class LoginComponent {
     userName: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
+  
   password = signal<boolean>(true);
   private _clientId = environment.GOOGLE_CLIENTID;
 

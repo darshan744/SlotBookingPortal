@@ -62,3 +62,12 @@ p {
   background-color: rgb(255, 254, 254);
 }
 
+@media (max-width:1080px) {
+  .graphs-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .graph {
+    width: 510px;
+  }
+}

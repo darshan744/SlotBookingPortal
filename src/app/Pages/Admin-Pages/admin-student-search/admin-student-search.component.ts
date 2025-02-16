@@ -9,6 +9,8 @@ import { IStudentInfo } from '../../../Models/Admin.model';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { environment } from '../../../../environments/environment.development';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
 interface IStudentData {
   id : string,
   name : string,
@@ -21,7 +23,7 @@ interface IStudentData {
   selector: 'app-admin-student-search',
   standalone: true,
   imports: [MatInputModule,CommonModule,MatFormFieldModule , MatPaginator
-    ,MatProgressSpinner,FormsModule,MatTableModule
+    ,FormsModule,MatTableModule
   ],
   templateUrl: './admin-student-search.component.html',
   styleUrl: './admin-student-search.component.css'
@@ -29,7 +31,8 @@ interface IStudentData {
 export class AdminStudentSearchComponent implements OnInit {
 
   @ViewChild('paginator') paginator !: MatPaginator;
-
+  breakpointObserver : BreakpointObserver = inject(BreakpointObserver);
+  breakPointSubscription : Subscription | null = null;
   private _service = inject(AdminService);
   private _url = environment.BASE_URL
   filterValue : string = '';
@@ -37,13 +40,20 @@ export class AdminStudentSearchComponent implements OnInit {
   studentData = new MatTableDataSource<IStudentData>();
   displayColumns = ['Id' , 'Name' , 'Email' , 'Department' , 'Year' ,'Resume']
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
+     this.breakPointSubscription = this.breakpointObserver.observe(['(max-width: 1080px)']).subscribe((res) => {
+        if(res.matches) {
+          this.isMobile = true;
+          this.studentData.paginator?.firstPage();
+        }
+        else {
+          this.isMobile = false;
+          this.studentData.paginator?.firstPage();
+        }
+      });
       this.spinner = true;
       this._service.getAllStudent().subscribe((e:IStudentInfo)=> {
           this.studentData = new MatTableDataSource(e.data);
           this.studentData.paginator = this.paginator;
-          console.log(this.studentData)
            this.spinner = false;
          });
   }
@@ -51,9 +61,14 @@ export class AdminStudentSearchComponent implements OnInit {
   url(fileLink : string) {
     return this._url + "/" + encodeURIComponent(fileLink);
   }
+  isMobile : boolean = false;
 
   filter () {
     this.studentData.filter = this.filterValue
     this.studentData.paginator?.firstPage()
+  }
+  ngOnDestroy() {
+    if(this.breakPointSubscription)
+    this.breakPointSubscription.unsubscribe();
   }
 }

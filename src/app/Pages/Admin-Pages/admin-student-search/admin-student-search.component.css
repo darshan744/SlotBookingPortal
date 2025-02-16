@@ -1,7 +1,6 @@
 .container {
   padding: 20px;
-  background-color: white;
-  height: 80vh;
+  height: fit-content;
   border-radius: 9px;
   margin-left: 20px;
   margin-top:10px;
@@ -10,12 +9,10 @@
   display: flex;
   gap: 30px;
 }
-.custom-width-form {
-  width: 300px;
-}
+
 .custom-form{
-  --mat-form-field-container-vertical-padding:9px;
-  --mat-form-field-container-height: 48px;
+  --mat-form-field-container-vertical-padding:4px;
+  --mat-form-field-container-height: 38px;
   width: 400px;
 }
 
@@ -25,4 +22,21 @@
 
 .even {
   background-color: #f0f0f0;
+}
+
+@media(max-width:1070px) {
+  .headers {
+    display: none;
+  }
+  .mat-cell {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  .mat-cell::before{
+    content: attr(data-head);
+    flex:1;
+    text-align: left;
+    font-weight: bold;
+  }
 }

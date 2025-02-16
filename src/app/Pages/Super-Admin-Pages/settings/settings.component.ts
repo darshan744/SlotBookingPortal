@@ -113,7 +113,6 @@ export class SettingsComponent implements OnInit{
       next: (e : {message : string , data ?: {Name:string}[]})=>{
         if(e.data) {
           this.items = e.data.map(el=>el.Name);
-          console.log(e.data);
         }
         else {
           this.dialogService.openSnackBar('No Events Available');

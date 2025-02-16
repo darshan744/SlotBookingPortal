@@ -1,32 +1,32 @@
 .user-details-container {
-  margin:20px;
-  padding:20px;
-  display:flex;
-  column-gap:15px;
+  margin: 20px;
+  padding: 20px;
+  display: flex;
+  column-gap: 15px;
   background-color: white;
   border: 1px solid lightgray;
   border-radius: 10px;
   justify-content: space-around;
 }
 
-.left h5{
+.left h5 {
   font-size: 20px;
   /*background-color: #007bff;*/
 }
+
 .password {
   display: flex;
 }
+
 .right {
   justify-content: flex-end;
-  padding:20px;
-
 }
 
 .uploaded-file {
   display: flex;
-  gap:6px;
+  gap: 6px;
   align-items: center;
-  padding:10px;
+  padding: 10px;
   border-radius: 4px;
 }
 
@@ -76,4 +76,12 @@
 
 .clear-button:hover {
   background-color: #d9534f;
+}
+
+@media (max-width:1080px) {
+  .user-details-container {
+    display: flex;
+    flex-direction: column;
+  }
+
 }
