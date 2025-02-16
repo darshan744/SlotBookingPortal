@@ -21,13 +21,12 @@ export interface studentResult {
     ispresent:boolean,marks: number, remarks: string
 }
 @Component({
-  selector: 'app-admin-home',
-  standalone: true,
-  imports: [MatTableModule,MatColumnDef,MatRowDef,MatHeaderCell,MatHeaderCellDef,MatRowDef,MatRowDef
-    ,MatCheckbox,MatButton,MatInput,MatLabel,MatFormField,FormsModule,CommonModule,
-  ],
-  templateUrl: './admin-home.component.html',
-  styleUrl: './admin-home.component.css'
+    selector: 'app-admin-home',
+    imports: [MatTableModule, MatColumnDef, MatRowDef, MatHeaderCell, MatHeaderCellDef, MatRowDef, MatRowDef,
+        MatCheckbox, MatButton, MatInput, MatLabel, MatFormField, FormsModule, CommonModule,
+    ],
+    templateUrl: './admin-home.component.html',
+    styleUrl: './admin-home.component.css'
 })
 export class AdminHomeComponent implements OnInit{
   @ViewChild('shared') shared !: TemplateRef<any> ;

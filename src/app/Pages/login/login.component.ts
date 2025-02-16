@@ -9,19 +9,18 @@ import { environment } from '../../../environments/environment.development';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatLabel,
-    MatButtonModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+    selector: 'app-login',
+    imports: [
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatLabel,
+        MatButtonModule,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.css'
 })
 export class LoginComponent {
 

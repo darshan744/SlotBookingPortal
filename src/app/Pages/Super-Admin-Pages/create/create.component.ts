@@ -16,16 +16,15 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { staffs } from '../../../Models/slot-breaks';
 import {IStaff, IStaffAndEvents} from "../../Super-Admin-Pages/SuperAdmin.interface";
 @Component({
-  selector: 'app-create',
-  standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatOption, CommonModule,
-    FormsModule, MatIconModule, MatButtonModule, MatDatepickerModule, MatTabsModule,
-    MatAutocompleteModule, MatChipsModule, MatCardModule,
-  ],
-  providers: [provideNativeDateAdapter()],
-  templateUrl: './create.component.html',
-  styleUrl: './create.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-create',
+    imports: [MatFormFieldModule, MatInputModule, MatOption, CommonModule,
+        FormsModule, MatIconModule, MatButtonModule, MatDatepickerModule, MatTabsModule,
+        MatAutocompleteModule, MatChipsModule, MatCardModule,
+    ],
+    providers: [provideNativeDateAdapter()],
+    templateUrl: './create.component.html',
+    styleUrl: './create.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateComponent implements OnInit{
 

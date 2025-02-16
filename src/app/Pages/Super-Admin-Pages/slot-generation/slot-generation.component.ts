@@ -48,28 +48,27 @@ type AcceptedResponse = {
 };
 
 @Component({
-  selector: 'app-slot-generation',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatChipsModule,
-    NgxMatTimepickerModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatAutocompleteModule,
-    MatDialogModule,
-    MatDatepickerModule,
-    FormsModule,
-    MatIconModule,
-  ],
-  providers:[provideNativeDateAdapter()],
-  templateUrl: './slot-generation.component.html',
-  styleUrl: './slot-generation.component.css',
+    selector: 'app-slot-generation',
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatChipsModule,
+        NgxMatTimepickerModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatAutocompleteModule,
+        MatDialogModule,
+        MatDatepickerModule,
+        FormsModule,
+        MatIconModule,
+    ],
+    providers: [provideNativeDateAdapter()],
+    templateUrl: './slot-generation.component.html',
+    styleUrl: './slot-generation.component.css'
 })
 export class SlotGenerationComponent implements OnInit {
   form: FormGroup;

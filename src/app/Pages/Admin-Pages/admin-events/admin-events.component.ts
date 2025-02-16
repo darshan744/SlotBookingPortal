@@ -22,23 +22,22 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
 import { ToastrService } from '../../../Services/Toastr/toastr.service';
 @Component({
-  selector: 'app-admin-events',
-  standalone: true,
-  imports: [
-    MatTableModule,
-    MatButtonModule,
-    MatPaginatorModule,
-    MatInput,
-    MatIcon,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    CommonModule,
-    FormsModule,
-    MatCheckboxModule,MatProgressSpinnerModule
-  ],
-  templateUrl: './admin-events.component.html',
-  providers: [provideNativeDateAdapter()],
-  styleUrl: './admin-events.component.css',
+    selector: 'app-admin-events',
+    imports: [
+        MatTableModule,
+        MatButtonModule,
+        MatPaginatorModule,
+        MatInput,
+        MatIcon,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        CommonModule,
+        FormsModule,
+        MatCheckboxModule, MatProgressSpinnerModule
+    ],
+    templateUrl: './admin-events.component.html',
+    providers: [provideNativeDateAdapter()],
+    styleUrl: './admin-events.component.css'
 })
 export class AdminEventsComponent implements AfterViewInit {
   // private readonly _formate = inject(DateAdapter);

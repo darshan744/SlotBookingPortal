@@ -18,11 +18,10 @@ interface event{
   venue:venue[]
 }
 @Component({
-  selector: 'app-superadmin',
-  standalone: true,
-  imports: [SidenavComponent],
-  templateUrl: './superadmin.component.html',
-  styleUrl: './superadmin.component.css'
+    selector: 'app-superadmin',
+    imports: [SidenavComponent],
+    templateUrl: './superadmin.component.html',
+    styleUrl: './superadmin.component.css'
 })
 export class SuperadminComponent {
   list:items[] =[{name:'Dashboard',path:'Search',icon:'dashboard'},

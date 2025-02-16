@@ -16,25 +16,22 @@ import {MatPaginator} from "@angular/material/paginator";
 import {IDashboard, ISlot, IStudent} from "../SuperAdmin.interface";
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    BaseChartDirective,
-    MatPaginator,
-    DatePipe,
-    MatExpansionModule,
-    FormsModule,
-    MatButtonModule,
-    MatIconModule,
-    CommonModule,
-    MatTableModule,
-  ],
-
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css',
+    selector: 'app-dashboard',
+    imports: [
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        BaseChartDirective,
+        MatPaginator,
+        MatExpansionModule,
+        FormsModule,
+        MatButtonModule,
+        MatIconModule,
+        CommonModule,
+        MatTableModule,
+    ],
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.css'
 })
 export class Dashboard implements OnInit {
   @ViewChild('paginator') paginator: MatPaginator | null = null;

@@ -17,12 +17,11 @@ export enum ResponseMessage {
   AlreadyBooked = 'Already Booked',
 }
 @Component({
-  selector: 'app-event-booking',
-  standalone: true,
-  imports: [MatSelectModule, DatePipe, FormsModule, CommonModule, MatButtonModule, MatFormFieldModule,
-    MatDivider, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle],
-  templateUrl: './event-booking.component.html',
-  styleUrls: ['./event-booking.component.css' , ]
+    selector: 'app-event-booking',
+    imports: [MatSelectModule, DatePipe, FormsModule, CommonModule, MatButtonModule, MatFormFieldModule,
+        MatDivider, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle],
+    templateUrl: './event-booking.component.html',
+    styleUrls: ['./event-booking.component.css',]
 })
 export class EventBookingComponent implements OnInit  {
 

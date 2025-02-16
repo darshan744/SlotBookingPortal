@@ -17,15 +17,14 @@ import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 
 
 @Component({
-  selector: 'app-settings',
-  standalone: true,
-  imports: [MatIconModule, MatFormFieldModule, MatInputModule, MatDivider, MatButtonModule, CommonModule, MatChipsModule,
-    ReactiveFormsModule, NgxMatTimepickerComponent, NgxMatTimepickerToggleComponent, NgxMatTimepickerDirective, FormsModule,
-    MatDialogModule
-  ],
-  providers:[provideNativeDateAdapter()],
-  templateUrl: './settings.component.html',
-  styleUrl: './settings.component.css'
+    selector: 'app-settings',
+    imports: [MatIconModule, MatFormFieldModule, MatInputModule, MatDivider, MatButtonModule, CommonModule, MatChipsModule,
+        ReactiveFormsModule, NgxMatTimepickerComponent, NgxMatTimepickerToggleComponent, NgxMatTimepickerDirective, FormsModule,
+        MatDialogModule
+    ],
+    providers: [provideNativeDateAdapter()],
+    templateUrl: './settings.component.html',
+    styleUrl: './settings.component.css'
 })
 export class SettingsComponent implements OnInit{
 

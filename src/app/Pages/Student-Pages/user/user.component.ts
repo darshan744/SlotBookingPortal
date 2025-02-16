@@ -4,11 +4,10 @@ import { SidenavComponent } from "../../../Components/sidenav/sidenav.component"
 import { UserService } from '../../../Services/StudentService/user.service';
 import { map, pipe } from 'rxjs';
 @Component({
-  selector: 'app-user',
-  standalone: true,
-  imports: [SidenavComponent],
-  templateUrl: './user.component.html',
-  styleUrl: './user.component.css'
+    selector: 'app-user',
+    imports: [SidenavComponent],
+    templateUrl: './user.component.html',
+    styleUrl: './user.component.css'
 })
 export class UserComponent  {
   collapsed = signal(true);

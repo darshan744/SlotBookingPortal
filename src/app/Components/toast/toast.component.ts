@@ -6,11 +6,10 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-toast',
-  standalone: true,
-  imports: [CommonModule , MatIcon , AsyncPipe],
-  templateUrl: './toast.component.html',
-  styleUrl: './toast.component.css',
+    selector: 'app-toast',
+    imports: [CommonModule, MatIcon, AsyncPipe],
+    templateUrl: './toast.component.html',
+    styleUrl: './toast.component.css'
 })
 export class ToastComponent {
   isHandset : boolean = false;

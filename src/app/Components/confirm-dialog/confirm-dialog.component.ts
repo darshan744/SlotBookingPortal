@@ -23,20 +23,19 @@ type slotData = {
   eventTypeRequest : string,
 };
 @Component({
-  selector: 'app-confirm-dialog',
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    MatDivider,
-    MatChipsModule,
-    CommonModule,
-    MatIconModule,
-    MatChipsModule,
-    MatButtonModule,
-    DatePipe,
-  ],
-  templateUrl: './confirm-dialog.component.html',
-  styleUrl: './confirm-dialog.component.css',
+    selector: 'app-confirm-dialog',
+    imports: [
+        MatDialogModule,
+        MatDivider,
+        MatChipsModule,
+        CommonModule,
+        MatIconModule,
+        MatChipsModule,
+        MatButtonModule,
+        DatePipe,
+    ],
+    templateUrl: './confirm-dialog.component.html',
+    styleUrl: './confirm-dialog.component.css'
 })
 export class ConfirmDialogComponent implements OnInit {
   constructor(private _slotRequest: SuperAdminService) {}

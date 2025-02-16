@@ -26,14 +26,13 @@ interface Staff {
 }
 
 @Component({
-  selector: 'app-status-dialog',
-  standalone: true,
-  imports: [CommonModule,MatButton,MatDialogModule
-    ,MatCardContent,MatCardHeader,MatCardTitle,MatCard,MatCardSubtitle,MatChipsModule,
-    MatAccordion,MatExpansionPanel,MatExpansionPanelHeader,MatExpansionPanelTitle,MatButton,MatDialogModule
-  ],
-  templateUrl: './status-dialog.component.html',
-  styleUrl: './status-dialog.component.css'
+    selector: 'app-status-dialog',
+    imports: [CommonModule, MatButton, MatDialogModule,
+        MatCardContent, MatCardHeader, MatCardTitle, MatCard, MatCardSubtitle, MatChipsModule,
+        MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatButton, MatDialogModule
+    ],
+    templateUrl: './status-dialog.component.html',
+    styleUrl: './status-dialog.component.css'
 })
 export class StatusDialogComponent {
 

@@ -10,11 +10,10 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-status-tab',
-  standalone: true,
-  imports: [MatTableModule,MatIconModule,NgClass,MatRipple,MatPaginatorModule , CommonModule],
-  templateUrl: './status-tab.component.html',
-  styleUrl: './status-tab.component.css'
+    selector: 'app-status-tab',
+    imports: [MatTableModule, MatIconModule, NgClass, MatRipple, MatPaginatorModule, CommonModule],
+    templateUrl: './status-tab.component.html',
+    styleUrl: './status-tab.component.css'
 })
 export class StatusTabComponent implements AfterViewInit , OnInit{
 

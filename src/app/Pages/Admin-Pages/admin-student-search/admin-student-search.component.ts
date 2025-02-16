@@ -20,13 +20,12 @@ interface IStudentData {
   resume : string,
 }
 @Component({
-  selector: 'app-admin-student-search',
-  standalone: true,
-  imports: [MatInputModule,CommonModule,MatFormFieldModule , MatPaginator
-    ,FormsModule,MatTableModule
-  ],
-  templateUrl: './admin-student-search.component.html',
-  styleUrl: './admin-student-search.component.css'
+    selector: 'app-admin-student-search',
+    imports: [MatInputModule, CommonModule, MatFormFieldModule, MatPaginator,
+        FormsModule, MatTableModule
+    ],
+    templateUrl: './admin-student-search.component.html',
+    styleUrl: './admin-student-search.component.css'
 })
 export class AdminStudentSearchComponent implements OnInit {
 

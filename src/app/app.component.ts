@@ -6,11 +6,10 @@ import { inject } from '@angular/core';
 import { ToastComponent } from "./Components/toast/toast.component";
 import { LoadingComponent } from "./Components/loading/loading.component";
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, CommonModule, ToastComponent, LoadingComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+    selector: 'app-root',
+    imports: [RouterOutlet, CommonModule, ToastComponent, LoadingComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'SlotBookingPortal';

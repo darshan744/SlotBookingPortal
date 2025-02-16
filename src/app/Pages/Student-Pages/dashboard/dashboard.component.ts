@@ -41,18 +41,16 @@ interface ICanvasData {
 }
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [
-    MatTableModule,MatFormFieldModule, MatInputModule,MatIconModule,
-    DatePipe,
-    MatCardModule,
-    BaseChartDirective,
-    CommonModule,
-    MatButton,
-  ],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css' , './dashboard-userInfo.component.css'],
+    selector: 'app-dashboard',
+    imports: [
+        MatTableModule, MatFormFieldModule, MatInputModule, MatIconModule,
+        DatePipe,
+        MatCardModule,
+        BaseChartDirective,
+        CommonModule,
+    ],
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css', './dashboard-userInfo.component.css']
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('MockInterview')

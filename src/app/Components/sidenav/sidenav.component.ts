@@ -16,24 +16,23 @@ export interface items{
   icon:string
 }
 @Component({
-  selector: 'app-sidenav',
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    MatSidenavModule,
-    MatIcon,
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
-    MatNavList,
-    MatListItemIcon,
-    MatListItem,
-    MatIconModule,
-    MatIconButton,
-    CommonModule,
-  ],
-  templateUrl: './sidenav.component.html',
-  styleUrl: './sidenav.component.css',
+    selector: 'app-sidenav',
+    imports: [
+        MatToolbarModule,
+        MatSidenavModule,
+        MatIcon,
+        RouterOutlet,
+        RouterLink,
+        RouterLinkActive,
+        MatNavList,
+        MatListItemIcon,
+        MatListItem,
+        MatIconModule,
+        MatIconButton,
+        CommonModule,
+    ],
+    templateUrl: './sidenav.component.html',
+    styleUrl: './sidenav.component.css'
 })
 export class SidenavComponent implements OnInit {
   @Input() list: items[] = [];
