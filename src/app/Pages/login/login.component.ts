@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormGroup , FormControl ,Validators} from '@angular/forms';
 import { environment } from '../../../environments/environment.development';
 import { MatIconModule } from '@angular/material/icon';
+import { ToastrService } from '../../Services/Toastr/toastr.service';
 
 @Component({
     selector: 'app-login',
@@ -26,13 +27,14 @@ export class LoginComponent {
 
   constructor(
     private service: LoginService,
+    private toastService : ToastrService
   ) {}
 
   credentials = new FormGroup({
     userName: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
-  
+
   password = signal<boolean>(true);
   private _clientId = environment.GOOGLE_CLIENTID;
 
@@ -44,13 +46,16 @@ export class LoginComponent {
     let password = this.credentials.value.password;
     if (
       name !== '' &&
-      password !== '' &&
       name !== null &&
-      password !== null &&
       name !== undefined &&
+      password !== '' &&
+      password !== null &&
       password !== undefined
     ) {
       this.service.authenticate(name, password);
+    }
+    else {
+      this.toastService.showToast('Please fill all details', false, 'info');
     }
   }
 

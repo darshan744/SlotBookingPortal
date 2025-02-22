@@ -47,12 +47,13 @@ interface ICanvasData {
         DatePipe,
         MatCardModule,
         BaseChartDirective,
-        CommonModule,
+        CommonModule
     ],
     templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.css', './dashboard-userInfo.component.css']
+    styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
   @ViewChild('MockInterview')
   mockInterviewCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('SelfIntroduction')
@@ -72,10 +73,9 @@ export class DashboardComponent implements OnInit {
   get resumeLink(): string {
     return `${this._url}/${encodeURIComponent(this.user.ResumeLink)}`;
   }
-
   ngOnInit() {
     this._service.getHistory().subscribe((e: any) => {
-      (e);
+      console.log(e);
       this.eventResults = new MatTableDataSource(e.data.EventHistory);
       this.assignDate();
     });
@@ -95,12 +95,13 @@ export class DashboardComponent implements OnInit {
 
   assignDate() {
     let data = this.eventResults.data;
+    console.log(data);
     this.eventResultGraphs = data.reduce(
       (result:any  , current :eventResult) => {
         (result[current['eventType']] = result[current['eventType']] || []).push(current);
         return result;
       },{})
-    (this.eventResultGraphs);
+      console.log(this.eventResultGraphs);
     this.processChartData()
   }
 

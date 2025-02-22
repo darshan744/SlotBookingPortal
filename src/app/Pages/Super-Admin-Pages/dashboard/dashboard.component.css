@@ -27,12 +27,11 @@
   background-color: white;
   border-radius: 8px;
   border: 3px solid #eef2f6;
-  padding: 20px;
   display: flex;
 }
-
 .event-detail {
-  margin-left: 20px;
+  margin-right: 20px;
+    margin-left: 20px;
 }
 
 p {
@@ -40,12 +39,9 @@ p {
 }
 
 .event-heading {
-  font-size: 20px; color: gray;
+  font-size: 20px;
+  color: gray;
   font-weight: 500;
-}
-
-.event-value {
-  font-size: 30px;
 }
 
 .table-container {

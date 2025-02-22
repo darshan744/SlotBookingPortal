@@ -5,7 +5,7 @@
       <p style="font-size: 20px;"><strong>{{userName }}</strong></p>
       <p style="font-size: 18px;">{{currentEmail}}</p>
     </div>
-    <h6><strong>Account Settings</strong></h6>
+    <h3><strong>Account Settings</strong></h3>
     <div class="input-container">
       <div class="user-name">
         <div class="user-name-container">
@@ -65,14 +65,14 @@
   </div>
 <!--  Events Settings-->
   <div class="wrapper">
-    <h4>Existing Events</h4>
+    <h2>Existing Events</h2>
     <div class="event-list">
       <mat-chip-listbox>
         <mat-chip *ngFor="let event of items" color="primary">{{event}}</mat-chip>
       </mat-chip-listbox>
     </div>
     <div style="margin-top: 30px;">
-      <h5>Create New Event</h5>
+      <h3>Create New Event</h3>
       <div [formGroup]="eventData" class="event-form-fields">
         <div class="event-info-container">
           <mat-form-field class="form-field" appearance="outline">
@@ -101,13 +101,13 @@
   </div>
 <!--  Breaks Settings -->
   <div  class="wrapper">
-    <h4>Existing Combination</h4>
+    <h3>Existing Combination</h3>
     <div>
       <mat-chip-listbox>
         <mat-chip (click)="getBreaksById(b.configurationId)"  *ngFor="let b of retrievedBreaks"> ConfigurationID :  {{b.configurationId}} </mat-chip>
       </mat-chip-listbox>
     </div>
-    <h6>Create New Break Timing</h6>
+    <h3>Create New Break Timing</h3>
     <div class="event-form-fields" >
     <!-- Morning Break -->
     <form [formGroup]="breaks" class="config-field-container">
@@ -160,10 +160,10 @@
   <h4 mat-dialog-title><strong>Configuration ID :</strong>{{data.configurationId}} </h4>
   <mat-divider></mat-divider>
   <mat-dialog-content style="margin:10px 0px 30px 30px">
-    <h6><strong>Morning Break :</strong> {{data.breaks.morningBreak}} </h6>
-    <h6><strong>Evening Break :</strong>{{data.breaks.eveningBreak}} </h6>
-    <h6><strong>Lunch Start :</strong> {{data.breaks.lunchStart}}</h6>
-    <h6> <strong> Lunch End :</strong>{{data.breaks.lunchEnd}} </h6>
+    <h3><strong>Morning Break :</strong> {{data.breaks.morningBreak}} </h3>
+    <h3><strong>Evening Break :</strong>{{data.breaks.eveningBreak}} </h3>
+    <h3><strong>Lunch Start :</strong> {{data.breaks.lunchStart}}</h3>
+    <h3> <strong> Lunch End :</strong>{{data.breaks.lunchEnd}} </h3>
   </mat-dialog-content>
   <mat-divider>
   </mat-divider>

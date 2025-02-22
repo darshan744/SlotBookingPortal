@@ -1,15 +1,15 @@
-interface IBookingStatus {
+export interface IBookingStatus {
   studentId: string,
   isBooked: boolean,
   bookingDate: Date | null,
   bookingTime: string | null
 }
 
-interface TimeSlot {
+export interface TimeSlot {
   time : string,
   limit : number,
 }
-interface IVenues2  {
+export interface IVenues2  {
   venue: string,
   staffs : {
     id:string, //staff id
@@ -19,7 +19,7 @@ interface IVenues2  {
     }[]
   }[]
 }
-interface ISlot  {
+export interface ISlot  {
   slotId: string,
   startDate: Date,
   endDate: Date,
@@ -28,5 +28,3 @@ interface ISlot  {
   slots: IVenues2[],
   bookers: IBookingStatus[]
 }
-
-export {ISlot , TimeSlot , IBookingStatus}

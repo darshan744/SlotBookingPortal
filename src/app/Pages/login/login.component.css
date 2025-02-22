@@ -15,17 +15,15 @@
   background-color: white;
   width: 430px;
   text-align: center;
-  height: 400px;
+  height: 430px;
   border-radius: 15px;
   padding:30px;
 }
 
 .form {
-
   display: flex;
   flex-direction: column;
   text-align: left;
-
 }
 
 .button {

@@ -11,7 +11,4 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 export class LoadingComponent {
 
   loading : LoadingService = inject(LoadingService);
-
-
-
 }

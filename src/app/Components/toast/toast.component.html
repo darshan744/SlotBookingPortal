@@ -1,17 +1,17 @@
-<div class="toast-container" *ngIf="toastrService.message$ | async as message"
-[ngClass]="{'show' : toastrService.message$ | async}" >
-  <div class="toast"
+<div class="toast-container"
+[ngClass]="{'show' : (toastrService.toastArray$ | async) !== null}" >
+  <div class="toast" *ngFor="let toast of toastrService.toastArray$ | async;let i = index"
   [ngClass]="{
-   'error' : (toastrService.isError|async) && ( (toastrService.iconName |async) !== 'info'),
-   'success' : !(toastrService.isError | async) && ( (toastrService.iconName |async) !== 'info'),
-   'info' : !(toastrService.isError | async) && ((toastrService.iconName | async) === 'info')
+   'error' : (toast.IsError) && ( (toast.IconName) !== 'info'),
+   'success' : !(toast.IsError) && ( (toast.IconName) !== 'info'),
+   'info' : !(toast.IsError) && ((toast.IconName) === 'info')
    }"
    [style.width.%]="{isHandset : '250px'}"
   >
     <mat-icon>
-     {{toastrService.iconName | async}}
+     {{toast.IconName}}
       </mat-icon>
-     {{message}}
-    <div class="progress-bar"  [ngStyle]="{width:(toastrService.progress$ | async) + '%'}" ></div>
+     {{toast.Message}}
+    <div class="progress-bar"  [ngStyle]="{width:(toast.Width) + '%'}" ></div>
   </div>
 </div>

@@ -15,8 +15,6 @@ export class AppComponent {
   title = 'SlotBookingPortal';
   loginService = inject(LoginService);
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.loginService.handleSignOut();
   }
 

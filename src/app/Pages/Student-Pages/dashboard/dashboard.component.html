@@ -1,23 +1,14 @@
 <div class="container">
-  <!-- <h3 class="mat-h3" style="margin-top: 30px;margin-left: 30px;">Welcome {{user.Name}}</h3> -->
   <div>
     <div class="user-details-container">
       <div class="left">
-        <h3>{{user.Name}}</h3>
-        <h5><strong>Roll No:</strong> {{user.RollNo}}</h5>
-        <h5><strong>Year:</strong> {{user.Year}}</h5>
-        <h5><strong>Department:</strong> {{user.Dept}}</h5>
-        <h5><strong>Upcoming Event</strong></h5>
+          <h3>{{user.Name}}</h3>
+          <h5><strong>Roll No : </strong> {{user.RollNo}}</h5>
+          <h5><strong>Year : </strong> {{user.Year}}</h5>
+          <h5><strong>Department : </strong> {{user.Dept}}</h5>
+          <h5><strong>Upcoming Event : </strong> N/A</h5>
       </div>
       <div class="right">
-        <!-- <div class="password">
-          <p style="font-size: 20px;"><strong> Change Password :</strong></p>
-          <mat-form-field appearance="outline" class="custom-width-form">
-            <mat-label>Change Password</mat-label>
-            <input matInput />
-          </mat-form-field>
-          <button mat-button >Change Password</button>
-        </div> -->
         <div class="user-footer">
           <form *ngIf="selectedFileName === ''; else fileUploaded" class="file-upload-form">
             <label for="resume-upload" class="file-upload-label">
@@ -27,21 +18,40 @@
           </form>
           <ng-template #fileUploaded >
             <div class="uploaded-file">
-              <h6><strong>Your Resume :</strong> </h6>
-              <a [href]="resumeLink" target="_blank" style="display: flex;align-content: center;text-decoration: none;color:black;margin-bottom: 8px"><mat-icon>link</mat-icon>Resume</a>
-              <mat-icon (click)="clearFile()" style="cursor: pointer;margin-bottom:8px">delete</mat-icon>
-<!--              <button (click)="clearFile()" mat-button><mat-icon>delete</mat-icon></button>-->
+              <h3><strong>Your Resume</strong> </h3>
+              <a [href]="resumeLink" target="_blank">Download Resume</a>
+             <button (click)="clearFile()" class="delete-btn">Delete Resume<mat-icon>delete</mat-icon></button>
             </div>
           </ng-template>
         </div>
       </div>
-    </div>
-    <div class="event details">
-
+      <div class="password-change-container">
+        <div class="password-change">
+          <h3>Change Password</h3>
+          <div class="old-password">
+            <input class="password-field" placeholder="Old Password"/>
+          </div>
+          <div class="new-password">
+            <input class="password-field" placeholder="New Password"/>
+          </div>
+        </div>
+        <div style="display: flex;justify-content: center;margin-top: 10px;">
+          <button class="pass-change-btn">Change Password</button>
+        </div>
+      </div>
+      <div class="query-container">
+        <h3>Report Query</h3>
+        <div class="query">
+          <textarea class="query-field" placeholder="Type your query here"></textarea>
+        </div>
+        <div style="display: flex;justify-content: center;margin-top: 10px;">
+          <button class="pass-change-btn">Send Query</button>
+        </div>
+      </div>
     </div>
   </div>
   <div *ngIf="eventResults.data.length > 0" class="table-container">
-    <table mat-table [dataSource]="eventResults" class="mat-elevation-z8">
+    <table mat-table [dataSource]="eventResults" class="mat-elevation-z8 round-table">
 
       <ng-container matColumnDef="No">
         <th mat-header-cell class="mat-header-cell" *matHeaderCellDef="">No</th>
@@ -73,15 +83,13 @@
   <div>
     <div class="chart-container">
       <div *ngFor="let eventType of chartData | keyvalue">
-        <mat-card class="mat_card" >
-          <mat-card-header>{{eventType.key}}</mat-card-header>
-          <mat-card-content>
-            <canvas class="canvas" baseChart
-            [labels]="chartData[eventType.key].labels"
-            [datasets]="chartData[eventType.key].datasets" [options]="options" [type]="type" >
+        <div class="chart">
+          <h3>{{eventType.key}}</h3>
+          <canvas class="canvas" baseChart
+            [labels]="eventType.value.labels"
+            [datasets]="eventType.value.datasets" [options]="options" [type]="type" >
           </canvas>
-          </mat-card-content>
-        </mat-card>
+        </div>
       </div>
     </div>
   </div>
@@ -97,3 +105,4 @@
     </mat-card-content>
   </ng-template>
 </div>
+

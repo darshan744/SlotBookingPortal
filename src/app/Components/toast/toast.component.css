@@ -18,6 +18,7 @@
   color: white;
   overflow: hidden;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 .toast-container.show {
