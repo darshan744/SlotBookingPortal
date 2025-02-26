@@ -60,13 +60,14 @@ export class EventBookingComponent implements OnInit  {
   fetchSlots() {
     this._Service.getSlots(this.eventType).subscribe({
       next:(res) => {
-        //this.dialogService.openSnackBar(res.message);
-        this.toastService.showToast(res.message , false , 'info')
         const data = res.data;
         if(data && 'slotId' in data && 'startDate' in data && 'endDate' in data ){
+          this.toastService.showToast(res.message , false)
             this.data = data;
         }
         else if(data && 'studentId' in data && 'isBooked' in data && 'bookingDate' in data) {
+          console.log(res);
+          this.toastService.showToast(res.message, false, 'info');
           this.alreadyBooked = data;
         }
       }
@@ -101,9 +102,9 @@ export class EventBookingComponent implements OnInit  {
       const slotTimings = this.selectedSlotsArray.filter(
         e => new Date(e.date).toString()  ===  new Date(date).toString()
       )
+     slotTimings[0].timings = slotTimings[0].timings.filter(slot => slot.limit > 0)
     this.selectedTiming = slotTimings[0].timings;
     }
-    // (this.selectedTiming);
   }
 
   openDialog () {
@@ -117,8 +118,7 @@ export class EventBookingComponent implements OnInit  {
       staff : this.selectedStaff , venue : this.selectedVenue , eventType : this.eventType};
     this._Service.bookSlot(data).subscribe({
       next : (res: any) => {
-        (res);
-        this.dialogService.openSnackBar(res.message);
+        this.toastService.showToast(res.message , false);
       }
     });
     }

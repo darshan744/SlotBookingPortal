@@ -1,12 +1,12 @@
-import { LoadingService } from './../Loading/loading.service';
+
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { event, eventResponseServer } from '../../Models/slot-breaks';
 import { map, Observable } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { studentResult } from '../../Pages/Admin-Pages/admin-home/admin-home.component';
 import { IBaseResponse, IStudentInfo } from '../../Models/Admin.model';
+import { ToastrService } from '../Toastr/toastr.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +15,7 @@ export class AdminService {
   private _url = environment.ADMIN_URL;
   constructor(
     private http: HttpClient,
-    private _snackBar: MatSnackBar,
-    private loading: LoadingService
+    private toast : ToastrService
   ) {}
 
   getAvailabilityRequest(): Observable<eventResponseServer> {
@@ -54,14 +53,7 @@ export class AdminService {
           withCredentials: true,
         })
         .subscribe((res: any) => {
-          let msg: string =
-            res.message === 'Success' ? ' ✅Done' : ' ❌Could Not Update';
-          this._snackBar.open(msg, '✖️' /*<--Actions */, {
-            duration: 2000,
-            verticalPosition: 'top',
-            horizontalPosition: 'right',
-            panelClass: 'custom-snackbar',
-          });
+          this.toast.showToast(res.message , false);
         });
     }
   }
@@ -71,7 +63,7 @@ export class AdminService {
     return this.http.get<
       IBaseResponse & {
         students: { id: string; name: string }[];
-        eventType: string;
+        eventType: string; slotId : string;
       }
     >(environment.BOOKERS + staffId, { withCredentials: true });
   }
@@ -81,13 +73,14 @@ export class AdminService {
     return session !== null ? JSON.parse(session).id : null;
   }
 
-  studentMarks(studentmarks: studentResult[], eventType: string) {
-    this.http
-      .post(
-        environment.STUDENTS_MARKS,
-        { studentmarks, eventType, staffId: this.getUserId() },
-        { withCredentials: true }
-      )
+  studentMarks(studentmarks: studentResult[], eventType: string , slotId : string) {
+    console.log(slotId);
+    const params = new HttpParams().append('slotId' , slotId);
+    this.http.post(
+      environment.STUDENTS_MARKS,
+      { studentmarks, eventType, staffId: this.getUserId() },
+      { params,withCredentials: true }
+    ).subscribe((res : any)=>this.toast.showToast(res.message , false));
   }
 
   getStudentInfo(identifier: string): Observable<IStudentInfo> {

@@ -35,6 +35,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
 import {TAcceptedStaff, Venues, ISlot, ITimeAndLimit, IBreaks} from "../SuperAdmin.interface";
 import {HttpErrorResponse} from "@angular/common/http";
+import { ToastrService } from '../../../Services/Toastr/toastr.service';
 
 type AcceptedResponse = {
   success: boolean;
@@ -48,39 +49,38 @@ type AcceptedResponse = {
 };
 
 @Component({
-    selector: 'app-slot-generation',
-    imports: [
-        CommonModule,
-        FormsModule,
-        MatChipsModule,
-        NgxMatTimepickerModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatInputModule,
-        MatButtonModule,
-        MatDividerModule,
-        MatAutocompleteModule,
-        MatDialogModule,
-        MatDatepickerModule,
-        FormsModule,
-        MatIconModule,
-    ],
-    providers: [provideNativeDateAdapter()],
-    templateUrl: './slot-generation.component.html',
-    styleUrl: './slot-generation.component.css'
+  selector: 'app-slot-generation',
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatChipsModule,
+    NgxMatTimepickerModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatAutocompleteModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    FormsModule,
+    MatIconModule,
+  ],
+  providers: [provideNativeDateAdapter()],
+  templateUrl: './slot-generation.component.html',
+  styleUrl: './slot-generation.component.css',
 })
 export class SlotGenerationComponent implements OnInit {
   form: FormGroup;
-  breaks : IBreaks[] = [] as any;
-  selectedYear : string | null = null
-
+  breaks: IBreaks[] = [] as any;
+  selectedYear: string | null = null;
 
   constructor(
     private service: SuperAdminService,
-    private _snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toast: ToastrService
   ) {
     this.form = this.formBuilder.group({
       enteredData: new FormGroup({
@@ -93,7 +93,7 @@ export class SlotGenerationComponent implements OnInit {
         selectedYear: new FormControl<string>('', [Validators.required]),
       }),
       data: new FormGroup({
-        selectedBreakConfig : new FormControl<string>('',Validators.required),
+        selectedBreakConfig: new FormControl<string>('', Validators.required),
         range: new FormControl<number>(0, [Validators.required]),
       }),
     });
@@ -101,7 +101,7 @@ export class SlotGenerationComponent implements OnInit {
 
   @ViewChild('DialogTemplate') dialogComp!: TemplateRef<string[]>;
 
-  dialogService = inject(DialogOpenService)
+  dialogService = inject(DialogOpenService);
   /**--------------------------------Results -------------------------- */
 
   slots = signal<string[]>([]);
@@ -117,8 +117,8 @@ export class SlotGenerationComponent implements OnInit {
 
   /**Methods */
   ngOnInit(): void {
-    this.getBreaks()
-    this.getAcceptedStaffs()
+    this.getBreaks();
+    this.getAcceptedStaffs();
   }
 
   dateFilter: DateFilterFn<Date | null> = (date: Date | null): boolean => {
@@ -130,19 +130,21 @@ export class SlotGenerationComponent implements OnInit {
   };
 
   generateSlot() {
-    if (
-      // this.form.get('data.morningBreak')?.value === '' ||
-      // this.form.get('data.eveningBreak')?.value === '' ||
-      // this.form.get('data.lunchStart')?.value === '' ||
-      // this.form.get('data.lunchEnd')?.value === '' ||
-      this.form.get('data.range')?.value === 0
-    ) {
-      alert('enter data');
+    const isInvalid = this.form.get('data.morningBreak')?.value === '' ||
+                      this.form.get('data.eveningBreak')?.value === '' ||
+                      this.form.get('data.lunchStart')?.value === '' ||
+                      this.form.get('data.lunchEnd')?.value === '' ||
+                      this.form.get('data.range')?.value === 0;
+
+    if (isInvalid) {
+      this.toast.showToast('Please enter all data for generating slots', true);
     } else {
       const selectedBreakConfig = this.form.get('data.selectedBreakConfig');
-      if(selectedBreakConfig?.valid) {
-        const breakTimings = this.breaks.find(b => b.configurationId === selectedBreakConfig?.value );
-        if(breakTimings) {
+      if (selectedBreakConfig?.valid) {
+        const breakTimings = this.breaks.find(
+          (b) => b.configurationId === selectedBreakConfig?.value
+        );
+        if (breakTimings) {
           const slotData = {
             morningBreak: breakTimings?.breaks.morningBreak,
             eveningBreak: breakTimings?.breaks.eveningBreak,
@@ -152,28 +154,25 @@ export class SlotGenerationComponent implements OnInit {
           };
 
           this.slots.set(this.service.generate(slotData));
-        }
-        else {
+        } else {
           alert('Not Found');
           return;
         }
-      }
-      else {
+      } else {
         alert('Not Valid');
         return;
       }
-      this._snackBar.open('Generated Successfully', 'Done', { duration: 3000 });
+      this.toast.showToast('Generated Successfully', false);
       this.dialog.open(this.dialogComp);
     }
-
   }
 
   addStaff() {
     const venue = this.form.get('enteredData.venue');
     const staffs = this.form.get('enteredData.staff');
     if (venue?.valid && staffs?.valid) {
-      const venueValue : string = venue.value;
-      const staffValue : string = staffs.value;
+      const venueValue: string = venue.value;
+      const staffValue: string = staffs.value;
       this.venues.update((value) => {
         const updatedVenues = value.map((el) => {
           // Check if the venue matches the input
@@ -228,40 +227,54 @@ export class SlotGenerationComponent implements OnInit {
     });
   }
 
-  validate(obj: any): boolean {
-    for (const [key, val] of Object.entries(obj)) {
-      if ( val === undefined ||  val === null || val === '' ||  (Array.isArray(val) && val.length === 0) ) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   public get acceptedStaffs(): TAcceptedStaff[] {
-    return this.acceptedStaff().filter((e) => e.display && e.forYear === this.form.get('enteredData.selectedYear')?.value);
+    return this.acceptedStaff().filter(
+      (e) =>
+        e.display &&
+        e.forYear === this.form.get('enteredData.selectedYear')?.value
+    );
   }
 
   submit(): void {
-    let slots : ITimeAndLimit[] = this.slots().map((e:string):{time:string, limit:number} =>
-      ({ time: e, limit: this.form.get('enteredData.limit')?.value })
+    let slots: ITimeAndLimit[] = this.slots().map(
+      (e: string): { time: string; limit: number } => ({
+        time: e,
+        limit: this.form.get('enteredData.limit')?.value,
+      })
     );
-
-    const data :ISlot = {
-      startDate:this.form.get('enteredData.startDate')?.value,
-      endDate:this.form.get('enteredData.endDate')?.value,
-      eventType:this.form.get('enteredData.selectedEvent')?.value,
-      year:this.form.get('enteredData.selectedYear')?.value,
-      limit:this.form.get('enteredData.limit')?.value,
-      slots:slots,//{time:string, limit:number}[]
-      venuesAndStaffs: this.venues().map(e=>e)//venue:string , staffs:string[]
-    }
+    let startDate = this.form.get('enteredData.startDate')?.value;
+    let endDate = this.form.get('enteredData.endDate')?.value;
+    startDate = new Date(startDate).toLocaleDateString('en-GB');
+    endDate = new Date(endDate).toLocaleDateString('en-GB');
+    const data: ISlot = {
+      startDate: startDate,
+      endDate: endDate,
+      eventType: this.form.get('enteredData.selectedEvent')?.value,
+      year: this.form.get('enteredData.selectedYear')?.value,
+      limit: this.form.get('enteredData.limit')?.value,
+      slots: slots, //{time:string, limit:number}[]
+      venuesAndStaffs: this.venues().map((e) => e), //venue:string , staffs:string[]
+    };
+    console.log(data);
     if (this.validate(data)) {
       this.service.postSlot(data);
     } else {
       alert('enter Data ');
     }
   }
-
+  validate(obj: any): boolean {
+    for (const [key, val] of Object.entries(obj)) {
+      if (
+        val === undefined ||
+        val === null ||
+        val === '' ||
+        (Array.isArray(val) && val.length === 0)
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
   getAcceptedStaffs() {
     this.service.getAcceptedResponse().subscribe({
       next: (res) => {
@@ -270,7 +283,7 @@ export class SlotGenerationComponent implements OnInit {
             id: e.instructorId.id,
             name: e.instructorId.name,
             display: true,
-            forYear: e.forYear
+            forYear: e.forYear,
           }))
         );
       },
@@ -282,12 +295,12 @@ export class SlotGenerationComponent implements OnInit {
 
   getBreaks() {
     this.service.getBreaks().subscribe({
-      next:data=> {
+      next: (data) => {
         this.breaks = data.data;
       },
-      error : (err : HttpErrorResponse) => {
-        this.dialogService.openSnackBar(err.message)
-      }
-    })
+      error: (err: HttpErrorResponse) => {
+        this.dialogService.openSnackBar(err.message);
+      },
+    });
   }
 }

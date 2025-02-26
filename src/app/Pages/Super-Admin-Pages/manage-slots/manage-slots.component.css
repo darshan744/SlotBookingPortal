@@ -1,0 +1,15 @@
+.container{
+  margin-top: 10px;
+  margin-left: 25px;
+  height: 100%;
+}
+.slot-container{
+  background-color: white;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.14);
+}
+.slot-header{
+  display: flex;
+  gap: 20px;
+}

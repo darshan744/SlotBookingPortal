@@ -78,4 +78,65 @@
       <mat-row *matRowDef="let i ; columns:eventHeaders"></mat-row>
     </mat-table>
   </div>
+  <div class="query-list-container" *ngIf="studentsQueries.length > 0">
+    <div>
+      <h3>Queries</h3>
+    </div>
+    <!-- Title -->
+    @for (query of studentsQueries; track $index) {
+    <div class="query-details">
+      <div>
+        <p> <strong>Student id</strong> : {{query.raiserId}} </p>
+        <p> <strong>Query Id</strong> : {{query.queryId}} </p>
+      </div>
+      <div>
+        <h4>Query Title</h4>
+        <div>
+          <p>{{ query.title }}</p>
+        </div>
+      </div>
+
+      <h4>Query Description</h4>
+      <div class="query-description">
+        <div>
+          <p>{{ query.description }}</p>
+        </div>
+        <div>
+           @if(query.status === 'Pending') {
+            <select [(ngModel)]="query.status" class="status-select"><option *ngFor="let status of queryStatusOptions" [value]="status"> {{status}} </option></select>
+           }
+           @else {
+             <p [classList]="query.status" style="font-size: medium;"
+                >
+            {{ status }}
+            </p>
+           }
+        </div>
+      </div>
+
+      <h4>Remarks</h4>
+      <div style="display: flex;justify-content: space-between;align-items: center;">
+        <div>
+          @let status = query.status;
+          <textarea [disabled]="status !== 'Pending'"  [(ngModel)]="query.remarks" class="remarks"  [placeholder]="status === 'Pending' ? 'Remarks' : query.remarks"></textarea>
+        </div>
+        <div>
+            <button (click)="postRemarks(query.remarks , query.status , query.queryId)" style="padding: 5px 10px; border-radius: 3px; background-color: #007BFF; color: white; border: none; cursor: pointer;">Submit</button>
+        </div>
+      </div>
+
+    </div>
+      }
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        gap: 30px;
+      "
+    >
+      <button class="page-btn">Previous</button>
+      <button class="page-btn">Next</button>
+    </div>
+  </div>
 </div>

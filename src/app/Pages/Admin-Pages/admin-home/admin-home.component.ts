@@ -31,6 +31,7 @@ export interface studentResult {
 export class AdminHomeComponent implements OnInit{
   @ViewChild('shared') shared !: TemplateRef<any> ;
   eventType : string = '';
+  slotId : string = '';
   ngOnInit(): void {
       this._service.getStudentList().pipe(
         map(e=> ({...e , students : e.students.map(std =>
@@ -38,9 +39,10 @@ export class AdminHomeComponent implements OnInit{
             ispresent:false,marks: 0, remarks: ''}))}))
       ).subscribe((res)=>{
         if(res) {
-          (res)
           this.eventType = res.eventType;
           this.studentData = res.students;
+          this.slotId = res.slotId;
+          console.log(this.slotId);
         }
       })
   }
@@ -49,8 +51,7 @@ export class AdminHomeComponent implements OnInit{
   displayedColumns: string[] = ['No', 'Name','attendance', 'marks', 'remarks','actions'];
 
   submitRow(student:studentResult){
-    (this.eventType);
-    this._service.studentMarks([student] , this.eventType)
+    this._service.studentMarks([student] , this.eventType , this.slotId)
     this.studentData = this.studentData.filter(std => std.id !== student.id)
   }
 
@@ -59,7 +60,7 @@ export class AdminHomeComponent implements OnInit{
   }
 
   submitAllRow(student:studentResult[]){
-    this._service.studentMarks(student , this.eventType);
+    this._service.studentMarks(student , this.eventType , this.slotId);
   }
 
 }

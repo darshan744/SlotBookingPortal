@@ -1,10 +1,14 @@
+*{
+  margin: 0;
+  padding: 0;
+}
 .container {
   margin-left:20px;
 }
 .top-bar{
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(4,1fr);
+  grid-template-columns: repeat(5,1fr);
   margin-bottom: 20px;
 }
 
@@ -12,16 +16,17 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-.graph {
-  height: 350px;
-  width: 550px;
-}
+
 .graph-wrapper {
   border-radius: 10px;
   margin-right: 20px;
   padding: 20px;
   margin-bottom:20px;
   background-color: white;
+}
+.graph {
+  height: 350px;
+  width: 550px;
 }
 .events {
   background-color: white;
@@ -66,4 +71,68 @@ p {
   .graph {
     width: 510px;
   }
+}
+@media (max-width:796px) {
+  .graphs-container {
+    grid-template-columns: 1fr;
+  }
+  .graph {
+    width: 350px;
+  }
+}
+
+.query-list-container {
+  margin-top:12px ;
+  background-color: white;
+  display: block;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.query-details {
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.query-description {
+  display: flex;
+  justify-content: space-between;
+
+  div:nth-child(2) p {
+    background-color: rgba(0, 128, 0, 0.126);
+    padding: 3px 5px;
+    border-radius: 5px;
+  }
+}
+
+.remarks {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 3px;
+  border: 0.5px solid #EAF5FA;
+
+}
+
+.page-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.status-select{
+  padding: 5px;
+    border-radius: 3px;
+    background-color: #EAF5FA;
+}
+.Resolved{
+  background-color: rgba(0, 128, 0, 0.284)
+}
+.Pending{
+  background-color: rgba(255, 165, 0, 0.284);
+}
+.Rejected{
+  background-color: rgba(255, 0, 0, 0.284);
 }

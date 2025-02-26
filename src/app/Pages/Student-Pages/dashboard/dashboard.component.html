@@ -2,25 +2,37 @@
   <div>
     <div class="user-details-container">
       <div class="left">
-          <h3>{{user.Name}}</h3>
-          <h5><strong>Roll No : </strong> {{user.RollNo}}</h5>
-          <h5><strong>Year : </strong> {{user.Year}}</h5>
-          <h5><strong>Department : </strong> {{user.Dept}}</h5>
-          <h5><strong>Upcoming Event : </strong> N/A</h5>
+        <h3>{{ user.Name }}</h3>
+        <h5><strong>Roll No : </strong> {{ user.RollNo }}</h5>
+        <h5><strong>Year : </strong> {{ user.Year }}</h5>
+        <h5><strong>Department : </strong> {{ user.Dept }}</h5>
+        <h5><strong>Upcoming Event : </strong> N/A</h5>
       </div>
       <div class="right">
         <div class="user-footer">
-          <form *ngIf="selectedFileName === ''; else fileUploaded" class="file-upload-form">
+          <form
+            *ngIf="selectedFileName === ''; else fileUploaded"
+            class="file-upload-form"
+          >
+            <h3><strong>Upload Resume</strong></h3>
             <label for="resume-upload" class="file-upload-label">
-              <input id="resume-upload" class="file-upload-input" type="file" accept=".pdf" (input)="fileInput($event)" />
+              <input
+                id="resume-upload"
+                class="file-upload-input"
+                type="file"
+                accept=".pdf"
+                (input)="fileInput($event)"
+              />
               Upload Resume
             </label>
           </form>
-          <ng-template #fileUploaded >
+          <ng-template #fileUploaded>
             <div class="uploaded-file">
-              <h3><strong>Your Resume</strong> </h3>
+              <h3><strong>Your Resume</strong></h3>
               <a [href]="resumeLink" target="_blank">Download Resume</a>
-             <button (click)="clearFile()" class="delete-btn">Delete Resume<mat-icon>delete</mat-icon></button>
+              <button (click)="clearFile()" class="delete-btn">
+                Delete Resume<mat-icon>delete</mat-icon>
+              </button>
             </div>
           </ng-template>
         </div>
@@ -29,80 +41,198 @@
         <div class="password-change">
           <h3>Change Password</h3>
           <div class="old-password">
-            <input class="password-field" placeholder="Old Password"/>
+            <input class="password-field" placeholder="Old Password" />
           </div>
           <div class="new-password">
-            <input class="password-field" placeholder="New Password"/>
+            <input class="password-field" placeholder="New Password" />
           </div>
         </div>
-        <div style="display: flex;justify-content: center;margin-top: 10px;">
+        <div style="display: flex; justify-content: center; margin-top: 10px">
           <button class="pass-change-btn">Change Password</button>
         </div>
       </div>
       <div class="query-container">
         <h3>Report Query</h3>
-        <div class="query">
-          <textarea class="query-field" placeholder="Type your query here"></textarea>
-        </div>
-        <div style="display: flex;justify-content: center;margin-top: 10px;">
-          <button class="pass-change-btn">Send Query</button>
-        </div>
+        <button class="pass-change-btn" (click)="openQueryDialog()">
+          Send Query
+        </button>
       </div>
     </div>
   </div>
   <div *ngIf="eventResults.data.length > 0" class="table-container">
-    <table mat-table [dataSource]="eventResults" class="mat-elevation-z8 round-table">
-
+    <table
+      mat-table
+      [dataSource]="eventResults"
+      class="mat-elevation-z8 round-table"
+    >
       <ng-container matColumnDef="No">
         <th mat-header-cell class="mat-header-cell" *matHeaderCellDef="">No</th>
-        <td mat-cell class="mat-cell" data-header="No" *matCellDef="let data;let i = index">{{i+1}}</td>
+        <td
+          mat-cell
+          class="mat-cell"
+          data-header="No"
+          *matCellDef="let data; let i = index"
+        >
+          {{ i + 1 }}
+        </td>
       </ng-container>
       <ng-container matColumnDef="eventName">
-        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Events</th>
-        <td mat-cell class="mat-cell" data-header="Events" *matCellDef="let event">{{event.eventType}}</td>
+        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>
+          Events
+        </th>
+        <td
+          mat-cell
+          class="mat-cell"
+          data-header="Events"
+          *matCellDef="let event"
+        >
+          {{ event.eventType }}
+        </td>
       </ng-container>
       <ng-container matColumnDef="date">
         <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Date</th>
-        <td mat-cell class="mat-cell" data-header="Date" *matCellDef="let event">
-          {{(convertDate(event.resultId) | date) || 'Absent' }}
+        <td
+          mat-cell
+          class="mat-cell"
+          data-header="Date"
+          *matCellDef="let event"
+        >
+          {{ (convertDate(event.resultId) | date) || "Absent" }}
         </td>
       </ng-container>
       <ng-container matColumnDef="marks">
         <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Marks</th>
-        <td mat-cell class="mat-cell" data-header="Marks" *matCellDef="let event">{{event.marks}}</td>
+        <td
+          mat-cell
+          class="mat-cell"
+          data-header="Marks"
+          *matCellDef="let event"
+        >
+          {{ event.marks }}
+        </td>
       </ng-container>
       <ng-container matColumnDef="remarks">
-        <th mat-header-cell class="mat-header-cell Remarks-header" *matHeaderCellDef>Remarks</th>
-        <td mat-cell class="mat-cell Remarks-column" data-header="Remarks" *matCellDef="let event">{{event.remarks}}
+        <th
+          mat-header-cell
+          class="mat-header-cell Remarks-header"
+          *matHeaderCellDef
+        >
+          Remarks
+        </th>
+        <td
+          mat-cell
+          class="mat-cell Remarks-column"
+          data-header="Remarks"
+          *matCellDef="let event"
+        >
+          {{ event.remarks }}
         </td>
       </ng-container>
       <tr mat-header-row class="headers" *matHeaderRowDef="columns"></tr>
-      <tr mat-row *matRowDef="let row;columns:columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
     </table>
   </div>
   <div>
     <div class="chart-container">
       <div *ngFor="let eventType of chartData | keyvalue">
         <div class="chart">
-          <h3>{{eventType.key}}</h3>
-          <canvas class="canvas" baseChart
+          <h3>{{ eventType.key }}</h3>
+          <canvas
+            class="canvas"
+            baseChart
             [labels]="eventType.value.labels"
-            [datasets]="eventType.value.datasets" [options]="options" [type]="type" >
+            [datasets]="eventType.value.datasets"
+            [options]="options"
+            [type]="type"
+          >
           </canvas>
         </div>
       </div>
     </div>
   </div>
-  <ng-template #noData>
-    <mat-card-header>
-      <h6>No Event Attended</h6>
-    </mat-card-header>
-    <mat-card-content
-    style="display: flex;flex-direction: column;justify-content: center;
-    align-items: center;padding: 50px;font-family: monospace;">
-      <p style="font-size: 25px;">No Data Available</p>
-      <span class="material-icons" style="font-size: 60px;color: #ff6b6b;">folder</span>
-    </mat-card-content>
-  </ng-template>
+  <div class="query-list-container" *ngIf="studentsQueries.length > 0">
+    <div>
+      <h3>Your Queries</h3>
+    </div>
+    <!-- Title -->
+    @for (query of studentsQueries; track $index) {
+    <div class="query-details">
+      <div>
+        <h4>Query Title</h4>
+        <div>
+          <p>{{ query.title }}</p>
+        </div>
+      </div>
+
+      <h4>Query Description</h4>
+      <div class="query-description">
+        <div>
+          <p>{{ query.description }}</p>
+        </div>
+        <div>
+          @let status = query.status;
+          <!-- background-color: rgba(0, 128, 0, 0.284) -->
+            <p [ngStyle]="{
+              'background-color':
+                status === 'Resolved' ?
+                'rgba(0, 128, 0, 0.284)' : status === 'Pending' ? 'rgba(255, 165, 0, 0.284)' :
+                'rgba(255, 0, 0, 0.284)'}"
+                >
+            {{ status }}
+            </p>
+        </div>
+      </div>
+
+      <h4>Remarks</h4>
+      <div class="remarks">
+        <div>
+          <p>{{ query.remarks || 'No Remarks provided yet'}}</p>
+        </div>
+      </div>
+
+    </div>
+      }
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        gap: 30px;
+      "
+    >
+      <button class="page-btn">Previous</button>
+      <button class="page-btn">Next</button>
+    </div>
+  </div>
 </div>
 
+<ng-template #queryDialog style="background-color: #eef2f6">
+  <div class="query-dialog-container">
+    <div class="title">
+      <h1>Raise Query</h1>
+    </div>
+    <div [formGroup]="query" class="query-dialog-form">
+      <div class="query-inputs">
+        <label for="query-title"><strong>Query Title</strong></label>
+        <input formControlName="title" id="query-title" placeholder="Title" />
+      </div>
+      <div class="query-inputs">
+        <label for="query-summary"><strong>Query Summary</strong></label>
+        <textarea
+          formControlName="description"
+          id="query-summary"
+          placeholder="Query Summary"
+        ></textarea>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 10px">
+      <button
+        (click)="raiseQuery()"
+        class="blue-btn"
+        style="width: 100%; background-color: #e0e0e0; color: grey"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</ng-template>

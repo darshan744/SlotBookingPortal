@@ -14,14 +14,21 @@ export class ToastrService {
     setTimeout(()=>{
       this.toastArray$.value?.shift();
     },this.duration)
+    setTimeout(() => {
+      if(this.toastArray$.value !== null && this.toastArray$.value.length !== 0){
+        this.toastArray$.value[0].show = false;
+    }
+    }, this.duration - 300)
   }
+
 }
 class ToastMessage {
   private message: string | null;
   private isError: boolean;
   private width: number;
   private duration = 3000;
-  private iconName : string
+  private iconName : string;
+  show : boolean = true;
   constructor(message: string, isError: boolean, width: number , iconName : string) {
     this.message = message;
     this.isError = isError;

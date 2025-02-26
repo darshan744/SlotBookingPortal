@@ -1,7 +1,7 @@
 <div class="container">
   <!-- Main Form -->
   <div class="slot-generate">
-    <h5>Generate Slots</h5>
+    <h3>Generate Slots</h3>
     <mat-divider></mat-divider>
     <form class="inputs" [formGroup]="form">
 
@@ -24,7 +24,7 @@
       <!-- Start Date -->
       <mat-form-field formGroupName="enteredData" appearance="outline">
         <mat-label>Start Date</mat-label>
-        <input matInput [matDatepickerFilter]="dateFilter" formControlName="startDate" [matDatepicker]="Startdate" />
+        <input matInput  [matDatepickerFilter]="dateFilter" formControlName="startDate" [matDatepicker]="Startdate" />
         <mat-datepicker-toggle matIconSuffix [for]="Startdate"></mat-datepicker-toggle>
         <mat-datepicker #Startdate />
       </mat-form-field>
@@ -42,7 +42,7 @@
   </div>
 
   <form [formGroup]="form" class="event-types">
-    <h5>Event and Batch</h5>
+    <h3>Event and Batch</h3>
     <mat-divider></mat-divider>
     <div class="event-forms">
       <!-- Event Selection -->
@@ -91,11 +91,11 @@
   <button mat-raised-button (click)="submit()" class="btns" color="primary"><mat-icon>event</mat-icon> Generate Slots</button>
 
   <div class="slots-generated">
-    <h5>Generated Slots</h5>
+    <h2>Generated Slots</h2>
     <mat-chip-grid #grid>
       <div style="margin: 10px;" *ngFor="let venue of venues()">
         <ng-container *ngIf="venue.staffs.length > 0">
-          <h6>{{venue.venue}}</h6>
+          <h3>{{venue.venue}}</h3>
           <div style="margin: 5px;" *ngFor="let staff of venue.staffs; let i = index">
             <mat-chip (removed)="removeStaff($event)">
               {{staff}}

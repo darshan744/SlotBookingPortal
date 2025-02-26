@@ -4,12 +4,14 @@ import {environment} from '../../../environments/environment.development';
 import {Observable} from 'rxjs';
 import {IBaseResponse, IFileUploadError, IFileUploadSuccess} from '../../Models/Student.model';
 import {IBookingStatus, ISlot} from "../../Pages/Student.interface";
+import { IQuery } from '../../Pages/Super-Admin-Pages/SuperAdmin.interface';
+import { ToastrService } from '../Toastr/toastr.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient , private toastService : ToastrService) {}
 
   getSlots(eventType: string) {
     const year =  JSON.parse(sessionStorage.getItem('loggedInUser')??'').year;
@@ -45,5 +47,19 @@ export class UserService {
   fileDelete(fileName : string)  {
     const params : HttpParams = new HttpParams().set('fileName' ,fileName )
    return this._http.delete(environment.FILE_UPLOAD , {params , withCredentials : true});
+  }
+
+  getStudentQueries() {
+   return this._http.get<IBaseResponse & {data : IQuery[]}>(environment.STUDENT_GET_QUERY , {withCredentials : true})
+  }
+
+  postStudentQuery(data : {title : string | null , description : string | null}) {
+    if(!data.title || !data.description) {
+      this.toastService.showToast('Please fill all the fields' , true);
+      return;
+    }
+    this._http.post<IBaseResponse>(environment.STUDENT_POST_QUERY, data , {withCredentials : true})
+    .subscribe(() => this.toastService.showToast('Query Submitted' , false));
+
   }
 }

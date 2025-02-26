@@ -13,28 +13,37 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {SuperAdminService} from "../../../Services/SuperAdminServices/SlotGenerate/super-admin.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MatPaginator} from "@angular/material/paginator";
-import {IDashboard, ISlot, IStudent} from "../SuperAdmin.interface";
+import {IDashboard, ISlot, IStudent , IQuery} from "../SuperAdmin.interface";
+import { ToastrService } from '../../../Services/Toastr/toastr.service';
 
 @Component({
-    selector: 'app-dashboard',
-    imports: [
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        BaseChartDirective,
-        MatPaginator,
-        MatExpansionModule,
-        FormsModule,
-        MatButtonModule,
-        MatIconModule,
-        CommonModule,
-        MatTableModule,
-    ],
-    templateUrl: './dashboard.component.html',
-    styleUrl: './dashboard.component.css'
+  selector: 'app-dashboard',
+  imports: [
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BaseChartDirective,
+    MatPaginator,
+    MatExpansionModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    CommonModule,
+    MatTableModule,
+  ],
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css',
 })
 export class Dashboard implements OnInit {
+  //for table
   @ViewChild('paginator') paginator: MatPaginator | null = null;
+  //for query form submition toast
+  toastService = inject(ToastrService)
+  //student's query details
+  studentsQueries:IQuery[] = [];
+  //query's status options
+  queryStatusOptions = ["Pending" , "Resolved" , "Rejected"];
+  //graph for each year;
   array = ['first year', 'Second Year', 'Third Year', 'Fourth Year'];
   eventTypes: string[] = [
     'January',
@@ -99,6 +108,7 @@ export class Dashboard implements OnInit {
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
   ngOnInit(): void {
+    this.getQueries();
     this.service.dashboard().subscribe({
       next: (res: IDashboard) => {
         this.studentTableHeader.push(...res.listOfEvents);
@@ -114,15 +124,10 @@ export class Dashboard implements OnInit {
 
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-     const events = [
-       'Id',
-       'Name',
-       'Year',
-       'Department',
-     ];
+    const events = ['Id', 'Name', 'Year', 'Department'];
 
-     this.events = events;
-     // Simulated data
+    this.events = events;
+    // Simulated data
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -144,44 +149,21 @@ export class Dashboard implements OnInit {
     });
     return data;
   }
+  getQueries() {
+    this.service.getQueries().subscribe((res)=>this.studentsQueries = res.data)
+  }
+  postRemarks(remarks : string, status : "Pending" | "Resolved" | "Rejected" , queryId : string) {
+    if(status === 'Pending') {
+      this.toastService.showToast("Please change status" , true);
+      return;
+    }
+    if(remarks === '' || remarks === null) {
+      this.toastService.showToast("Remarks is not filled" , true);
+      return;
+    }
+    this.service.postRemarksToQuery({remarks , status , queryId});
+  }
   eventHeaders = ['Id', 'Type', 'Date', 'For'];
   eventDetails = [] as any;
 }
-const d = [
-    {
-      "Id": "MI202401",
-      "Type": "Mock Interview",
-      "Date": new Date("2024-12-15"),
-      "For": "Year 1"
-    },
-    {
-      "Id": "SI202402",
-      "Type": "Self Introduction",
-      "Date": new Date("2024-12-18"),
-      "For": "Year 2"
-    },
-    {
-      "Id": "GD202403",
-      "Type": "Group Discussion",
-      "Date": new Date("2024-12-20"),
-      "For": "Year 3"
-    },
-    {
-      "Id": "MI202404",
-      "Type": "Mock Interview",
-      "Date": new Date("2024-12-25"),
-      "For": "Year 4"
-    },
-    {
-      "Id": "SI202405",
-      "Type": "Self Introduction",
-      "Date": new Date("2025-01-10"),
-      "For": "Year 1"
-    },
-    {
-      "Id": "GD202406",
-      "Type": "Group Discussion",
-      "Date": new Date("2025-01-15"),
-      "For": "Year 2"
-    }
-  ]
+

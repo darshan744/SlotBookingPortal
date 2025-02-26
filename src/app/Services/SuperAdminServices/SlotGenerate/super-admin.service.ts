@@ -8,10 +8,10 @@ import { Observable } from 'rxjs';
 import { AcceptedResponse, AllResponse, IEventInfo, Staff } from '../../../Models/SuperAdmin.model';
 import { i } from '../../../helpers';
 import { DialogOpenService } from '../../DialogOpenService/dialog.service';
-import {ISlot, IStaff, IStaffAndEvents , IBreaks , IBaseResponse} from "../../../Pages/Super-Admin-Pages/SuperAdmin.interface";
+import {ISlot, IStaff, IStaffAndEvents , IBreaks , IBaseResponse, TSlot} from "../../../Pages/Super-Admin-Pages/SuperAdmin.interface";
 import {IDashboard} from "../../../Pages/Super-Admin-Pages/SuperAdmin.interface";
 import { ToastrService } from '../../Toastr/toastr.service';
-
+import {IQuery} from '../../../Pages/Super-Admin-Pages/SuperAdmin.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,6 @@ export class SuperAdminService {
 
   constructor(private toastService : ToastrService , private http: HttpClient) { }
   readonly popover = inject(MatDialog);
-  snackBarService = inject(DialogOpenService)
 
   private timeToMinutes(time: string): number {
     const [hours, minutes] = time.split(':').map(Number);
@@ -86,10 +85,7 @@ export class SuperAdminService {
   requestSlotAvailability(data: i[]) {
     this.http.post(this.requestAvailability, data,{withCredentials:true}).subscribe({
       next : (res:any) => {
-        this.snackBarService.openSnackBar(res.message);
-      },
-      error:(err : HttpErrorResponse)=> {
-        this.snackBarService.openSnackBar(err.error.message);
+        this.toastService.showToast(res.message , false);
       }
   });
   }
@@ -117,6 +113,7 @@ export class SuperAdminService {
   }
 
   /**
+   * @HTTPMETHOD POST
    * @Route api/v1/SuperAdmin/slots
    * @param data of type ISlot
    */
@@ -124,8 +121,13 @@ export class SuperAdminService {
     this.http
       .post(environment.SLOT, data, { withCredentials: true })
       .subscribe({
-        next: (res: any) => this.toastService.showToast(res.message, false),
-      error:(err)=>this.toastService.showToast(err.message , false)});
+        next: (res: any) => this.toastService.showToast(res.message, false)});
+  }
+
+  getSlots() : Observable<IBaseResponse & {data : TSlot[]}> {
+    return this.http.get<IBaseResponse & { data: TSlot[] }>(environment.SLOT, {
+      withCredentials: true,
+    });
   }
 
   /**
@@ -151,14 +153,22 @@ export class SuperAdminService {
   postBreaks(breaks : IBreaks) {
     return this.http.post<IBaseResponse>(environment.BREAKS , breaks , { withCredentials:true }).subscribe({
       next : (response : IBaseResponse)=> {
-        this.snackBarService.openSnackBar(response.message);
+        this.toastService.showToast(response.message , false);
       },
-      error : (e:HttpErrorResponse)=> {
-        this.snackBarService.openSnackBar(e.message)
-      }
     })
   }
   dashboard () {
     return this.http.get<IDashboard>(environment.DASHBOARD , {withCredentials:true});
+  }
+
+
+  getQueries() {
+   return this.http.get<IBaseResponse &{data : IQuery[]}>(environment.SUPERADMIN_GET_QUERY , {withCredentials : true})
+  }
+
+  postRemarksToQuery(data : {remarks : string, queryId :string , status : "Pending" | "Resolved" | "Rejected"}){
+    this.http.post(environment.SUPERADMIN_POST_REMARKS , data , {withCredentials : true}).subscribe(
+      ()=>this.toastService.showToast('Remarks Added' , false)
+    );
   }
 }

@@ -3,10 +3,10 @@
   top: 10px;
   right: 10px;
   z-index: 99000;
-  transform: translateX(110%);
-  transition: transform 0.3s ease-in;
 }
-
+.hide{
+  transform:translate(110%);
+}
 .toast {
   position: relative;
   display: flex;
@@ -19,9 +19,10 @@
   overflow: hidden;
   cursor: pointer;
   margin-top: 10px;
+  transition: transform 0.3s ease-in;
 }
 
-.toast-container.show {
+.show {
   transform: translateX(0);
 }
 

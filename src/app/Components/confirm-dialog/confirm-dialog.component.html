@@ -3,7 +3,7 @@
   <mat-divider></mat-divider>
   <mat-dialog-content >
     <div *ngIf="requestingData.length > 0;else no">
-      <h5>Slot Timings To be requested</h5>
+      <h3>Slot Timings To be requested</h3>
       <div style="margin-bottom: 10px;" *ngIf="requestingData[0].availableSlots.length > 0 && requestingData[0].availableSlots[0].slots.length > 0;else notime" >
         @for (Timings of requestingData[0].availableSlots[0].slots; track $index)
         {
@@ -11,13 +11,13 @@
         }
       </div>
       <ng-template #notime> No Dates Found Here Are You Sure Bruv!🤨 </ng-template>
-      <h5>Dates</h5>
+      <h3>Dates</h3>
       <div style="margin-bottom: 10px;" *ngIf="requestingData[0].availableSlots.length > 0;else notime">
         @for (Dates of requestingData[0].availableSlots; track $index) {
             <mat-chip (removed)="removeDate($event)" style="margin: 5px;">{{ Dates.date | date }}  <mat-icon matChipRemove class="mat-18">cancel</mat-icon> </mat-chip>
         }
       </div>
-      <h5>Staffs</h5>
+      <h3>Staffs</h3>
       <div class="staffs" *ngIf="data.staffs.length > 0;else notime">
         @for(staff of requestingData ; track $index) {
           @let name = getter(staff.instructorId);
@@ -26,11 +26,11 @@
       </div>
       <ng-template #notime> No Dates Found Here Are You Serious Bruv!🤨 </ng-template>
       <div class="dates">
-        <h6><strong>Start Date : </strong>{{ data.startDate | date : "shortDate" }}</h6>
-        <h6><strong>End Date : </strong>{{ data.endDate | date : "shortDate" }}</h6>
-        <h6><strong>Deadline : </strong>{{ data.responseDeadline | date : "shortDate" }}</h6>
-        <h6><strong>ForYear : </strong>{{ data.forYear }}</h6>
-        <h6><strong>EventType : </strong>{{ data.eventTypeRequest }}</h6>
+        <h4><strong>Start Date : </strong>{{ data.startDate | date : "shortDate" }}</h4>
+        <h4><strong>End Date : </strong>{{ data.endDate | date : "shortDate" }}</h4>
+        <h4><strong>Deadline : </strong>{{ data.responseDeadline | date : "shortDate" }}</h4>
+        <h4><strong>ForYear : </strong>{{ data.forYear }}</h4>
+        <h4><strong>EventType : </strong>{{ data.eventTypeRequest }}</h4>
       </div>
     </div>
     <ng-template #no>

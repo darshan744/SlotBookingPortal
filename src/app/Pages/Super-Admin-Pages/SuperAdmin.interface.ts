@@ -1,5 +1,3 @@
-
-/** New Interface for slots with modification  */
 export interface IBaseResponse {
   success: boolean;
   message: string;
@@ -76,7 +74,49 @@ export interface IStudent {
   "Name" :string,
   "Year":string,
   "department":string
-  
-}
-/** Old Interface of the slots */
 
+}
+export interface IQuery {
+  queryId:string,
+  raiserId: string;
+  title: string;
+  description: string;
+  status: 'Pending' | 'Resolved' | 'Rejected';
+  remarks: string;
+}
+interface IBookingStatus {
+  studentId: string;
+  isBooked: boolean;
+  bookingDate: Date | null;
+  bookingTime: string | null;
+  slotFinished: boolean;
+}
+interface IVenues extends Document {
+  venue: string;
+  staffs: string[];
+  slots: { time: string; limit: number }[];
+}
+interface TimeSlot {
+  time: string;
+  limit: number;
+}
+interface IVenues2 {
+  venue: string;
+  staffs: {
+    id: string; //staff id
+    slots: {
+      date: Date;
+      timings: TimeSlot[];
+    }[];
+    //accepted timings alone will be kept here
+  }[];
+}
+export type TSlot = {
+  slotId: string;
+  startDate: Date;
+  endDate: Date;
+  eventType: string;
+  year: string;
+  slots: IVenues2[];
+  bookers: IBookingStatus[];
+};

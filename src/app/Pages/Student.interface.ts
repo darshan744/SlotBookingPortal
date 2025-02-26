@@ -2,7 +2,8 @@ export interface IBookingStatus {
   studentId: string,
   isBooked: boolean,
   bookingDate: Date | null,
-  bookingTime: string | null
+  bookingTime: string | null,
+  slotFinished : boolean;
 }
 
 export interface TimeSlot {

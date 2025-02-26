@@ -16,6 +16,6 @@ export const appConfig: ApplicationConfig = {
      provideHttpClient(
       withInterceptors([ loadingInterceptor , httpErrorInterceptor])
      ),
-    provideCharts(withDefaultRegisterables())
+    provideCharts(withDefaultRegisterables()),
     ]
 };

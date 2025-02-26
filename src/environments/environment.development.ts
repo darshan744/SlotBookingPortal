@@ -27,4 +27,8 @@ export const environment = {
     BREAKS : `${BASE_URL}/api/v1/SuperAdmin/breaks`,
     ALLSTUDENTS : `${BASE_URL}/api/v1/Admin/students`,
     DASHBOARD : `${BASE_URL}/api/v1/SuperAdmin/dashboard`,
+    STUDENT_GET_QUERY : `${BASE_URL}/api/v1/Students/query`,
+    STUDENT_POST_QUERY : `${BASE_URL}/api/v1/Students/query`,
+    SUPERADMIN_GET_QUERY : `${BASE_URL}/api/v1/SuperAdmin/query`,
+    SUPERADMIN_POST_REMARKS : `${BASE_URL}/api/v1/SuperAdmin/query`,
 };

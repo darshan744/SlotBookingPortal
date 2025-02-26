@@ -39,6 +39,7 @@ export const routes: Routes = [
             {path :'settings',loadComponent:()=>import('./Pages/Super-Admin-Pages/settings/settings.component').then(e=>e.SettingsComponent)},
             {path :'status',loadComponent:()=>import('./Pages/Super-Admin-Pages/status-tab/status-tab.component').then(e=>e.StatusTabComponent)},
             {path:'slot',loadComponent:()=>import('./Pages/Super-Admin-Pages/slot-generation/slot-generation.component').then(e=>e.SlotGenerationComponent)},
+            {path:'manage-slot',loadComponent:()=>import('./Pages/Super-Admin-Pages/manage-slots/manage-slots.component').then(c => c.ManageSlotsComponent)},
             {path:'**',redirectTo:'Search'}
         ]
     },

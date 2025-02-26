@@ -1,1 +1,27 @@
-<p>manage-slots works!</p>
+<div class="container">
+  <div class="slot-container">
+    <h2>Manage Slots</h2>
+    <div *ngFor="let slot of slots">
+      <div class="slot-header">
+        <p><strong>>Slot ID : </strong>  {{slot.slotId}}</p>
+        <p><strong>>Start Date : </strong>  {{slot.startDate}} </p>
+        <p><strong>>End Date : </strong>  {{slot.endDate}} </p>
+        <p><strong>>For : </strong> {{slot.year}} </p>
+      </div>
+      <h2>Venues and Staffs</h2>
+      <div *ngFor="let venue of slot.slots">
+        <ul>
+          <li>
+           <h4> {{venue.venue}} </h4>
+            <ul>
+              <li *ngFor="let staff of venue.staffs">
+                {{staff.id}}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <hr>
+    </div>
+  </div>
+</div>
