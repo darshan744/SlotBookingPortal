@@ -14,6 +14,7 @@ import {provideNativeDateAdapter} from "@angular/material/core";
 import {IBreaks} from "../SuperAdmin.interface";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import { ToastrService } from '../../../Services/Toastr/toastr.service';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class SettingsComponent implements OnInit{
   @ViewChild('breakTemplate') breakTemplate!: TemplateRef<any>;
   matDialog : MatDialog = inject(MatDialog);
 
-  dialogService : DialogOpenService = inject(DialogOpenService)
+  toastService : ToastrService = inject(ToastrService);
   service : SuperAdminService = inject(SuperAdminService);
   displayPassword = false;
   displayNewPassword = false;
@@ -78,7 +79,7 @@ export class SettingsComponent implements OnInit{
         this.retrievedBreaks = result.data
       },
       error : (e : HttpErrorResponse) => {
-        this.dialogService.openSnackBar(e.message);
+        this.toastService.showToast(e.message , true);
       }
     })
     const session = sessionStorage.getItem('loggedInUser');
@@ -92,10 +93,11 @@ export class SettingsComponent implements OnInit{
     const Name  = this.eventData.get('Name')?.value;
     const Description = this.eventData.get('Description')?.value;
     const MaximumParticipant = this.eventData.get('MaximumParticipant')?.value;
+    console.log(Name , Description , MaximumParticipant);
     if(Name  && Description && MaximumParticipant && MaximumParticipant > 0) {
-      this.service.createEvents({Name : Name , Description : Description , MaximumParticipant : MaximumParticipant})
+      this.service.createEvents({Name ,Description ,MaximumParticipant})
       .subscribe((e : {message : string , success:boolean})=>{
-        this.dialogService.openSnackBar(e.message);
+        this.toastService.showToast(e.message , false );
         this.eventData.get('Name')?.reset()
         this.eventData.get('Description')?.reset()
         this.eventData.get('MaximumParticipant')?.reset()
@@ -103,7 +105,7 @@ export class SettingsComponent implements OnInit{
       })
     }
     else {
-      this.dialogService.openSnackBar('Please Enter Values');
+      this.toastService.showToast('Please Enter Values' , false ,"info");
       return;
     }
   }
@@ -114,11 +116,11 @@ export class SettingsComponent implements OnInit{
           this.items = e.data.map(el=>el.Name);
         }
         else {
-          this.dialogService.openSnackBar('No Events Available');
+          this.toastService.showToast('No Events Available' , true);
         }
       },
       error : (err : HttpErrorResponse) =>{
-        this.dialogService.openSnackBar(err.message);
+        this.toastService.showToast(err.message , true);
     }
     }
     )

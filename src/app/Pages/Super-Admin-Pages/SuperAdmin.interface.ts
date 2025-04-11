@@ -103,13 +103,18 @@ interface TimeSlot {
 interface IVenues2 {
   venue: string;
   staffs: {
-    id: string; //staff id
+    id: string;
+    name : string //staff id
     slots: {
       date: Date;
       timings: TimeSlot[];
     }[];
     //accepted timings alone will be kept here
   }[];
+}
+type TNameID = {
+  id : string,
+  name : string,
 }
 export type TSlot = {
   slotId: string;

@@ -76,10 +76,13 @@ interface ICanvasData {
 export class DashboardComponent implements OnInit {
   //Query Dialog
   @ViewChild('queryDialog') queryDialog!: TemplateRef<any>;
-
   //query storing property
   studentsQueries: IQuery[] = [];
-
+  //changing password
+  passwordForm = new FormGroup({
+    oldPassword: new FormControl<string | null>(null, [Validators.required]),
+    newPassword: new FormControl<string | null>(null, [Validators.required]),
+  });
   //used when uploading file
   selectedFileName: string = '';
   //used for rendering user info
@@ -88,14 +91,16 @@ export class DashboardComponent implements OnInit {
   private _url: string = environment.BASE_URL;
   constructor(private _service: UserService) {}
   //used for rendering event history
-  eventResults: MatTableDataSource<eventResult> =
-    new MatTableDataSource<eventResult>();
+  eventResults: MatTableDataSource<eventResult> = new MatTableDataSource<eventResult>();
   //graph data
   eventResultGraphs: any;
-
+  //raise query method
+  query = new FormGroup({
+    title: new FormControl<string | null>(null, Validators.required),
+    description: new FormControl<string | null>(null, Validators.required),
+  });
   chartData: { [key: string]: ICanvasData } = {};
   //dialog opening service
-  //openDialog = inject(DialogOpenService);
   toastService = inject(ToastrService);
   matDialog = inject(MatDialog);
   //table headers
@@ -113,7 +118,6 @@ export class DashboardComponent implements OnInit {
     //student's data from session storage
     this.getStudentDatafromSession();
   }
-
   //getting student's event history
   getEventHistory() {
     this._service.getHistory().subscribe((e: any) => {
@@ -152,9 +156,9 @@ export class DashboardComponent implements OnInit {
     console.log(this.eventResultGraphs);
     this.processChartData();
   }
-
+  //type of chart
   type: ChartType = 'line';
-
+  //chart style options
   options: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -170,7 +174,7 @@ export class DashboardComponent implements OnInit {
       },
     },
   };
-
+  //groups event types and generates chart data
   processChartData(): void {
     //Object.keys() returns string[] of the keys(properties) of the object
     Object.keys(this.eventResultGraphs).forEach((eventType) => {
@@ -198,16 +202,13 @@ export class DashboardComponent implements OnInit {
     });
     this.chartData;
   }
-
+  //adding new file as resume for the user
   fileInput(e: Event): void {
     const target = e.target as HTMLInputElement;
     if (target && target.files) {
       const file: File = target.files[0];
-      ('sending');
       this._service.fileUpload(file).subscribe({
         next: (e: IFileUploadSuccess | IFileUploadError) => {
-          ('data');
-          e;
           if (e.success && 'fileName' in e) {
             this.selectedFileName = e.fileName;
             this.toastService.showToast(e.message, false);
@@ -220,7 +221,6 @@ export class DashboardComponent implements OnInit {
       });
     }
   }
-
   //deletes the resume of the student
   clearFile(): void {
     const fileName = this.user.ResumeLink;
@@ -263,25 +263,25 @@ export class DashboardComponent implements OnInit {
       height: '400px',
     });
   }
-  //raise query method
-  query = new FormGroup({
-    title: new FormControl<string | null>(null, Validators.required),
-    description: new FormControl<string | null>(null, Validators.required),
-  });
+  //raise a new query (updates DB);
   raiseQuery() {
     if (this.query.invalid) {
       this.toastService.showToast('Please fill all the fields', false, 'info');
-    }
-    else {
-      const {title , description} = this.query.value;
-      if(!title || !description) {
-        this.toastService.showToast('Please fill all the fields', false, 'info');
+    } else {
+      const { title, description } = this.query.value;
+      if (!title || !description) {
+        this.toastService.showToast(
+          'Please fill all the fields',
+          false,
+          'info'
+        );
         return;
       }
       this._service.postStudentQuery({ title, description });
       this.getQueries();
     }
   }
+  //get the student's queries
   getQueries() {
     this._service.getStudentQueries().subscribe((res) => {
       this.studentsQueries = res.data;

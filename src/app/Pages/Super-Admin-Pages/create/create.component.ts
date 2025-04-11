@@ -73,7 +73,6 @@ export class CreateComponent implements OnInit{
     this.Service.getStaffAndEvents().subscribe((e: IStaffAndEvents) => {
       this.staffs = e.staffs
       this.events = e.events;
-
     });
   }
 

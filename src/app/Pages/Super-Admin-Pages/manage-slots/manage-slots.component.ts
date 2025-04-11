@@ -12,7 +12,7 @@ export class ManageSlotsComponent {
   slots: TSlot[] = [];
   constructor(private serivce : SuperAdminService) { }
   ngOnInit() {
-    this.serivce.getSlots().subscribe(slot => this.slots = slot.data)
+    this.serivce.getSlots().subscribe(slot => {this.slots = slot.data;console.log(slot.data)})
   }
 }
 

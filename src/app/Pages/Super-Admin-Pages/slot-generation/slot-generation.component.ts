@@ -22,7 +22,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipEvent, MatChipsModule } from '@angular/material/chips';
 import {  MatDividerModule } from '@angular/material/divider';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SuperAdminService } from '../../../Services/SuperAdminServices/SlotGenerate/super-admin.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -75,7 +74,7 @@ export class SlotGenerationComponent implements OnInit {
   form: FormGroup;
   breaks: IBreaks[] = [] as any;
   selectedYear: string | null = null;
-
+  events : {Name : string}[] = [];
   constructor(
     private service: SuperAdminService,
     private dialog: MatDialog,
@@ -119,6 +118,10 @@ export class SlotGenerationComponent implements OnInit {
   ngOnInit(): void {
     this.getBreaks();
     this.getAcceptedStaffs();
+    this.getEvents();
+  }
+  getEvents() {
+    this.service.getEvents().subscribe(e => {if(e.data) this.events = e.data});
   }
 
   dateFilter: DateFilterFn<Date | null> = (date: Date | null): boolean => {
