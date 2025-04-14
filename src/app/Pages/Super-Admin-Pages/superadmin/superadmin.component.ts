@@ -24,10 +24,10 @@ interface event{
     styleUrl: './superadmin.component.css'
 })
 export class SuperadminComponent {
-  list:items[] =[{name:'Dashboard',path:'Search',icon:'dashboard'},
-    {name:'Request',path:'Create',icon:'event'},
-    {name:'Settings', path:'settings',icon:'settings'},
-    {name:'Status',path:'status',icon:'pending_actions'},
-    {name:'Create-Slot',path:'slot',icon:'schedule'}]
+  list:items[] =[{label:'Dashboard',path:'Search',icon:'dashboard'},
+    {label:'Request',path:'Create',icon:'event'},
+    {label:'Settings', path:'settings',icon:'settings'},
+    {label:'Status',path:'status',icon:'pending_actions'},
+    {label:'Create-Slot',path:'slot',icon:'schedule'}]
   role:string='SuperAdmin';
 }

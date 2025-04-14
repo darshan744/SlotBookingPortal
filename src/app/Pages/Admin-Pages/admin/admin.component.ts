@@ -19,9 +19,9 @@ export class AdminComponent {
  constructor(private router:Router){}
   sidenavwidth = computed(()=> this.collapsed()?'65px':'250px')
   list  = [
-    {name:'Home',path:'Home',icon:'home'},
-    {name:'Students',path:'studentSearch',icon:'pi pi-user'},
-    {name:'Your Events',path:'Events',icon:'pi pi-calendar-plus'},
+    {label:'Home',path:'Home',icon:'home'},
+    {label:'Students',path:'studentSearch',icon:'pi pi-user'},
+    {label:'Your Events',path:'Events',icon:'pi pi-calendar-plus'},
   ]
 
   handleSignOut(){

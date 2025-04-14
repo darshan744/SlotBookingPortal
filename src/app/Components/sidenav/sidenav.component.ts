@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment.development';
 import {ToolbarModule} from 'primeng/toolbar'
 import { ButtonModule } from 'primeng/button';
 export interface items{
-  name:string,
+  label:string,
   path:string,
   icon:string
 }

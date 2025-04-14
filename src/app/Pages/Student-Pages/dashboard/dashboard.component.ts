@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   inject,
   OnInit,
   TemplateRef,
@@ -12,7 +11,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartOptions, ChartType } from 'chart.js';
-import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.service';
 import { environment } from '../../../../environments/environment.development';
 import {
   IFileUploadError,
@@ -31,7 +29,10 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from '../../../Services/Toastr/toastr.service';
 import { IQuery } from '../../Super-Admin-Pages/SuperAdmin.interface';
-
+import { CardModule } from 'primeng/card';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { ChartModule } from 'primeng/chart';
 export interface eventResult {
   eventType: string;
   date: string;
@@ -52,7 +53,7 @@ interface ICanvasData {
       data: any[];
       label: string;
       tension: number;
-      fill: true;
+      fill: boolean;
     }
   ];
 }
@@ -67,8 +68,11 @@ interface ICanvasData {
     DatePipe,
     ReactiveFormsModule,
     MatCardModule,
-    BaseChartDirective,
+    CardModule,
     CommonModule,
+    TableModule,
+    ButtonModule,
+    ChartModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css', './QueryDialog.css'],
@@ -91,7 +95,9 @@ export class DashboardComponent implements OnInit {
   private _url: string = environment.BASE_URL;
   constructor(private _service: UserService) {}
   //used for rendering event history
-  eventResults: MatTableDataSource<eventResult> = new MatTableDataSource<eventResult>();
+  eventResults: MatTableDataSource<eventResult> =
+    new MatTableDataSource<eventResult>();
+  eventResultArray: eventResult[] = [];
   //graph data
   eventResultGraphs: any;
   //raise query method
@@ -104,7 +110,7 @@ export class DashboardComponent implements OnInit {
   toastService = inject(ToastrService);
   matDialog = inject(MatDialog);
   //table headers
-  columns: string[] = ['No', 'eventName', 'date', 'marks', 'remarks'];
+  columns: string[] = ['No', 'EventName', 'Date', 'Marks', 'Remarks'];
   //constructing url for the file
   get resumeLink(): string {
     return `${this._url}/${encodeURIComponent(this.user.ResumeLink)}`;
@@ -123,6 +129,7 @@ export class DashboardComponent implements OnInit {
     this._service.getHistory().subscribe((e: any) => {
       console.log(e);
       this.eventResults = new MatTableDataSource(e.data.EventHistory);
+      this.eventResultArray = e.data.EventHistory;
       this.assignDate();
     });
   }
@@ -160,6 +167,7 @@ export class DashboardComponent implements OnInit {
   type: ChartType = 'line';
   //chart style options
   options: ChartOptions = {
+
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -172,7 +180,7 @@ export class DashboardComponent implements OnInit {
         min: 0,
         max: 20,
       },
-    },
+    }
   };
   //groups event types and generates chart data
   processChartData(): void {
@@ -194,13 +202,13 @@ export class DashboardComponent implements OnInit {
           {
             data: data,
             label: eventType, // Event type like "Mock Interview"
-            tension: 0.32785,
-            fill: true,
+            tension: 0.4,
+            fill: false,
           },
         ],
       };
     });
-    this.chartData;
+    console.log(this.chartData);
   }
   //adding new file as resume for the user
   fileInput(e: Event): void {

@@ -19,10 +19,14 @@ export class UserComponent  {
       // map((el:any)=>({name:el.name , path:`Events/${el.name}`,icon:"Business_center"})))
       .subscribe((e : {message : string , data : {Name:string}[] })=> {
       this.events = e;
-      (e);
-      this.events = e.data.map((el : {Name:string})=>({name:el.Name , path:`Events/${el.Name.replace(' ','_')}`,icon:"event"}));
-      this.list.push({name:"Dashboard",path:'dashboard',icon:'dashboard'},
-      ...this.events)
+      this.events = e.data.map((el: { Name: string }) => ({
+        label: el.Name,
+        path: `Events/${el.Name.replace(' ', '_')}`,
+        icon: 'pi pi-calendar-plus',
+      }));
+      this.list.push(
+        ...this.events
+      );
     });
   }
   list : any= []

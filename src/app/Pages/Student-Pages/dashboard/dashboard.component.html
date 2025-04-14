@@ -1,208 +1,155 @@
-<div class="container">
-  <div>
-    <div class="user-details-container">
-      <div class="left">
-        <h3>{{ user.Name }}</h3>
-        <h5><strong>Roll No : </strong> {{ user.RollNo }}</h5>
-        <h5><strong>Year : </strong> {{ user.Year }}</h5>
-        <h5><strong>Department : </strong> {{ user.Dept }}</h5>
-        <h5><strong>Upcoming Event : </strong> N/A</h5>
+<div class="mt-5">
+  <div class="grid grid-cols-3 gap-3">
+    <p-card class="gap-3 shadow-2xl">
+      <h3 class="text-2xl font-bold">{{ user.Name }}</h3>
+      <h3 class="text-xl"><strong>Roll No : </strong> {{ user.RollNo }}</h3>
+      <h3 class="text-xl"><strong>Year : </strong> {{ user.Year }}</h3>
+      <h3 class="text-xl"><strong>Department : </strong> {{ user.Dept }}</h3>
+      <h3 class="text-xl"><strong>Upcoming Event : </strong> N/A</h3>
+    </p-card>
+    <p-card>
+      <div #header>
+        <h2 class="text-2xl font-bold" #title>Resume</h2>
       </div>
-      <div class="right">
-        <div class="user-footer">
-          <form
-            *ngIf="selectedFileName === ''; else fileUploaded"
-            class="file-upload-form"
+      <form
+        *ngIf="selectedFileName === ''; else fileUploaded"
+        class="file-upload-form"
+      >
+        <h3><strong>Upload Resume</strong></h3>
+        <label for="resume-upload" class="file-upload-label">
+          <input
+            id="resume-upload"
+            class="file-upload-input"
+            type="file"
+            accept=".pdf"
+            (input)="fileInput($event)"
+          />
+          Upload Resume
+        </label>
+      </form>
+      <ng-template #fileUploaded>
+        <div class="grid grid-cols-2 gap-2">
+          <a
+            class="p-button font-bold decoration-none"
+            icon="pi pi-file-pdf"
+            [href]="resumeLink"
+            pButton
+            severity="contrast"
           >
-            <h3><strong>Upload Resume</strong></h3>
-            <label for="resume-upload" class="file-upload-label">
-              <input
-                id="resume-upload"
-                class="file-upload-input"
-                type="file"
-                accept=".pdf"
-                (input)="fileInput($event)"
-              />
-              Upload Resume
-            </label>
-          </form>
-          <ng-template #fileUploaded>
-            <div class="uploaded-file">
-              <h3><strong>Your Resume</strong></h3>
-              <a [href]="resumeLink" target="_blank">Download Resume</a>
-              <button (click)="clearFile()" class="delete-btn">
-                Delete Resume<mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </ng-template>
+            Resume
+          </a>
+          <button
+            pButton
+            (click)="clearFile()"
+            icon="pi pi-trash"
+            severity="danger"
+          >
+            Delete Resume
+          </button>
         </div>
-      </div>
-      <div class="password-change-container">
-        <div class="password-change">
-          <h3>Change Password</h3>
-          <div class="old-password">
-            <input class="password-field" placeholder="Old Password" />
-          </div>
-          <div class="new-password">
-            <input class="password-field" placeholder="New Password" />
-          </div>
-        </div>
-        <div style="display: flex; justify-content: center; margin-top: 10px">
-          <button class="pass-change-btn">Change Password</button>
-        </div>
-      </div>
-      <div class="query-container">
-        <h3>Report Query</h3>
-        <button class="pass-change-btn" (click)="openQueryDialog()">
-          Send Query
-        </button>
-      </div>
-    </div>
+      </ng-template>
+    </p-card>
+    <p-card>
+      <h3 class="text-xl font-bold">Report Query</h3>
+      <button
+        pButton
+        severity="help"
+        size="small"
+        class="mt-2"
+        (click)="openQueryDialog()"
+      >
+        Send Query
+      </button>
+    </p-card>
   </div>
-  <div *ngIf="eventResults.data.length > 0" class="table-container">
-    <table
-      mat-table
-      [dataSource]="eventResults"
-      class="mat-elevation-z8 round-table"
+  <div class="rounded shadow-2xl">
+    <p-table
+      [columns]="columns"
+      [value]="eventResultArray"
+      class="rounded-full m-3"
     >
-      <ng-container matColumnDef="No">
-        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef="">No</th>
-        <td
-          mat-cell
-          class="mat-cell"
-          data-header="No"
-          *matCellDef="let data; let i = index"
-        >
-          {{ i + 1 }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="eventName">
-        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>
-          Events
-        </th>
-        <td
-          mat-cell
-          class="mat-cell"
-          data-header="Events"
-          *matCellDef="let event"
-        >
-          {{ event.eventType }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="date">
-        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Date</th>
-        <td
-          mat-cell
-          class="mat-cell"
-          data-header="Date"
-          *matCellDef="let event"
-        >
-          {{ (convertDate(event.resultId) | date) || "Absent" }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="marks">
-        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Marks</th>
-        <td
-          mat-cell
-          class="mat-cell"
-          data-header="Marks"
-          *matCellDef="let event"
-        >
-          {{ event.marks }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="remarks">
-        <th
-          mat-header-cell
-          class="mat-header-cell Remarks-header"
-          *matHeaderCellDef
-        >
-          Remarks
-        </th>
-        <td
-          mat-cell
-          class="mat-cell Remarks-column"
-          data-header="Remarks"
-          *matCellDef="let event"
-        >
-          {{ event.remarks }}
-        </td>
-      </ng-container>
-      <tr mat-header-row class="headers" *matHeaderRowDef="columns"></tr>
-      <tr mat-row *matRowDef="let row; columns: columns"></tr>
-    </table>
+      <ng-template #header>
+        <tr>
+          @for (row of columns; track $index) {
+          <th>{{ row }}</th>
+          }
+        </tr>
+      </ng-template>
+      <ng-template #body let-event let-i="rowIndex">
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td>{{ event.eventType }}</td>
+          <td>{{ (convertDate(event.resultId) | date) || "Absent" }}</td>
+          <td>{{ event.marks }}</td>
+          <td>{{ event.remarks }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
-  <div>
-    <div class="chart-container">
-      <div *ngFor="let eventType of chartData | keyvalue">
-        <div class="chart">
-          <h3>{{ eventType.key }}</h3>
-          <canvas
-            class="canvas"
-            baseChart
-            [labels]="eventType.value.labels"
-            [datasets]="eventType.value.datasets"
-            [options]="options"
-            [type]="type"
-          >
-          </canvas>
-        </div>
-      </div>
+  <div class="mt-2 grid grid-cols-2">
+    <div *ngFor="let eventType of chartData | keyvalue">
+      <p-card>
+        <h3>{{ eventType.key }}</h3>
+        <p-chart
+          type="line"
+          [data]="eventType.value"
+          [options]="options"
+          height="400"
+        ></p-chart>
+      </p-card  >
     </div>
   </div>
-  <div class="query-list-container" *ngIf="studentsQueries.length > 0">
+</div>
+<div class="query-list-container" *ngIf="studentsQueries.length > 0">
+  <div>
+    <h3>Your Queries</h3>
+  </div>
+  <!-- Title -->
+  @for (query of studentsQueries; track $index) {
+  <div class="query-details">
     <div>
-      <h3>Your Queries</h3>
-    </div>
-    <!-- Title -->
-    @for (query of studentsQueries; track $index) {
-    <div class="query-details">
+      <h4>Query Title</h4>
       <div>
-        <h4>Query Title</h4>
-        <div>
-          <p>{{ query.title }}</p>
-        </div>
+        <p>{{ query.title }}</p>
       </div>
-
-      <h4>Query Description</h4>
-      <div class="query-description">
-        <div>
-          <p>{{ query.description }}</p>
-        </div>
-        <div>
-          @let status = query.status;
-          <!-- background-color: rgba(0, 128, 0, 0.284) -->
-            <p [ngStyle]="{
-              'background-color':
-                status === 'Resolved' ?
-                'rgba(0, 128, 0, 0.284)' : status === 'Pending' ? 'rgba(255, 165, 0, 0.284)' :
-                'rgba(255, 0, 0, 0.284)'}"
-                >
-            {{ status }}
-            </p>
-        </div>
-      </div>
-
-      <h4>Remarks</h4>
-      <div class="remarks">
-        <div>
-          <p>{{ query.remarks || 'No Remarks provided yet'}}</p>
-        </div>
-      </div>
-
     </div>
-      }
-    <div
-      style="
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-        gap: 30px;
-      "
-    >
-      <button class="page-btn">Previous</button>
-      <button class="page-btn">Next</button>
+
+    <h4>Query Description</h4>
+    <div class="query-description">
+      <div>
+        <p>{{ query.description }}</p>
+      </div>
+      <div>
+        @let status = query.status;
+        <!-- background-color: rgba(0, 128, 0, 0.284) -->
+        <p
+          [ngStyle]="{
+            'background-color':
+              status === 'Resolved'
+                ? 'rgba(0, 128, 0, 0.284)'
+                : status === 'Pending'
+                ? 'rgba(255, 165, 0, 0.284)'
+                : 'rgba(255, 0, 0, 0.284)'
+          }"
+        >
+          {{ status }}
+        </p>
+      </div>
     </div>
+
+    <h4>Remarks</h4>
+    <div class="remarks">
+      <div>
+        <p>{{ query.remarks || "No Remarks provided yet" }}</p>
+      </div>
+    </div>
+  </div>
+  }
+  <div
+    style="display: flex; justify-content: center; margin-top: 10px; gap: 30px"
+  >
+    <button class="page-btn">Previous</button>
+    <button class="page-btn">Next</button>
   </div>
 </div>
 
