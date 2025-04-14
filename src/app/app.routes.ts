@@ -9,8 +9,9 @@ import { Dashboard } from './Pages/Super-Admin-Pages/dashboard/dashboard.compone
 import { PageNotFoundComponent } from './Components/page-not-found/page-not-found.component';
 import { authGuard } from './Services/Guards/auth.guard';
 import { LoadingComponent } from './Components/loading/loading.component';
+import { SidenavComponent } from './Components/sidenav/sidenav.component';
 export const routes: Routes = [
-
+    {path:"sidenav" , component: SidenavComponent},
     {
         path:"NotAUser",
         component:PageNotFoundComponent,

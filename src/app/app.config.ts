@@ -8,14 +8,22 @@ import {provideCharts, withDefaultRegisterables} from "ng2-charts";
 
 import { httpErrorInterceptor } from './Services/interceptors/http-error.interceptor';
 import { loadingInterceptor } from './Services/interceptors/Loading/loading.interceptor';
+import {providePrimeNG} from 'primeng/config'
+import Aura from '@primeng/themes/aura'
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }),
-     provideRouter(routes),
-     provideAnimationsAsync(),
-     provideHttpClient(
-      withInterceptors([ loadingInterceptor , httpErrorInterceptor])
-     ),
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: Aura,
+      },
+    }),
+    provideHttpClient(
+      withInterceptors([loadingInterceptor, httpErrorInterceptor])
+    ),
     provideCharts(withDefaultRegisterables()),
-    ]
+  ],
 };

@@ -1,53 +1,25 @@
-<div *ngIf="studentData.length > 0"  style="margin: 30px 30px 30px 30px ;">
-  <!-- to change any style of a material of angular find the variable that's defining the property and
- apply your own value to it and target it with your own class example for mat-form-field which
- has form field class to change the height of the input box --mat-form-field-container-vertical-padding and
- --mat-form-field-container-height;  use this inside the css of .form field {}  -->
-    <table mat-table [dataSource]="studentData" class="mat-elevation-z8" >
-    <ng-container matColumnDef="No">
-      <th mat-header-cell  class="mat-header-cell" *matHeaderCellDef>Roll No</th>
-        <td mat-cell class="mat-cell" data-header="No" *matCellDef="let student">{{student.id}}</td>
-    </ng-container>
-    <ng-container matColumnDef="Name">
-        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Name</th>
-        <td mat-cell class="mat-cell" data-header="Name" *matCellDef="let student">{{student.name}}</td>
-    </ng-container>
-    <!-- matColumnDef refers to the property of the object cellDef is for name for the table -->
-    <ng-container matColumnDef="attendance">
-        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>Attendance</th>
-        <td mat-cell class="mat-cell" data-header="Attendance" *matCellDef="let student">
-          <!-- Checkbox for attendance -->
-          <mat-checkbox [(ngModel)]="student.ispresent" (change)="attendance(student)"></mat-checkbox>
-        </td>
-      </ng-container>
-    <ng-container matColumnDef="marks" >
-        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef style="text-align: center;">Marks</th>
-        <td mat-cell class="mat-cell" data-header="Marks" *matCellDef="let student" style="text-align: center;" >
-            <mat-form-field subscriptSizing="dynamic" class="formfield" appearance="outline" >
-                <mat-label>Marks</mat-label>
-                <input class="input" [(ngModel)]="student.marks" matInput type="number">
-            </mat-form-field>
-        </td>
-    </ng-container>
-    <ng-container matColumnDef="remarks">
-        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef style="text-align: center;">Remarks</th>
-        <td mat-cell class="mat-cell" data-header="Remarks" *matCellDef="let student"  style="text-align: center;">
-            <mat-form-field subscriptSizing="dynamic" class="formfield" appearance="outline"><mat-label>Remarks</mat-label>
-            <textarea class="textarea" [(ngModel)]="student.remarks" matInput type="text"></textarea></mat-form-field>
-        </td>
-    </ng-container>
-    <ng-container matColumnDef="actions">
-        <th mat-header-cell class="mat-header-cell" *matHeaderCellDef>
-            <button mat-raised-button color="primary" style="align-items: center;" (click)="submitAllRow(studentData)">Submit All</button>
-        </th>
-        <td mat-cell class="mat-cell" *matCellDef="let student" style="justify-content: center;">
-            <button mat-button (click)="submitRow(student)">Submit</button>
-          </td>
-    </ng-container>
-    <tr mat-header-row class="headers" *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row class="" *matRowDef="let row;columns:displayedColumns" ></tr>
-    </table>
+<div *ngIf="studentData.length > 0" class="shadow-md mt-5">
 
+<p-table [value]="studentData">
+  <ng-template #header>
+    <tr>
+      @for (col of displayedColumns; track $index) {
+        <th>{{col}}</th>
+      }
+    </tr>
+  </ng-template>
+  <ng-template #body let-student>
+    <tr>
+      <td> {{student.id}} </td>
+      <td> {{student.name}} </td>
+      <td><p-checkbox [binary]="true" [(ngModel)]="student.ispresent" ></p-checkbox></td>
+      <td> <p-inputNumber [(ngModel)]="student.marks" placeholder="Marks"></p-inputNumber> </td>
+      <td> <textarea pTextarea  [(ngModel)]="student.remarks" placeholder="Remarks"></textarea>
+      </td>
+      <td> <p-button  size="small" severity="contrast" label="Submit"></p-button> </td>
+    </tr>
+  </ng-template>
+</p-table>
 </div>
 <div *ngIf="studentData.length === 0" >
   <div

@@ -5,6 +5,7 @@ import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
+import { TableModule } from 'primeng/table';
 import {
   MatColumnDef,
   MatHeaderCell,
@@ -13,54 +14,92 @@ import {
   MatTableModule
 } from '@angular/material/table';
 import { AdminService } from '../../../Services/AdminServices/admin-service.service';
-import {catchError, map} from 'rxjs/operators';
+import { map} from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
-import { of } from 'rxjs';
+import { Checkbox } from 'primeng/checkbox';
+import { InputNumber } from 'primeng/inputnumber';
+import { TextareaModule } from 'primeng/textarea';
+import { ButtonModule } from 'primeng/button';
 export interface studentResult {
     id : string , name : string , attendance:string,
     ispresent:boolean,marks: number, remarks: string
 }
 @Component({
-    selector: 'app-admin-home',
-    imports: [MatTableModule, MatColumnDef, MatRowDef, MatHeaderCell, MatHeaderCellDef, MatRowDef, MatRowDef,
-        MatCheckbox, MatButton, MatInput, MatLabel, MatFormField, FormsModule, CommonModule,
-    ],
-    templateUrl: './admin-home.component.html',
-    styleUrl: './admin-home.component.css'
+  selector: 'app-admin-home',
+  imports: [
+    MatTableModule,
+    MatColumnDef,
+    MatRowDef,
+    MatHeaderCell,
+    MatHeaderCellDef,
+    MatRowDef,
+    MatRowDef,
+    MatCheckbox,
+    MatButton,
+    MatInput,
+    MatLabel,
+    MatFormField,
+    FormsModule,
+    CommonModule,
+    TableModule,
+    Checkbox,
+    InputNumber,
+    TextareaModule,
+    ButtonModule,
+  ],
+  templateUrl: './admin-home.component.html',
+  styleUrl: './admin-home.component.css',
 })
-export class AdminHomeComponent implements OnInit{
-  @ViewChild('shared') shared !: TemplateRef<any> ;
-  eventType : string = '';
-  slotId : string = '';
+export class AdminHomeComponent implements OnInit {
+  @ViewChild('shared') shared!: TemplateRef<any>;
+  eventType: string = '';
+  slotId: string = '';
   ngOnInit(): void {
-      this._service.getStudentList().pipe(
-        map(e=> ({...e , students : e.students.map(std =>
-          ({id : std.id , name:std.name , attendance:'',
-            ispresent:false,marks: 0, remarks: ''}))}))
-      ).subscribe((res)=>{
-        if(res) {
+    this._service
+      .getStudentList()
+      .pipe(
+        map((e) => ({
+          ...e,
+          students: e.students.map((std) => ({
+            id: std.id,
+            name: std.name,
+            attendance: '',
+            ispresent: false,
+            marks: 0,
+            remarks: '',
+          })),
+        }))
+      )
+      .subscribe((res) => {
+        if (res) {
           this.eventType = res.eventType;
           this.studentData = res.students;
           this.slotId = res.slotId;
           console.log(this.slotId);
         }
-      })
+      });
   }
-  studentData : studentResult[] = []
-  constructor(private _service : AdminService){}
-  displayedColumns: string[] = ['No', 'Name','attendance', 'marks', 'remarks','actions'];
+  studentData: studentResult[] = [];
+  constructor(private _service: AdminService) {}
+  displayedColumns: string[] = [
+    'No',
+    'Name',
+    'Attendance',
+    'Marks',
+    'Remarks',
+    'Actions',
+  ];
 
-  submitRow(student:studentResult){
-    this._service.studentMarks([student] , this.eventType , this.slotId)
-    this.studentData = this.studentData.filter(std => std.id !== student.id)
+  submitRow(student: studentResult) {
+    this._service.studentMarks([student], this.eventType, this.slotId);
+    this.studentData = this.studentData.filter((std) => std.id !== student.id);
   }
 
-  attendance(student:studentResult){
-    student.attendance = student.ispresent?'Present':'Absent'
+  attendance(student: studentResult) {
+    student.attendance = student.ispresent ? 'Present' : 'Absent';
   }
 
-  submitAllRow(student:studentResult[]){
-    this._service.studentMarks(student , this.eventType , this.slotId);
+  submitAllRow(student: studentResult[]) {
+    this._service.studentMarks(student, this.eventType, this.slotId);
   }
-
 }

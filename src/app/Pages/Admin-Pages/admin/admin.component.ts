@@ -20,8 +20,8 @@ export class AdminComponent {
   sidenavwidth = computed(()=> this.collapsed()?'65px':'250px')
   list  = [
     {name:'Home',path:'Home',icon:'home'},
-    {name:'Students',path:'studentSearch',icon:'dashboard'},
-    {name:'Your Events',path:'Events',icon:'event'},
+    {name:'Students',path:'studentSearch',icon:'pi pi-user'},
+    {name:'Your Events',path:'Events',icon:'pi pi-calendar-plus'},
   ]
 
   handleSignOut(){
