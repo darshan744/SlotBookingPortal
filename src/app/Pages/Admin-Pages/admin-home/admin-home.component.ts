@@ -27,18 +27,6 @@ export interface studentResult {
 @Component({
   selector: 'app-admin-home',
   imports: [
-    MatTableModule,
-    MatColumnDef,
-    MatRowDef,
-    MatHeaderCell,
-    MatHeaderCellDef,
-    MatRowDef,
-    MatRowDef,
-    MatCheckbox,
-    MatButton,
-    MatInput,
-    MatLabel,
-    MatFormField,
     FormsModule,
     CommonModule,
     TableModule,

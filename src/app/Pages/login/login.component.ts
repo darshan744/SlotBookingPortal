@@ -8,26 +8,28 @@ import { FormGroup , FormControl ,Validators} from '@angular/forms';
 import { environment } from '../../../environments/environment.development';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from '../../Services/Toastr/toastr.service';
-
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import {FloatLabelModule} from 'primeng/floatlabel';
+import { CardModule } from 'primeng/card';
 @Component({
-    selector: 'app-login',
-    imports: [
-        MatIconModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatLabel,
-        MatButtonModule,
-        FormsModule,
-        ReactiveFormsModule,
-    ],
-    templateUrl: './login.component.html',
-    styleUrl: './login.component.css'
+  selector: 'app-login',
+  imports: [
+    MatIconModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PasswordModule,
+    InputTextModule,
+    FloatLabelModule,
+    CardModule,
+  ],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
-
   constructor(
     private service: LoginService,
-    private toastService : ToastrService
+    private toastService: ToastrService
   ) {}
 
   credentials = new FormGroup({
@@ -53,8 +55,7 @@ export class LoginComponent {
       password !== undefined
     ) {
       this.service.authenticate(name, password);
-    }
-    else {
+    } else {
       this.toastService.showToast('Please fill all details', false, 'info');
     }
   }
