@@ -1,6 +1,7 @@
 
 import { Component } from '@angular/core';
 import { items, SidenavComponent } from '../../../Components/sidenav/sidenav.component';
+import { MenuItem } from 'primeng/api';
 interface instructor{
   name:string,
   id:string,
@@ -18,16 +19,18 @@ interface event{
   venue:venue[]
 }
 @Component({
-    selector: 'app-superadmin',
-    imports: [SidenavComponent],
-    templateUrl: './superadmin.component.html',
-    styleUrl: './superadmin.component.css'
+  selector: 'app-superadmin',
+  imports: [SidenavComponent],
+  templateUrl: './superadmin.component.html',
+  styleUrl: './superadmin.component.css',
 })
 export class SuperadminComponent {
-  list:items[] =[{label:'Dashboard',path:'Search',icon:'dashboard'},
-    {label:'Request',path:'Create',icon:'event'},
-    {label:'Settings', path:'settings',icon:'settings'},
-    {label:'Status',path:'status',icon:'pending_actions'},
-    {label:'Create-Slot',path:'slot',icon:'schedule'}]
-  role:string='SuperAdmin';
+  list: MenuItem[] = [
+    { label: 'Dashboard', routerLink: 'Search', icon: 'dashboard' },
+    { label: 'Request', routerLink: 'Create', icon: 'event' },
+    { label: 'Settings', routerLink: 'settings', icon: 'settings' },
+    { label: 'Status', routerLink: 'status', icon: 'pending_actions' },
+    { label: 'Create-Slot', routerLink: 'slot', icon: 'schedule' },
+  ];
+  role: string = 'SuperAdmin';
 }

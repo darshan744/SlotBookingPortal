@@ -15,34 +15,36 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {MatPaginator} from "@angular/material/paginator";
 import {IDashboard, ISlot, IStudent , IQuery} from "../SuperAdmin.interface";
 import { ToastrService } from '../../../Services/Toastr/toastr.service';
-
+import {CardModule} from 'primeng/card'
+import {ChartModule} from 'primeng/chart'
+import {InputTextModule} from 'primeng/inputtext'
+import {TableModule} from 'primeng/table'
 @Component({
   selector: 'app-dashboard',
   imports: [
     MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    BaseChartDirective,
-    MatPaginator,
     MatExpansionModule,
     FormsModule,
-    MatButtonModule,
-    MatIconModule,
     CommonModule,
-    MatTableModule,
+    CardModule,
+    ChartModule,
+    InputTextModule,
+    TableModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class Dashboard implements OnInit {
-  //for table
-  @ViewChild('paginator') paginator: MatPaginator | null = null;
+method(arg0: any) {
+console.log(arg0);
+return arg0 ? arg0 : "NA"
+}
   //for query form submition toast
-  toastService = inject(ToastrService)
+  toastService = inject(ToastrService);
   //student's query details
-  studentsQueries:IQuery[] = [];
+  studentsQueries: IQuery[] = [];
   //query's status options
-  queryStatusOptions = ["Pending" , "Resolved" , "Rejected"];
+  queryStatusOptions = ['Pending', 'Resolved', 'Rejected'];
   //graph for each year;
   array = ['first year', 'Second Year', 'Third Year', 'Fourth Year'];
   eventTypes: string[] = [
@@ -106,7 +108,7 @@ export class Dashboard implements OnInit {
   events: string[] = [];
   studentData: IDashboard | null = null;
 
-  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
+  dataSource: any;
   ngOnInit(): void {
     this.getQueries();
     this.service.dashboard().subscribe({
@@ -116,8 +118,7 @@ export class Dashboard implements OnInit {
         this.studentData = res;
         this.eventDetails = res.events;
         const studentsData = this.setStudentData(res.students);
-        this.dataSource = new MatTableDataSource(studentsData);
-        this.dataSource.paginator = this.paginator;
+        this.dataSource = studentsData;
       },
       error: (err: HttpErrorResponse) => {},
     });
@@ -130,7 +131,6 @@ export class Dashboard implements OnInit {
     // Simulated data
   }
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
   }
   setStudentData(studentData: IDashboard['students']) {
     const data = studentData.map((student) => {
@@ -150,18 +150,24 @@ export class Dashboard implements OnInit {
     return data;
   }
   getQueries() {
-    this.service.getQueries().subscribe((res)=>this.studentsQueries = res.data)
+    this.service
+      .getQueries()
+      .subscribe((res) => (this.studentsQueries = res.data));
   }
-  postRemarks(remarks : string, status : "Pending" | "Resolved" | "Rejected" , queryId : string) {
-    if(status === 'Pending') {
-      this.toastService.showToast("Please change status" , true);
+  postRemarks(
+    remarks: string,
+    status: 'Pending' | 'Resolved' | 'Rejected',
+    queryId: string
+  ) {
+    if (status === 'Pending') {
+      this.toastService.showToast('Please change status', "error" , "Status");
       return;
     }
-    if(remarks === '' || remarks === null) {
-      this.toastService.showToast("Remarks is not filled" , true);
+    if (remarks === '' || remarks === null) {
+      this.toastService.showToast('Remarks is not filled', "error" , "Fields Not filled");
       return;
     }
-    this.service.postRemarksToQuery({remarks , status , queryId});
+    this.service.postRemarksToQuery({ remarks, status, queryId });
   }
   eventHeaders = ['Id', 'Type', 'Date', 'For'];
   eventDetails = [] as any;

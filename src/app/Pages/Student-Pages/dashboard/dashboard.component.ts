@@ -127,7 +127,6 @@ export class DashboardComponent implements OnInit {
   //getting student's event history
   getEventHistory() {
     this._service.getHistory().subscribe((e: any) => {
-      console.log(e);
       this.eventResults = new MatTableDataSource(e.data.EventHistory);
       this.eventResultArray = e.data.EventHistory;
       this.assignDate();
@@ -160,7 +159,6 @@ export class DashboardComponent implements OnInit {
       },
       {}
     );
-    console.log(this.eventResultGraphs);
     this.processChartData();
   }
   //type of chart
@@ -208,7 +206,6 @@ export class DashboardComponent implements OnInit {
         ],
       };
     });
-    console.log(this.chartData);
   }
   //adding new file as resume for the user
   fileInput(e: Event): void {
@@ -219,10 +216,10 @@ export class DashboardComponent implements OnInit {
         next: (e: IFileUploadSuccess | IFileUploadError) => {
           if (e.success && 'fileName' in e) {
             this.selectedFileName = e.fileName;
-            this.toastService.showToast(e.message, false);
+            this.toastService.showToast(e.message, "success" , "Success");
             this.user.ResumeLink = e.fileName;
           } else {
-            this.toastService.showToast(e.message, false);
+            this.toastService.showToast(e.message, "success" , "Success");
           }
         },
         error: (err) => {},
@@ -240,7 +237,7 @@ export class DashboardComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         err.error;
-        this.toastService.showToast('Could not Delete file', true);
+        this.toastService.showToast('Could not Delete file', "error" , "Can't Delete");
       },
     });
     subscription.unsubscribe();
@@ -274,13 +271,13 @@ export class DashboardComponent implements OnInit {
   //raise a new query (updates DB);
   raiseQuery() {
     if (this.query.invalid) {
-      this.toastService.showToast('Please fill all the fields', false, 'info');
+      this.toastService.showToast('Please fill all the fields', "info", "Fields Not filled");
     } else {
       const { title, description } = this.query.value;
       if (!title || !description) {
         this.toastService.showToast(
           'Please fill all the fields',
-          false,
+          "info",
           'info'
         );
         return;

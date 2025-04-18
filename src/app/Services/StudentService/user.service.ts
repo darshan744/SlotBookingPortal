@@ -55,11 +55,11 @@ export class UserService {
 
   postStudentQuery(data : {title : string | null , description : string | null}) {
     if(!data.title || !data.description) {
-      this.toastService.showToast('Please fill all the fields' , true);
+      this.toastService.showToast('Please fill all the fields' , "error" , "Invalid");
       return;
     }
     this._http.post<IBaseResponse>(environment.STUDENT_POST_QUERY, data , {withCredentials : true})
-    .subscribe(() => this.toastService.showToast('Query Submitted' , false));
+    .subscribe(() => this.toastService.showToast('Query Submitted' , "info" , "Submitted"));
 
   }
 }

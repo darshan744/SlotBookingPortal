@@ -13,7 +13,8 @@
           <label for="pass">Password</label>
         </p-floatlabel>
         <button type="submit" (click)="submit()" class="bg-blue-500 rounded-md p-1">Login</button>
-        <div
+        <div class="flex items-center">
+          <div
           id="g_id_onload"
           [attr.data-client_id]="clientId"
           data-context="signin"
@@ -31,6 +32,7 @@
           data-logo_alignment="center"
           data-width="250"
         ></div>
+        </div>
       </form>
     </p-card>
   </div>

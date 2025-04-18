@@ -1,10 +1,19 @@
-<ng-container *ngIf="data !== null" >
-  <div class="container">
+<ng-container *ngIf="data !== null">
+  <div class="mt-3">
     <div class="header">
       <h3>Event Booking</h3>
     </div>
-    <div class="wrapper">
-      <mat-form-field appearance="outline">
+    <div class="grid grid-cols-3 gap-10 items-center">
+      <p-select
+        [options]="data.slots"
+        optionLabel="venue"
+        optionValue="venue"
+        [(ngModel)]="selectedVenue"
+        showClear="true"
+        (onChange)="mapStaffsToSelectedVenue()"
+        placeholder="Venue Selection"
+      ></p-select>
+      <!-- <mat-form-field appearance="outline">
         <mat-label>Venue Selection</mat-label>
         <mat-select
           [(ngModel)]="selectedVenue"
@@ -15,8 +24,16 @@
           </mat-option>
         </mat-select>
         <mat-hint>Select Venue</mat-hint>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
+      </mat-form-field> -->
+      <p-select
+        [(ngModel)]="selectedStaff"
+        optionValue="id"
+        placeholder="Staff for venue"
+        [options]="selectedVenueStaffArray || []"
+        (onChange)="mapSlotsToSelectedStaff()"
+        optionLabel="id"
+      ></p-select>
+      <!-- <mat-form-field appearance="outline">
         <mat-label>Staff Select</mat-label>
         <mat-select
           [(ngModel)]="selectedStaff"
@@ -29,49 +46,54 @@
           >
         </mat-select>
         <mat-hint>Select Instructor</mat-hint>
-      </mat-form-field>
+      </mat-form-field> -->
     </div>
     <div class="slots-container">
-      <div class="slots">
+      <div class="grid grid-cols-4 gap-10 mt-10">
         <div
-          class="date"
-          [class.selectedDate]="slot.date.toString() === currentDate"
-          (click)="mapTimingsToSelectedDate(slot.date)"
           *ngFor="let slot of selectedSlotsArray"
+          class="p-m-2 p-p-3 p-button"
+          [ngClass]="{
+            'p-button-secondary': currentDate !== slot.date.toString(),
+            'p-button-primary': currentDate === slot.date.toString()
+          }"
+          (click)="mapTimingsToSelectedDate(slot.date)"
         >
-          {{ slot.date | date }}
+          {{ slot.date | date : "MMM d, y" }}
         </div>
       </div>
-      <mat-divider></mat-divider>
-      <div class="timings-container">
+      <div class="grid grid-cols-7 gap-5 mt-10 mb-10">
         <div
-          class="timing"
-          [class.selectedTime]="timing.time === currentTime"
-          (click)="this.currentTime = timing.time"
           *ngFor="let timing of selectedTiming"
+          class="p-button p-m-2 p-px-3 p-py-2"
+          [ngClass]="{
+            'p-button-secondary': currentTime !== timing.time,
+            'p-button-success': currentTime === timing.time
+          }"
+          (click)="currentTime = timing.time"
         >
-        @if(timing.limit > 0) {
-          {{ timing.time }}
-        }
+         @if(timing.limit > 0) {
+           {{ timing.time }}
+         }
         </div>
       </div>
     </div>
     <div class="footer">
-      <button (click)="openDialog()" class="confirm-button">
-        Confirm Booking
-      </button>
+      <p-button
+        label="Confirm Booking"
+        severity="success"
+        (click)="openDialog()"
+      >
+      </p-button>
     </div>
   </div>
-</ng-container>
-<ng-container ngif>
-
 </ng-container>
 <ng-container *ngIf="alreadyBooked !== null && !alreadyBooked.slotFinished">
   <div class="notification">
     <h2>You are already booked for the following event:</h2>
     <p>
       <strong>Booking Date:</strong>
-      {{ (alreadyBooked.bookingDate | date : "shortDate")}}
+      {{ alreadyBooked.bookingDate | date : "shortDate" }}
     </p>
     @let timingString = alreadyBooked.bookingTime;
     <div *ngIf="timingString">
@@ -83,7 +105,11 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="alreadyBooked === null && data === null || alreadyBooked?.slotFinished">
+<ng-container
+  *ngIf="
+    (alreadyBooked === null && data === null) || alreadyBooked?.slotFinished
+  "
+>
   <div class="notification">
     <h2>No new slots are available at the moment.</h2>
     <p>Please check back later or contact support if you need assistance.</p>

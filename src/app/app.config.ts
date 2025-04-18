@@ -10,16 +10,18 @@ import { httpErrorInterceptor } from './Services/interceptors/http-error.interce
 import { loadingInterceptor } from './Services/interceptors/Loading/loading.interceptor';
 import {providePrimeNG} from 'primeng/config'
 import Aura from '@primeng/themes/aura'
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    MessageService,
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
         preset: Aura,
-      },
+      }
     }),
     provideHttpClient(
       withInterceptors([loadingInterceptor, httpErrorInterceptor])

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { BehaviorSubject,interval , takeWhile } from 'rxjs';
 
 @Injectable({
@@ -7,20 +8,27 @@ import { BehaviorSubject,interval , takeWhile } from 'rxjs';
 export class ToastrService {
   toastArray$ = new BehaviorSubject<ToastMessage[] | null>(null);
   show: boolean = false;
+  constructor(private msgService : MessageService){}
   private duration = 3000;
-  showToast(Message: string , isError : boolean  , icon?:string) {
-    const toastMessage = new ToastMessage(Message , isError , 100 , icon ? icon : (isError ? 'error' : 'check_circle'));
-    this.toastArray$.next([...this.toastArray$.value??[] , toastMessage])
-    setTimeout(()=>{
-      this.toastArray$.value?.shift();
-    },this.duration)
-    setTimeout(() => {
-      if(this.toastArray$.value !== null && this.toastArray$.value.length !== 0){
-        this.toastArray$.value[0].show = false;
+
+  showToast(Message : string , type:"success"|"info"|"error" , heading:string) {
+    if(type === "success"){
+      this.showSuccess(Message ,heading);
     }
-    }, this.duration - 300)
+    else if(type === "info") {
+      this.showInfo(Message ,heading);
+    }
+    else {
+      this.showError(Message , heading);
+    }
+  }
+  showSuccess(msg : string ,  heading : string) {
+    this.msgService.add({ summary: heading, severity: 'success', detail: msg });
   }
 
+  showInfo(msg : string , heading : string) { this.msgService.add({ summary:heading, severity: 'info', detail: msg });}
+
+  showError(msg:string ,  heading : string){  this.msgService.add({ summary: heading, severity: 'error', detail: msg }); }
 }
 class ToastMessage {
   private message: string | null;

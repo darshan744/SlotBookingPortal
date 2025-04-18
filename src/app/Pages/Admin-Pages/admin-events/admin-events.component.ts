@@ -68,12 +68,12 @@ export class AdminEventsComponent implements AfterViewInit {
             this.dataLength.set(this.dataSource.data.length);
         },
         error:(err)=> {
-          this.toast.showToast(err.message, false , 'info');
+          this.toast.showToast(err.message, "info" , "Try again after Some time");
           //this.snackBar.openSnackBar('Please try after some time')
         }
       });
     } catch (error) {
-      this.toast.showToast('Unknown Error Occured', true);
+      this.toast.showToast('Unknown Error Occured', "error" , "Error Occured");
       //this.snackBar.openSnackBar("Unknown Error Occured");
     }
   }

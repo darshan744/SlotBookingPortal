@@ -3,43 +3,33 @@
     <i class="pi pi-calendar text-xl"></i>
     <span class="font-semibold text-lg">SlotBooking Portal</span>
   </div>
-  <div class="p-toolbar-group-end">
-    <ul class="flex mr-3">
-      @if (role === "User") {
-      <li>
-        <a
-          routerLink="dashboard"
-          routerLinkActive="selected-route"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="flex text-center items-center gap-3 px-3 py-1 hover:bg-primary transition duration-150"
-        >
-          <i class="pi pi-objects-column"></i>
-          Dashboard</a
-        >
-      </li>
-
-      }
-      <li *ngFor="let item of list" class="mb-1 text-center">
-        <a
-          [routerLink]="item.path"
-          routerLinkActive="selected-route"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="flex text-center items-center gap-3 px-3 py-1 hover:bg-primary transition duration-150"
-        >
-          <i class="pi pi-{{ item.icon }}"></i>
-          <span>{{ item.label }}</span>
-        </a>
-      </li>
-      <li>
-        <p-button
-          (click)="handleSignOut()"
-          label="Logout"
-          severity="danger"
-          class="ml-3"
-          size="small"
-        ></p-button>
-      </li>
-    </ul>
+  <div class="p-toolbar-group-end gap-3 flex right-5">
+    <p-menubar [model]="items">
+        <ng-template  #item let-item>
+        <ng-container *ngIf="item.routerLink; else urlRef">
+            <a [routerLink]="item.routerLink" class="p-menubar-item-link">
+                <span [class]="item.icon"></span>
+                <span class="ml-2">{{ item.label }}</span>
+            </a>
+        </ng-container>
+        <ng-template #urlRef>
+            <a *ngIf="item.url; else noLink" [href]="item.url" class="p-menubar-item-link">
+                <span [class]="item.icon"></span>
+                <span class="ml-2">{{ item.label }}</span>
+            </a>
+        </ng-template>
+        <ng-template #noLink>
+            <div class="p-menubar-item-link">
+                <span [class]="item.icon"></span>
+                <span class="ml-2">{{ item.label }}</span>
+                <span class="pi pi-fw pi-angle-down ml-2"></span>
+            </div>
+        </ng-template>
+    </ng-template>
+    </p-menubar>
+    <div class="flex items-center mr-3">
+      <p-button label="Logout" size="small" severity="danger"></p-button>
+    </div>
   </div>
 </p-toolbar>
 <div class="pt-20 px-4 transition-all duration-200">

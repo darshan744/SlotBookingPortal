@@ -79,7 +79,7 @@ export class SettingsComponent implements OnInit{
         this.retrievedBreaks = result.data
       },
       error : (e : HttpErrorResponse) => {
-        this.toastService.showToast(e.message , true);
+        this.toastService.showToast(e.message , "error" , "Error");
       }
     })
     const session = sessionStorage.getItem('loggedInUser');
@@ -97,7 +97,7 @@ export class SettingsComponent implements OnInit{
     if(Name  && Description && MaximumParticipant && MaximumParticipant > 0) {
       this.service.createEvents({Name ,Description ,MaximumParticipant})
       .subscribe((e : {message : string , success:boolean})=>{
-        this.toastService.showToast(e.message , false );
+        this.toastService.showToast(e.message , "success" , "Success" );
         this.eventData.get('Name')?.reset()
         this.eventData.get('Description')?.reset()
         this.eventData.get('MaximumParticipant')?.reset()
@@ -105,7 +105,7 @@ export class SettingsComponent implements OnInit{
       })
     }
     else {
-      this.toastService.showToast('Please Enter Values' , false ,"info");
+      this.toastService.showToast('Please Enter Values' , "error" ,"Incomplete Input");
       return;
     }
   }
@@ -116,11 +116,11 @@ export class SettingsComponent implements OnInit{
           this.items = e.data.map(el=>el.Name);
         }
         else {
-          this.toastService.showToast('No Events Available' , true);
+          this.toastService.showToast('No Events Available' , "error" , "Not Found");
         }
       },
       error : (err : HttpErrorResponse) =>{
-        this.toastService.showToast(err.message , true);
+        this.toastService.showToast(err.message , "error" , "Error");
     }
     }
     )

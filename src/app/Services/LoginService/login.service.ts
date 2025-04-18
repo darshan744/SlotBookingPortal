@@ -30,7 +30,7 @@ export class LoginService {
   }
 
   message(message: string , isError : boolean) {
-    this.toastr.showToast(message , isError);
+    this.toastr.showToast(message , isError ? "error" : "success" , isError?"Success":"Login Failed");
     //  const classMessage = type !== undefined ? type === "success" ? "success-snackbar":"error-snackbar" :'custom-snackbar'
   //   this.snackBar.open(message, '❌', {
   //     duration: 150000,

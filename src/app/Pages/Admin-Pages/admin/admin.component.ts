@@ -7,28 +7,34 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import {  MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { SidenavComponent } from '../../../Components/sidenav/sidenav.component';
+import { MenuItem } from 'primeng/api';
 
 @Component({
-    selector: 'app-admin',
-    imports: [CommonModule, SidenavComponent],
-    templateUrl: './admin.component.html',
-    styleUrl: './admin.component.css'
+  selector: 'app-admin',
+  imports: [CommonModule, SidenavComponent],
+  templateUrl: './admin.component.html',
+  styleUrl: './admin.component.css',
 })
 export class AdminComponent {
   collapsed = signal(true);
- constructor(private router:Router){}
-  sidenavwidth = computed(()=> this.collapsed()?'65px':'250px')
-  list  = [
-    {label:'Home',path:'Home',icon:'home'},
-    {label:'Students',path:'studentSearch',icon:'pi pi-user'},
-    {label:'Your Events',path:'Events',icon:'pi pi-calendar-plus'},
-  ]
+  constructor(private router: Router) {}
+  sidenavwidth = computed(() => (this.collapsed() ? '65px' : '250px'));
+  pages: MenuItem[] = [
+    { label: 'Home', routerLink: 'Home', icon: 'home' },
+    { label: 'Students', routerLink: 'studentSearch', icon: 'pi pi-user' },
+    { label: 'Your Events', routerLink: 'Events', icon: 'pi pi-calendar-plus' },
+  ];
+  list = [
+    { label: 'Home', path: 'Home', icon: 'home' },
+    { label: 'Students', path: 'studentSearch', icon: 'pi pi-user' },
+    { label: 'Your Events', path: 'Events', icon: 'pi pi-calendar-plus' },
+  ];
 
-  handleSignOut(){
+  handleSignOut() {
     sessionStorage.removeItem('loggedInUser');
-    this.router.navigate(['/']).then(()=>{
+    this.router.navigate(['/']).then(() => {
       window.location.reload();
-    })
+    });
   }
-  role:string='Admin';
+  role: string = 'Admin';
 }

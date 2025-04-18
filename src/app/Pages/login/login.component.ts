@@ -56,7 +56,7 @@ export class LoginComponent {
     ) {
       this.service.authenticate(name, password);
     } else {
-      this.toastService.showToast('Please fill all details', false, 'info');
+      this.toastService.showToast('Please fill all details', "info", "Invalid");
     }
   }
 

@@ -1,84 +1,76 @@
-
 <div class="container">
   <div class="wrapper">
-    <form class="form">
-      <div class="select-staff">
-        <mat-form-field appearance="outline">
-          <mat-label>
-            Select Staff
-          </mat-label>
-          <input type="text" name="staffInput" #input matInput [matChipInputFor]="grid" [matAutocomplete]="auto"
-            [(ngModel)]="enteredStaff" >
-          <mat-autocomplete (optionSelected)="addStaffToChip($event)" #auto="matAutocomplete">
-            <mat-option [value]="staff.name" *ngFor="let staff of staffs">{{staff.name}} -
-              {{staff.id}}</mat-option>
-          </mat-autocomplete>
-          <mat-hint>Select Staffs</mat-hint>
-        </mat-form-field>
-      </div>
-<!--  Date Range-->
-      <div class="date-div">
-        <mat-form-field appearance="outline">
-          <mat-label>Enter Date Range</mat-label>
-          <mat-date-range-input [dateFilter]="dateFilter" [rangePicker]="picker">
-            <input [(ngModel)]="startDate" name="start" matStartDate placeholder="Start Date" />
-            <input [(ngModel)]="endDate" matEndDate name="end" placeholder="End Date" />
-          </mat-date-range-input>
-          <mat-hint>MM:DD:YYYY - MM:DD:YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
-        </mat-form-field>
-      </div>
-      <!-- Response Deadline -->
-      <div>
-        <mat-form-field appearance="outline">
-          <mat-label>Enter Date</mat-label>
-          <input matInput [(ngModel)]="responseDeadline" [matDatepickerFilter]="dateFilter" name="responseDealine" [matDatepicker]="responseDate" />
-          <mat-datepicker-toggle matSuffix [for]="responseDate"> </mat-datepicker-toggle>
-          <mat-datepicker #responseDate></mat-datepicker>
-          <mat-hint>Response Deadline</mat-hint>
-        </mat-form-field>
-      </div>
-    <!--For Year-->
-      <div>
-        <mat-form-field appearance="outline">
-          <mat-label>For Year</mat-label>
-          <input matInput name="year" [(ngModel)]="forYear" [matAutocomplete]="year" />
-          <mat-autocomplete  #year>
-            <mat-option [value]="'Year 1'">Year 1</mat-option>
-            <mat-option [value]="'Year 2'" >Year 2</mat-option>
-            <mat-option [value]="'Year 3'">Year 3</mat-option>
-            <mat-option [value]="'Year 4'">Year 4</mat-option>
-          </mat-autocomplete>
-        <mat-hint>Select For Year</mat-hint>
-        </mat-form-field>
-      </div>
-<!-- event Type -->
-      <div>
-        <mat-form-field  appearance="outline">
+    <form class="grid grid-cols-2 gap-10">
+        <p-select
+          size="large"
+          placeholder="Select Staff"
+          [options]="staffs"
+          optionValue="id"
+          optionLabel="name"
+        ></p-select>
+  <p-select
+        size="large"
+        placeholder="Select Year"
+        name="year"
+        [(ngModel)]="forYear"
+        [options]="years"
+      ></p-select>
+      <p-select
+        [options]="events"
+        placeholder="Event Type"
+        size="large"></p-select>
+      <p-datepicker
+        size="large"
+        name="startDate"
+        placeholder="Start Date"
+        [(ngModel)]="startDate"
+      class="w-[300px]" ></p-datepicker>
+      <p-datepicker
+        size="large"
+        name="endDate"
+        placeholder="End Date"
+        [(ngModel)]="endDate"
+      ></p-datepicker>
+      <p-datepicker
+        size="large"
+        name="responseDeadline"
+        placeholder="Response Deadline"
+        [(ngModel)]="responseDeadline"
+      ></p-datepicker>
+
+      <!-- <mat-form-field  appearance="outline">
           <mat-label>Event Type</mat-label>
           <input matInput name="eventTypeRequest" [(ngModel)]="eventTypeRequest" [matAutocomplete]="eventType" />
           <mat-autocomplete #eventType>
             <mat-option *ngFor="let e of events" [value]="e">{{e}}</mat-option>
           </mat-autocomplete>
           <mat-hint>Select Event Type</mat-hint>
-        </mat-form-field>
-      </div>
+        </mat-form-field> -->
     </form>
   </div>
 
   <div class="chips">
     <h4>Staffs</h4>
-    <mat-chip-grid  #grid>
-      <p *ngIf="displaySelectedStaff().length === 0" style="cursor: none;">Selected Staff Will Appear Here </p>
+    <mat-chip-grid #grid>
+      <p *ngIf="displaySelectedStaff().length === 0" style="cursor: none">
+        Selected Staff Will Appear Here
+      </p>
       <mat-chip-row *ngFor="let staff of displaySelectedStaff()">
-        {{staff.name}}
-        <button (click)="removeStaff(staff.name)" matChipRemove><mat-icon>cancel</mat-icon></button>
+        {{ staff.name }}
+        <button (click)="removeStaff(staff.name)" matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
       </mat-chip-row>
     </mat-chip-grid>
   </div>
-  <div style="display: flex; justify-content: center;
-   align-items: center;margin-top:40px ;">
+  <div
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 40px;
+    "
+  >
     <button class="blue-btn submit-btn" (click)="submit()">Send</button>
   </div>
 </div>

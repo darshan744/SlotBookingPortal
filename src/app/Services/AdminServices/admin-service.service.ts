@@ -53,7 +53,7 @@ export class AdminService {
           withCredentials: true,
         })
         .subscribe((res: any) => {
-          this.toast.showToast(res.message , false);
+          this.toast.showToast(res.message , "success" , "Success");
         });
     }
   }
@@ -80,7 +80,7 @@ export class AdminService {
       environment.STUDENTS_MARKS,
       { studentmarks, eventType, staffId: this.getUserId() },
       { params,withCredentials: true }
-    ).subscribe((res : any)=>this.toast.showToast(res.message , false));
+    ).subscribe((res : any)=>this.toast.showToast(res.message , "success" , "Success"));
   }
 
   getStudentInfo(identifier: string): Observable<IStudentInfo> {

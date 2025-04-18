@@ -85,7 +85,7 @@ export class SuperAdminService {
   requestSlotAvailability(data: i[]) {
     this.http.post(this.requestAvailability, data,{withCredentials:true}).subscribe({
       next : (res:any) => {
-        this.toastService.showToast(res.message , false);
+        this.toastService.showToast(res.message , "success" , "Success");
       }
   });
   }
@@ -121,7 +121,7 @@ export class SuperAdminService {
     this.http
       .post(environment.SLOT, data, { withCredentials: true })
       .subscribe({
-        next: (res: any) => this.toastService.showToast(res.message, false)});
+        next: (res: any) => this.toastService.showToast(res.message, "success" , "Success")});
   }
 
   getSlots() : Observable<IBaseResponse & {data : TSlot[]}> {
@@ -153,7 +153,7 @@ export class SuperAdminService {
   postBreaks(breaks : IBreaks) {
     return this.http.post<IBaseResponse>(environment.BREAKS , breaks , { withCredentials:true }).subscribe({
       next : (response : IBaseResponse)=> {
-        this.toastService.showToast(response.message , false);
+        this.toastService.showToast(response.message , "success" , "Success");
       },
     })
   }
@@ -168,7 +168,7 @@ export class SuperAdminService {
 
   postRemarksToQuery(data : {remarks : string, queryId :string , status : "Pending" | "Resolved" | "Rejected"}){
     this.http.post(environment.SUPERADMIN_POST_REMARKS , data , {withCredentials : true}).subscribe(
-      ()=>this.toastService.showToast('Remarks Added' , false)
+      ()=>this.toastService.showToast('Remarks Added' , "success" , "Success")
     );
   }
 }

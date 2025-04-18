@@ -140,7 +140,11 @@ export class SlotGenerationComponent implements OnInit {
                       this.form.get('data.range')?.value === 0;
 
     if (isInvalid) {
-      this.toast.showToast('Please enter all data for generating slots', true);
+      this.toast.showToast(
+        'All Fields are mandatory',
+        'info',
+        "Invalid Input"
+      );
     } else {
       const selectedBreakConfig = this.form.get('data.selectedBreakConfig');
       if (selectedBreakConfig?.valid) {
@@ -165,7 +169,7 @@ export class SlotGenerationComponent implements OnInit {
         alert('Not Valid');
         return;
       }
-      this.toast.showToast('Generated Successfully', false);
+      this.toast.showToast('Generated Successfully', "info" , "Success");
       this.dialog.open(this.dialogComp);
     }
   }

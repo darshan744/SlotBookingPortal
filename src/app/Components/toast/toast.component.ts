@@ -4,20 +4,26 @@ import { ToastrService } from '../../Services/Toastr/toastr.service';
 import { MatIcon } from '@angular/material/icon';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
-
+import { MessageService } from 'primeng/api';
+import {ToastModule} from 'primeng/toast'
 @Component({
-    selector: 'app-toast',
-    imports: [CommonModule, MatIcon, AsyncPipe],
-    templateUrl: './toast.component.html',
-    styleUrl: './toast.component.css'
+  selector: 'app-toast',
+  imports: [CommonModule, MatIcon, AsyncPipe,ToastModule],
+  templateUrl: './toast.component.html',
+  styleUrl: './toast.component.css',
 })
 export class ToastComponent {
-  isHandset : boolean = false;
-  isHandsetSubscription : Subscription | null = null;
-  constructor(public toastrService : ToastrService , private breakPointObserver:BreakpointObserver){}
+  isHandset: boolean = false;
+  isHandsetSubscription: Subscription | null = null;
+  constructor(
+    public toastrService: ToastrService,
+    private breakPointObserver: BreakpointObserver,
+    private msgService: MessageService
+  ) {}
   ngOnInit() {
-    this.isHandsetSubscription = this.breakPointObserver.observe(Breakpoints.Handset)
-    .subscribe((res)=>this.isHandset = res.matches);
+    this.isHandsetSubscription = this.breakPointObserver
+      .observe(Breakpoints.Handset)
+      .subscribe((res) => (this.isHandset = res.matches));
   }
   ngOnDestroy() {
     this.isHandsetSubscription?.unsubscribe();

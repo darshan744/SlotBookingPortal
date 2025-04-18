@@ -35,7 +35,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
             errorMessage = `Error: ${error.status} - ${error.message}`;
         }
       }
-        toastService.showToast(errorMessage , true);
+        toastService.showToast(errorMessage , "error" , error.statusText);
        return throwError(() => new Error(errorMessage));
     })
   );
