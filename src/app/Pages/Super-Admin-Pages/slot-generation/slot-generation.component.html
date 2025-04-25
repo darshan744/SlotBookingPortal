@@ -4,37 +4,29 @@
     <h3>Generate Slots</h3>
     <mat-divider></mat-divider>
     <form class="inputs" [formGroup]="form">
-
-      <mat-form-field appearance="outline" formGroupName="data">
+      <div formGroupName="data">
+        <p-select formControlName="selectedBreakConfig" [options]="breaks" placeholder="Interval Range" optionValue="configurationId" optionLabel="configurationId"></p-select>
+      </div>
+      <!-- <mat-form-field appearance="outline" formGroupName="data">
         <mat-label>Break Timings</mat-label>
         <mat-select formControlName="selectedBreakConfig">
           <mat-option [value]="b.configurationId" *ngFor="let b of breaks">{{b.configurationId}}</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
       <!-- Slot Interval -->
-      <mat-form-field formGroupName="data" appearance="outline">
-        <mat-label>Slot-Interval</mat-label>
-        <input formControlName="range" type="number" required matInput name="Intervals" placeholder="Enter Intervals" />
-      </mat-form-field>
+      <div formGroupName="enteredData">
+        <p-inputnumber formControlName="range" type="number" required  name="Intervals" placeholder="Enter Intervals" />
+      </div>
       <!-- Slot Limit -->
-      <mat-form-field formGroupName="enteredData" appearance="outline">
-        <mat-label>Slot Limit</mat-label>
-        <input formControlName="limit" type="number" matInput />
-      </mat-form-field>
+       <div formGroupName="enteredData">
+         <p-inputnumber formControlName="limit" type="number" />
+       </div>
       <!-- Start Date -->
-      <mat-form-field formGroupName="enteredData" appearance="outline">
-        <mat-label>Start Date</mat-label>
-        <input matInput  [matDatepickerFilter]="dateFilter" formControlName="startDate" [matDatepicker]="Startdate" />
-        <mat-datepicker-toggle matIconSuffix [for]="Startdate"></mat-datepicker-toggle>
-        <mat-datepicker #Startdate />
-      </mat-form-field>
+       <div formGroupName="enteredData">
+         <p-datepicker formControlName="startDate" placeholder="Start Date" />
+       </div>
       <!-- End Date -->
-      <mat-form-field formGroupName="enteredData" appearance="outline">
-        <mat-label>End Date</mat-label>
-        <input [matDatepickerFilter]="dateFilter" matInput formControlName="endDate" [matDatepicker]="EndDate" />
-        <mat-datepicker-toggle matIconSuffix [for]="EndDate"></mat-datepicker-toggle>
-        <mat-datepicker #EndDate />
-      </mat-form-field>
+        <p-datepicker formControlName="startDate" placeholder="End Date" />
     </form>
     <div style="display: flex;justify-content: center;">
       <button mat-button type="button" (click)="generateSlot()"><mat-icon>autorenew</mat-icon> Generate</button>
@@ -46,30 +38,18 @@
     <mat-divider></mat-divider>
     <div class="event-forms">
       <!-- Event Selection -->
-      <mat-form-field formGroupName="enteredData" appearance="outline">
-        <mat-label>Select Event</mat-label>
-        <mat-select formControlName="selectedEvent" >
-          <mat-option value="Mock Interview">Mock Interview</mat-option>
-          <mat-option value="Self Introduction">Self Introduction</mat-option>
-          <mat-option value="Group Discussion">Group Discussion</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div formGroupName="enteredData">
+        <p-select  formControlName="selectedEvent" placeholder="Event Name" [options]="eventsList" />
+      </div>
 
       <!-- Batch Selection -->
-      <mat-form-field formGroupName="enteredData" appearance="outline">
-        <mat-label>Select Batch</mat-label>
-        <mat-select formControlName="selectedYear">
-          <mat-option value="Year 1">Year 1</mat-option>
-          <mat-option value="Year 2">Year 2</mat-option>
-          <mat-option value="Year 3">Year 3</mat-option>
-          <mat-option value="Year 4">Year 4</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div formGroupName="enteredData" appearance="outline">
+        <p-select formControlName="selectedYear" placeholder="Year" [options]="years"></p-select>
+      </div>
 
-      <mat-form-field formGroupName="enteredData" appearance="outline">
-        <mat-label>Venues</mat-label>
-        <input formControlName="venue" name="venue" type="text" matInput />
-      </mat-form-field>
+      <div formGroupName="enteredData" appearance="outline">
+        <input pInputText formControlName="venue" placeholder="Venue" name="venue" type="text" matInput />
+      </div>
 
       <!-- Staff Input -->
       <mat-form-field formGroupName="enteredData" appearance="outline">

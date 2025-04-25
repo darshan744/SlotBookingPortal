@@ -1,14 +1,15 @@
 <div class="container">
   <div class="wrapper">
     <form class="grid grid-cols-2 gap-10">
-        <p-select
-          size="large"
-          placeholder="Select Staff"
-          [options]="staffs"
-          optionValue="id"
-          optionLabel="name"
-        ></p-select>
-  <p-select
+      <p-select
+        size="large"
+        placeholder="Select Staff"
+        [options]="staffs"
+        (onChange)="addStaffToChip($event.value)"
+        optionValue="id"
+        optionLabel="name"
+      ></p-select>
+      <p-select
         size="large"
         placeholder="Select Year"
         name="year"
@@ -18,13 +19,15 @@
       <p-select
         [options]="events"
         placeholder="Event Type"
-        size="large"></p-select>
+        size="large"
+      ></p-select>
       <p-datepicker
         size="large"
         name="startDate"
         placeholder="Start Date"
         [(ngModel)]="startDate"
-      class="w-[300px]" ></p-datepicker>
+        class="w-[300px]"
+      ></p-datepicker>
       <p-datepicker
         size="large"
         name="endDate"
@@ -37,15 +40,6 @@
         placeholder="Response Deadline"
         [(ngModel)]="responseDeadline"
       ></p-datepicker>
-
-      <!-- <mat-form-field  appearance="outline">
-          <mat-label>Event Type</mat-label>
-          <input matInput name="eventTypeRequest" [(ngModel)]="eventTypeRequest" [matAutocomplete]="eventType" />
-          <mat-autocomplete #eventType>
-            <mat-option *ngFor="let e of events" [value]="e">{{e}}</mat-option>
-          </mat-autocomplete>
-          <mat-hint>Select Event Type</mat-hint>
-        </mat-form-field> -->
     </form>
   </div>
 
@@ -57,9 +51,11 @@
       </p>
       <mat-chip-row *ngFor="let staff of displaySelectedStaff()">
         {{ staff.name }}
-        <button (click)="removeStaff(staff.name)" matChipRemove>
+
+<p-button (click)="removeStaff(staff.name)"  icon="pi pi-times" [rounded]="true" [text]="true" />
+        <!-- <button (click)="removeStaff(staff.name)" matChipRemove>
           <mat-icon>cancel</mat-icon>
-        </button>
+        </button> -->
       </mat-chip-row>
     </mat-chip-grid>
   </div>

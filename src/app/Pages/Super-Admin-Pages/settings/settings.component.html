@@ -10,17 +10,11 @@
       <div class="user-name">
         <div class="user-name-container">
           <p><strong>UserName</strong></p>
-          <mat-form-field class="user-name-field" appearance="outline">
-            <mat-label>UserName</mat-label>
-            <input [value]="userName" matInput id="userName" type="text">
-          </mat-form-field>
+          <input class="mt-1" [value]="userName" pInputText  id="userName" type="text" />
         </div>
         <div class="email-container">
           <p><strong>Email</strong></p>
-          <mat-form-field class="email-field" appearance="outline">
-            <mat-label>Email</mat-label>
-            <input [value]="currentEmail" matInput type="text">
-          </mat-form-field>
+          <input [value]="currentEmail" pInputText id="email" type="text"/>
         </div>
         <div class="submit-btn-container">
           <button class="blue-btn" type="submit">
@@ -38,22 +32,19 @@
               </mat-icon>
             </button>
           </p>
-          <mat-form-field class="current-password-field" appearance="outline">
-            <input [value]="currentPassword" disabled matInput [type]="displayPassword ? 'text' : 'password'">
-          </mat-form-field>
+          <input pInputText [value]="currentPassword" [type]="displayPassword ? 'text' : 'password' "/>
+
         </div>
         <div class="new-container">
           <p style="display:flex; gap: 4px;align-items: center;"><strong>Current Password</strong>
+
             <button (click)="this.displayNewPassword = !this.displayNewPassword" mat-icon-button>
               <mat-icon mat-icon-button>
                 {{!displayNewPassword ? 'visibility' : 'visibility_off'}}
               </mat-icon>
             </button>
           </p>
-          <mat-form-field class="new-password-field" appearance="outline">
-            <mat-label>New Password</mat-label>
-            <input matInput type="text">
-          </mat-form-field>
+          <input type="text" pInputText placeholder="New Password">
         </div>
         <div class="submit-btn-container">
           <button class="blue-btn" type="submit">
@@ -68,27 +59,18 @@
     <h2>Existing Events</h2>
     <div class="event-list">
       <mat-chip-listbox>
-        <mat-chip *ngFor="let event of items" color="primary">{{event}}</mat-chip>
+        <p-chip class="mr-1" *ngFor="let event of items" color="primary">{{event}}</p-chip>
       </mat-chip-listbox>
     </div>
     <div style="margin-top: 30px;">
       <h3>Create New Event</h3>
       <div [formGroup]="eventData" class="event-form-fields">
-        <div class="event-info-container">
-          <mat-form-field class="form-field" appearance="outline">
-            <mat-label>Event Name</mat-label>
-            <input formControlName="Name" matInput placeholder="E.g., Technical Round" />
-          </mat-form-field>
-          <mat-form-field class="form-field" appearance="outline">
-            <mat-label>Maximum Participants</mat-label>
-            <input formControlName="MaximumParticipant" matInput type="number" placeholder="E.g., 50" />
-          </mat-form-field>
+        <div class="flex gap-4">
+          <input formControlName="Name" pInputText placeholder="E.g., Technical Round" />
+          <input formControlName="MaximumParticipant" pInputText type="number" placeholder="E.g., 50" />
         </div>
-        <div class="desc-container">
-          <mat-form-field class="form-field" appearance="outline">
-            <mat-label>Description</mat-label>
-            <textarea formControlName="Description" matInput rows="3" placeholder="Describe the event..."></textarea>
-          </mat-form-field>
+        <textarea pInputText formControlName="Description" rows="3" placeholder="Describe the event..."></textarea>
+        <div classs="block w-full">
         </div>
         <div class="submit-btn-container">
           <button (click)="createEvent()" class="blue-btn event-btn" type="submit" color="primary">
@@ -111,11 +93,9 @@
     <div class="event-form-fields" >
     <!-- Morning Break -->
     <form [formGroup]="breaks" class="config-field-container">
-      <mat-form-field appearance="outline">
-        <mat-label>Configuration Identifier</mat-label>
-        <input matInput formControlName="configurationId" />
-        <mat-hint>Provide Unique Identifier</mat-hint>
-      </mat-form-field>
+      <div>
+        <input placeholder="Unique Id" pInputText formControlName="configurationId" />
+      </div>
     <mat-form-field class="config-field" appearance="outline">
       <mat-label>Morning Break</mat-label>
       <input [format]="24"  formControlName="morningBreak" name="morningBreak" required matInput [ngxMatTimepicker]="morning" />

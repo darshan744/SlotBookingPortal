@@ -60,8 +60,8 @@ export class CreateComponent implements OnInit {
 
   /**Methods*/
 
-  addStaffToChip(e: MatAutocompleteSelectedEvent) {
-    let value = e.option.viewValue.split('-')[1].trimStart();
+  addStaffToChip(e:string) {
+    let value = e;
     this.enteredStaff.set('');
     this.displaySelectedStaff.update(
       (staffs: { id: string; name: string }[]) => {
@@ -70,10 +70,8 @@ export class CreateComponent implements OnInit {
           addStaff &&
           !this.displaySelectedStaff().some((staff) => staff.id === value)
         ) {
-          e.option.deselect();
           return [...staffs, addStaff];
         } else {
-          e.option.deselect();
           return [...staffs];
         }
       }

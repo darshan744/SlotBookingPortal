@@ -35,7 +35,10 @@ import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.se
 import {TAcceptedStaff, Venues, ISlot, ITimeAndLimit, IBreaks} from "../SuperAdmin.interface";
 import {HttpErrorResponse} from "@angular/common/http";
 import { ToastrService } from '../../../Services/Toastr/toastr.service';
-
+import { DatePickerModule } from 'primeng/datepicker';
+import {  InputNumberModule } from 'primeng/inputnumber';
+import { SelectModule } from 'primeng/select';
+import {  InputTextModule } from 'primeng/inputtext';
 type AcceptedResponse = {
   success: boolean;
   data: {
@@ -65,6 +68,10 @@ type AcceptedResponse = {
     MatDatepickerModule,
     FormsModule,
     MatIconModule,
+    DatePickerModule,
+    InputNumberModule,
+    SelectModule,
+    InputTextModule,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './slot-generation.component.html',
@@ -72,9 +79,11 @@ type AcceptedResponse = {
 })
 export class SlotGenerationComponent implements OnInit {
   form: FormGroup;
+  years = ['Year 1', 'Year 2', 'Year 3', 'Year 4'];
+  eventsList = ['Mock Interview', 'Self Introduction', 'Group Discussion'];
   breaks: IBreaks[] = [] as any;
   selectedYear: string | null = null;
-  events : {Name : string}[] = [];
+  events: { Name: string }[] = [];
   constructor(
     private service: SuperAdminService,
     private dialog: MatDialog,
@@ -121,7 +130,9 @@ export class SlotGenerationComponent implements OnInit {
     this.getEvents();
   }
   getEvents() {
-    this.service.getEvents().subscribe(e => {if(e.data) this.events = e.data});
+    this.service.getEvents().subscribe((e) => {
+      if (e.data) this.events = e.data;
+    });
   }
 
   dateFilter: DateFilterFn<Date | null> = (date: Date | null): boolean => {
@@ -133,18 +144,15 @@ export class SlotGenerationComponent implements OnInit {
   };
 
   generateSlot() {
-    const isInvalid = this.form.get('data.morningBreak')?.value === '' ||
-                      this.form.get('data.eveningBreak')?.value === '' ||
-                      this.form.get('data.lunchStart')?.value === '' ||
-                      this.form.get('data.lunchEnd')?.value === '' ||
-                      this.form.get('data.range')?.value === 0;
+    const isInvalid =
+      this.form.get('data.morningBreak')?.value === '' ||
+      this.form.get('data.eveningBreak')?.value === '' ||
+      this.form.get('data.lunchStart')?.value === '' ||
+      this.form.get('data.lunchEnd')?.value === '' ||
+      this.form.get('data.range')?.value === 0;
 
     if (isInvalid) {
-      this.toast.showToast(
-        'All Fields are mandatory',
-        'info',
-        "Invalid Input"
-      );
+      this.toast.showToast('All Fields are mandatory', 'info', 'Invalid Input');
     } else {
       const selectedBreakConfig = this.form.get('data.selectedBreakConfig');
       if (selectedBreakConfig?.valid) {
@@ -169,7 +177,7 @@ export class SlotGenerationComponent implements OnInit {
         alert('Not Valid');
         return;
       }
-      this.toast.showToast('Generated Successfully', "info" , "Success");
+      this.toast.showToast('Generated Successfully', 'info', 'Success');
       this.dialog.open(this.dialogComp);
     }
   }
