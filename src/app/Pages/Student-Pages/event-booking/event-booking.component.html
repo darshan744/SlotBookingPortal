@@ -13,18 +13,6 @@
         (onChange)="mapStaffsToSelectedVenue()"
         placeholder="Venue Selection"
       ></p-select>
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Venue Selection</mat-label>
-        <mat-select
-          [(ngModel)]="selectedVenue"
-          (selectionChange)="mapStaffsToSelectedVenue()"
-        >
-          <mat-option *ngFor="let venue of data?.slots" [value]="venue.venue">
-            {{ venue.venue }}
-          </mat-option>
-        </mat-select>
-        <mat-hint>Select Venue</mat-hint>
-      </mat-form-field> -->
       <p-select
         [(ngModel)]="selectedStaff"
         optionValue="id"
@@ -72,9 +60,9 @@
           }"
           (click)="currentTime = timing.time"
         >
-         @if(timing.limit > 0) {
-           {{ timing.time }}
-         }
+          @if(timing.limit > 0) {
+          {{ timing.time }}
+          }
         </div>
       </div>
     </div>
@@ -88,9 +76,11 @@
     </div>
   </div>
 </ng-container>
-<ng-container *ngIf="alreadyBooked !== null && !alreadyBooked.slotFinished">
-  <div class="notification">
-    <h2>You are already booked for the following event:</h2>
+<ng-container
+  class="mt-3"
+  *ngIf="alreadyBooked !== null && !alreadyBooked.slotFinished"
+>
+  <p-card header="Booking Info" [style]="{ width: '30rem' }" class="mt-3">
     <p>
       <strong>Booking Date:</strong>
       {{ alreadyBooked.bookingDate | date : "shortDate" }}
@@ -102,7 +92,7 @@
       <p><strong>Booking Venue: </strong>{{ times[1] }}</p>
       <p><strong>Booking Staff: </strong>{{ times[2] }}</p>
     </div>
-  </div>
+  </p-card>
 </ng-container>
 
 <ng-container
@@ -110,9 +100,15 @@
     (alreadyBooked === null && data === null) || alreadyBooked?.slotFinished
   "
 >
-  <div class="notification">
-    <h2>No new slots are available at the moment.</h2>
-    <p>Please check back later or contact support if you need assistance.</p>
+  <div
+    class="justify-self-center bg-white mt-3 text-black w-[40rem] p-3 rounded-md h-[10rem]"
+  >
+    <h2 class="font-bold text-3xl">
+      No new slots are available at the moment.
+    </h2>
+    <p class="text-gray-600 tex-2xl">
+      Please check back later or contact support if you need assistance.
+    </p>
   </div>
 </ng-container>
 

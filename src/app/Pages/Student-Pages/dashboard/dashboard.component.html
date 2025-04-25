@@ -96,72 +96,90 @@
           [options]="options"
           height="400"
         ></p-chart>
-      </p-card  >
+      </p-card>
     </div>
   </div>
 </div>
-<div class="query-list-container" *ngIf="studentsQueries.length > 0">
+<div class="mt-3" *ngIf="studentsQueries.length > 0">
   <div>
     <h3>Your Queries</h3>
   </div>
   <!-- Title -->
-  @for (query of studentsQueries; track $index) {
-  <div class="query-details">
-    <div>
-      <h4>Query Title</h4>
-      <div>
-        <p>{{ query.title }}</p>
-      </div>
-    </div>
-
-    <h4>Query Description</h4>
-    <div class="query-description">
-      <div>
-        <p>{{ query.description }}</p>
-      </div>
-      <div>
-        @let status = query.status;
-        <!-- background-color: rgba(0, 128, 0, 0.284) -->
-        <p
-          [ngStyle]="{
-            'background-color':
-              status === 'Resolved'
-                ? 'rgba(0, 128, 0, 0.284)'
-                : status === 'Pending'
-                ? 'rgba(255, 165, 0, 0.284)'
-                : 'rgba(255, 0, 0, 0.284)'
-          }"
-        >
-          {{ status }}
-        </p>
-      </div>
-    </div>
-
-    <h4>Remarks</h4>
-    <div class="remarks">
-      <div>
-        <p>{{ query.remarks || "No Remarks provided yet" }}</p>
-      </div>
-    </div>
-  </div>
-  }
-  <div
-    style="display: flex; justify-content: center; margin-top: 10px; gap: 30px"
-  >
-    <button class="page-btn">Previous</button>
-    <button class="page-btn">Next</button>
-  </div>
+  <p-dataview #dv [value]="studentsQueries" [paginator]="true" rows="5">
+    <ng-template #list let-items>
+      <p-card *ngFor="let query of items">
+        <div #header class="flex gap-1">
+          <h1><strong>Title :</strong></h1>
+          <h3>{{ query.title }}</h3>
+        </div>
+        <div #body class="flex justify-between">
+          <div>
+            <h4 #title><strong>Description</strong></h4>
+            <p>{{ query.description }}</p>
+          </div>
+          <div class="flex items-center justify-center">
+            @let status = query.status;
+            <!-- background-color: rgba(0, 128, 0, 0.284) -->
+            @let queryStatusColor = status === 'Resolved' ? "success": status
+            === "Pending" ? "info" : "error";
+            <p-message
+              size="small"
+              [severity]="queryStatusColor"
+              variant="outlined"
+            >
+              {{ status }}
+            </p-message>
+          </div>
+        </div>
+        <div #footer>
+          <h4><strong>Remarks</strong></h4>
+          <p>{{ query.remarks || "No Remarks provided yet" }}</p>
+        </div>
+      </p-card>
+    </ng-template>
+  </p-dataview>
 </div>
 
-<ng-template #queryDialog style="background-color: #eef2f6">
-  <div class="query-dialog-container">
+<p-dialog header="Raise Query" [(visible)]="openDialog" [style]="{width:'25rem'}" [modal]="true">
+  <form [formGroup]="query" class="flex flex-col gap-3">
+  <div class="flex flex-col gap-1">
+    <label for="query-title"><strong>Query Title</strong></label>
+    <input
+      pInputText
+      formControlName="title"
+      id="query-title"
+      placeholder="Title"
+    />
+  </div>
+    <div class="flex flex-col gap-1">
+      <label for="query-summary"><strong>Query Summary</strong></label>
+          <textarea pInputText
+            formControlName="description"
+            id="query-summary"
+            placeholder="Query Summary"
+          ></textarea>
+    </div>
+    <div class="flex justify-end gap-2">
+      <button size="small" pButton severity="secondary" (click)="openDialog = false">Cancel</button>
+      <button size="small" pButton  severity="contrast" (click)="raiseQuery();openDialog = false">Submit</button>
+    </div>
+  </form>
+</p-dialog>
+
+<ng-template #queryDialog>
+  <div>
     <div class="title">
       <h1>Raise Query</h1>
     </div>
     <div [formGroup]="query" class="query-dialog-form">
       <div class="query-inputs">
         <label for="query-title"><strong>Query Title</strong></label>
-        <input formControlName="title" id="query-title" placeholder="Title" />
+        <input
+          pInputText
+          formControlName="title"
+          id="query-title"
+          placeholder="Title"
+        />
       </div>
       <div class="query-inputs">
         <label for="query-summary"><strong>Query Summary</strong></label>

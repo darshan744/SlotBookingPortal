@@ -3,35 +3,54 @@
   <div>
     <p-card class="flex flex-col items-center">
       <h1 class="text-3xl font-semibold text-center" #title>Welcome Back</h1>
-      <form class="flex w-[400px] flex-col gap-6 mt-8" [formGroup]="credentials">
+      <form
+        class="flex w-[400px] flex-col gap-6 mt-8"
+        [formGroup]="credentials"
+      >
         <p-floatlabel class="w-full">
-          <input id="username" formControlName="userName" pInputText class="w-full" />
+          <input
+            id="username"
+            formControlName="userName"
+            pInputText
+            class="w-full"
+          />
           <label for="username">User Name</label>
         </p-floatlabel>
         <p-floatlabel class="w-[400px] mt-2">
-          <p-password id="pass" toggleMask="true" formControlName="password" inputStyleClass="w-[400px]"></p-password>
+          <p-password
+            id="pass"
+            toggleMask="true"
+            formControlName="password"
+            inputStyleClass="w-[400px]"
+          ></p-password>
           <label for="pass">Password</label>
         </p-floatlabel>
-        <button type="submit" (click)="submit()" class="bg-blue-500 rounded-md p-1">Login</button>
-        <div class="flex items-center">
+        <button
+          type="submit"
+          (click)="submit()"
+          class="bg-blue-500 rounded-md p-1"
+        >
+          Login
+        </button>
+        <div class="flex w-full items-center">
           <div
-          id="g_id_onload"
-          [attr.data-client_id]="clientId"
-          data-context="signin"
-          data-ux_mode="popup"
-          data-callback="handleOauthResponse"
-          data-auto_prompt="false"
-        ></div>
-        <div
-          class="g_id_signin"
-          data-type="standard"
-          data-shape="rectangular"
-          data-theme="outline"
-          data-text="continue_with"
-          data-size="large"
-          data-logo_alignment="center"
-          data-width="250"
-        ></div>
+            id="g_id_onload"
+            [attr.data-client_id]="clientId"
+            data-context="signin"
+            data-ux_mode="popup"
+            data-callback="handleOauthResponse"
+            data-auto_prompt="false"
+          ></div>
+          <div
+            class="g_id_signin"
+            data-type="standard"
+            data-shape="rectangular"
+            data-theme="outline"
+            data-text="continue_with"
+            data-size="large"
+            data-logo_alignment="center"
+            data-width="250"
+          ></div>
         </div>
       </form>
     </p-card>

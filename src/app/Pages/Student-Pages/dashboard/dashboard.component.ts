@@ -33,6 +33,10 @@ import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
+import {MessageModule} from 'primeng/message';
+import {DataViewModule} from 'primeng/dataview'
+import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
 export interface eventResult {
   eventType: string;
   date: string;
@@ -61,23 +65,23 @@ interface ICanvasData {
 @Component({
   selector: 'app-dashboard',
   imports: [
-    MatTableModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
     DatePipe,
     ReactiveFormsModule,
-    MatCardModule,
     CardModule,
     CommonModule,
     TableModule,
     ButtonModule,
     ChartModule,
+    MessageModule,
+    DataViewModule,
+    InputTextModule,
+    DialogModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css', './QueryDialog.css'],
 })
 export class DashboardComponent implements OnInit {
+  openDialog : boolean = false;
   //Query Dialog
   @ViewChild('queryDialog') queryDialog!: TemplateRef<any>;
   //query storing property
@@ -165,7 +169,6 @@ export class DashboardComponent implements OnInit {
   type: ChartType = 'line';
   //chart style options
   options: ChartOptions = {
-
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -178,7 +181,7 @@ export class DashboardComponent implements OnInit {
         min: 0,
         max: 20,
       },
-    }
+    },
   };
   //groups event types and generates chart data
   processChartData(): void {
@@ -216,10 +219,10 @@ export class DashboardComponent implements OnInit {
         next: (e: IFileUploadSuccess | IFileUploadError) => {
           if (e.success && 'fileName' in e) {
             this.selectedFileName = e.fileName;
-            this.toastService.showToast(e.message, "success" , "Success");
+            this.toastService.showToast(e.message, 'success', 'Success');
             this.user.ResumeLink = e.fileName;
           } else {
-            this.toastService.showToast(e.message, "success" , "Success");
+            this.toastService.showToast(e.message, 'success', 'Success');
           }
         },
         error: (err) => {},
@@ -237,7 +240,11 @@ export class DashboardComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         err.error;
-        this.toastService.showToast('Could not Delete file', "error" , "Can't Delete");
+        this.toastService.showToast(
+          'Could not Delete file',
+          'error',
+          "Can't Delete"
+        );
       },
     });
     subscription.unsubscribe();
@@ -263,21 +270,22 @@ export class DashboardComponent implements OnInit {
   }
   // opens a dialog for raising a query
   openQueryDialog() {
-    this.matDialog.open(this.queryDialog, {
-      width: '500px',
-      height: '400px',
-    });
+    this.openDialog = true;
   }
   //raise a new query (updates DB);
   raiseQuery() {
     if (this.query.invalid) {
-      this.toastService.showToast('Please fill all the fields', "info", "Fields Not filled");
+      this.toastService.showToast(
+        'Please fill all the fields',
+        'info',
+        'Fields Not filled'
+      );
     } else {
       const { title, description } = this.query.value;
       if (!title || !description) {
         this.toastService.showToast(
           'Please fill all the fields',
-          "info",
+          'info',
           'info'
         );
         return;

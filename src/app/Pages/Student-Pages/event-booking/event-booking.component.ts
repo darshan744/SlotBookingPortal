@@ -12,6 +12,7 @@ import {DialogModule} from 'primeng/dialog'
 import {ButtonModule} from 'primeng/button'
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { MatDivider } from '@angular/material/divider';
+import { CardModule } from 'primeng/card';
 
 export enum ResponseMessage {
   success = 'Slot Retrieved Successfully',
@@ -30,6 +31,7 @@ export enum ResponseMessage {
     MatDialogClose,
     MatDialogContent,
     MatDialogTitle,
+    CardModule
   ],
   templateUrl: './event-booking.component.html',
   styleUrls: ['./event-booking.component.css'],
