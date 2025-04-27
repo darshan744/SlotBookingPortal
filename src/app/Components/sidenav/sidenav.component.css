@@ -1,6 +1,6 @@
 .selected-route{
-    border-bottom: 2px solid;
-    border-bottom-color: red;
+    border-bottom: 2px solid !important;
+    border-bottom-color: red !important;
 }
 
 mat-toolbar {

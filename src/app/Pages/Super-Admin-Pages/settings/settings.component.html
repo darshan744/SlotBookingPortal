@@ -1,79 +1,114 @@
 <div class="container">
-<!--  Password Changing -->
+  <!--  Password Changing -->
   <div class="wrapper">
     <div class="details">
-      <p style="font-size: 20px;"><strong>{{userName }}</strong></p>
-      <p style="font-size: 18px;">{{currentEmail}}</p>
+      <p style="font-size: 20px">
+        <strong>{{ userName }}</strong>
+      </p>
+      <p style="font-size: 18px">{{ currentEmail }}</p>
     </div>
     <h3><strong>Account Settings</strong></h3>
     <div class="input-container">
       <div class="user-name">
         <div class="user-name-container">
           <p><strong>UserName</strong></p>
-          <input class="mt-1" [value]="userName" pInputText  id="userName" type="text" />
+          <input
+            class="mt-1"
+            [value]="userName"
+            pInputText
+            id="userName"
+            type="text"
+          />
         </div>
         <div class="email-container">
           <p><strong>Email</strong></p>
-          <input [value]="currentEmail" pInputText id="email" type="text"/>
+          <input [value]="currentEmail" pInputText id="email" type="text" />
         </div>
         <div class="submit-btn-container">
-          <button class="blue-btn" type="submit">
-            Save Changes
-          </button>
+          <button pButton severity="contrast" type="submit">Save Changes</button>
         </div>
       </div>
-      <mat-divider style="margin-top: 20px;"></mat-divider>
+      <mat-divider style="margin-top: 20px"></mat-divider>
       <div class="password">
         <div class="curr-container">
-          <p style="display:flex; gap: 4px;align-items: center;"><strong>Current Password</strong>
-            <button (click)="this.displayPassword = !this.displayPassword" mat-icon-button>
+          <p style="display: flex; gap: 4px; align-items: center">
+            <strong>Current Password</strong>
+            <button
+              (click)="this.displayPassword = !this.displayPassword"
+              mat-icon-button
+            >
               <mat-icon mat-icon-button>
-                {{!displayPassword ? 'visibility' : 'visibility_off'}}
+                {{ !displayPassword ? "visibility" : "visibility_off" }}
               </mat-icon>
             </button>
           </p>
-          <input pInputText [value]="currentPassword" [type]="displayPassword ? 'text' : 'password' "/>
-
+          <input
+            pInputText
+            [value]="currentPassword"
+            [type]="displayPassword ? 'text' : 'password'"
+          />
         </div>
         <div class="new-container">
-          <p style="display:flex; gap: 4px;align-items: center;"><strong>Current Password</strong>
+          <p style="display: flex; gap: 4px; align-items: center">
+            <strong>Current Password</strong>
 
-            <button (click)="this.displayNewPassword = !this.displayNewPassword" mat-icon-button>
+            <button
+              (click)="this.displayNewPassword = !this.displayNewPassword"
+              mat-icon-button
+            >
               <mat-icon mat-icon-button>
-                {{!displayNewPassword ? 'visibility' : 'visibility_off'}}
+                {{ !displayNewPassword ? "visibility" : "visibility_off" }}
               </mat-icon>
             </button>
           </p>
-          <input type="text" pInputText placeholder="New Password">
+          <input type="text" pInputText placeholder="New Password" />
         </div>
         <div class="submit-btn-container">
-          <button class="blue-btn" type="submit">
-            Save Changes
-          </button>
+          <button pButton severity="contrast" type="submit">Save Changes</button>
         </div>
       </div>
     </div>
   </div>
-<!--  Events Settings-->
+  <!--  Events Settings-->
   <div class="wrapper">
     <h2>Existing Events</h2>
     <div class="event-list">
       <mat-chip-listbox>
-        <p-chip class="mr-1" *ngFor="let event of items" color="primary">{{event}}</p-chip>
+        <p-chip class="mr-1" *ngFor="let event of items" color="primary">{{
+          event
+        }}</p-chip>
       </mat-chip-listbox>
     </div>
-    <div style="margin-top: 30px;">
+    <div style="margin-top: 30px">
       <h3>Create New Event</h3>
       <div [formGroup]="eventData" class="event-form-fields">
         <div class="flex gap-4">
-          <input formControlName="Name" pInputText placeholder="E.g., Technical Round" />
-          <input formControlName="MaximumParticipant" pInputText type="number" placeholder="E.g., 50" />
+          <input
+            formControlName="Name"
+            pInputText
+            placeholder="E.g., Technical Round"
+          />
+          <input
+            formControlName="MaximumParticipant"
+            pInputText
+            type="number"
+            placeholder="E.g., 50"
+          />
         </div>
-        <textarea pInputText formControlName="Description" rows="3" placeholder="Describe the event..."></textarea>
-        <div classs="block w-full">
-        </div>
+        <textarea
+          pInputText
+          formControlName="Description"
+          rows="3"
+          placeholder="Describe the event..."
+        ></textarea>
+        <div classs="block w-full"></div>
         <div class="submit-btn-container">
-          <button (click)="createEvent()" class="blue-btn event-btn" type="submit" color="primary">
+          <button
+            (click)="createEvent()"
+            pButton
+            type="submit"
+            color="primary"
+          >
             <mat-icon>add</mat-icon>
             Create Event
           </button>
@@ -81,72 +116,83 @@
       </div>
     </div>
   </div>
-<!--  Breaks Settings -->
-  <div  class="wrapper">
+  <!--  Breaks Settings -->
+  <div class="wrapper">
     <h3>Existing Combination</h3>
-    <div>
-      <mat-chip-listbox>
-        <mat-chip (click)="getBreaksById(b.configurationId)"  *ngFor="let b of retrievedBreaks"> ConfigurationID :  {{b.configurationId}} </mat-chip>
-      </mat-chip-listbox>
+    <div class="p-1 mt-2">
+      <p-chip (click)="getBreaksById(break.configurationId)" *ngFor="let break of retrievedBreaks"> ConfigurationId : {{break.configurationId}} </p-chip>
     </div>
     <h3>Create New Break Timing</h3>
-    <div class="event-form-fields" >
-    <!-- Morning Break -->
-    <form [formGroup]="breaks" class="config-field-container">
-      <div>
-        <input placeholder="Unique Id" pInputText formControlName="configurationId" />
+    <div class="mt-8">
+      <!-- Morning Break -->
+      <form [formGroup]="breaks" class="flex gap-5">
+        <p-floatlabel>
+          <input id="uniqueId"
+            pInputText
+            formControlName="configurationId"
+          />
+          <label for="uniqueId">Unique Id</label>
+        </p-floatlabel>
+
+        <p-floatlabel>
+          <p-datepicker class="w-full"
+            id="morningBreak"
+            formControlName="morningBreak"
+            hourFormat="24"
+            [timeOnly]="true"
+            [showTime]="true"
+          />
+          <label for="morningBreak">Morning Break</label>
+        </p-floatlabel>
+        <p-floatlabel>
+          <p-datepicker class="w-full"
+            id="eveningBreak"
+            formControlName="eveningBreak"
+            hourFormat="24"
+            [timeOnly]="true"
+            [showTime]="true"
+          />
+          <label for="eveningBreak">Evening Break</label>
+        </p-floatlabel>
+        <!-- Lunch Start -->
+         <p-floatlabel>
+          <p-datepicker class="w-full"
+            id="lunchStart"
+            formControlName="lunchStart"
+            hourFormat="24"
+            [timeOnly]="true"
+            [showTime]="true"
+          />
+          <label for="lunchStart">Lunch Start</label>
+        </p-floatlabel>
+
+        <!-- Lunch End -->
+         <p-floatlabel >
+           <p-datepicker class="w-full" formControlName="lunchEnd" hourFormat="24"  id="lunchEnd" [timeOnly]="true" />
+           <label for="lunchEnd">Lunch End</label>
+        </p-floatlabel>
+       </form>
+      <div class="mt-7 flex justify-center">
+        <button (click)="onConfigSubmit()" pButton>
+          Create New Config
+        </button>
       </div>
-    <mat-form-field class="config-field" appearance="outline">
-      <mat-label>Morning Break</mat-label>
-      <input [format]="24"  formControlName="morningBreak" name="morningBreak" required matInput [ngxMatTimepicker]="morning" />
-      <ngx-mat-timepicker-toggle matIconSuffix [for]="morning"></ngx-mat-timepicker-toggle>
-      <ngx-mat-timepicker [isEsc]="true" [format]="24" #morning></ngx-mat-timepicker>
-      <mat-hint>Morning Break</mat-hint>
-    </mat-form-field>
-    <!-- Evening Break -->
-    <mat-form-field class="config-field"  appearance="outline">
-      <mat-label>Evening Break</mat-label>
-      <input [format]="24" formControlName="eveningBreak" name="eveningBreak" required matInput [ngxMatTimepicker]="eveningBreak" />
-      <ngx-mat-timepicker-toggle matIconSuffix [for]="eveningBreak"></ngx-mat-timepicker-toggle>
-      <ngx-mat-timepicker #eveningBreak></ngx-mat-timepicker>
-      <mat-hint>Evening Break</mat-hint>
-    </mat-form-field>
-    <!-- Lunch Start -->
-    <mat-form-field class="config-field" appearance="outline">
-      <mat-label>Lunch Start Time</mat-label>
-      <input [format]="24" formControlName="lunchStart" name="lunchStart" required matInput [ngxMatTimepicker]="lunchStart" />
-      <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchStart"></ngx-mat-timepicker-toggle>
-      <ngx-mat-timepicker #lunchStart></ngx-mat-timepicker>
-      <mat-hint>Lunch Starting Time</mat-hint>
-    </mat-form-field>
-    <!-- Lunch End -->
-    <mat-form-field class="config-field" appearance="outline">
-      <mat-label>Lunch End</mat-label>
-      <input [format]="24" formControlName="lunchEnd" required name="lunchEnd" matInput [ngxMatTimepicker]="lunchEnd" />
-      <ngx-mat-timepicker-toggle matIconSuffix [for]="lunchEnd"></ngx-mat-timepicker-toggle>
-      <ngx-mat-timepicker [format]="24" #lunchEnd></ngx-mat-timepicker>
-      <mat-hint>Lunch Ending Time</mat-hint>
-    </mat-form-field>
-      </form>
-    <div class="submit-btn-container">
-      <button (click)="onConfigSubmit()" class="blue-btn event-btn">Create New Config</button>
-    </div>
     </div>
   </div>
 </div>
 
 <ng-template #breakTemplate let-data>
-
-  <h4 mat-dialog-title><strong>Configuration ID :</strong>{{data.configurationId}} </h4>
+  <h4 mat-dialog-title>
+    <strong>Configuration ID :</strong>{{ data.configurationId }}
+  </h4>
   <mat-divider></mat-divider>
-  <mat-dialog-content style="margin:10px 0px 30px 30px">
-    <h3><strong>Morning Break :</strong> {{data.breaks.morningBreak}} </h3>
-    <h3><strong>Evening Break :</strong>{{data.breaks.eveningBreak}} </h3>
-    <h3><strong>Lunch Start :</strong> {{data.breaks.lunchStart}}</h3>
-    <h3> <strong> Lunch End :</strong>{{data.breaks.lunchEnd}} </h3>
+  <mat-dialog-content style="margin: 10px 0px 30px 30px">
+    <h3><strong>Morning Break :</strong> {{ data.breaks.morningBreak }}</h3>
+    <h3><strong>Evening Break :</strong>{{ data.breaks.eveningBreak }}</h3>
+    <h3><strong>Lunch Start :</strong> {{ data.breaks.lunchStart }}</h3>
+    <h3><strong> Lunch End :</strong>{{ data.breaks.lunchEnd }}</h3>
   </mat-dialog-content>
-  <mat-divider>
-  </mat-divider>
+  <mat-divider> </mat-divider>
   <mat-dialog-actions>
     <button mat-button mat-dialog-close>Close</button>
   </mat-dialog-actions>

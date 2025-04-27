@@ -44,29 +44,91 @@
   </div>
 
   <div class="chips">
-    <h4>Staffs</h4>
-    <mat-chip-grid #grid>
+    <h4 class="font-semibold mb-2 text-2xl">Staffs</h4>
+    <div>
       <p *ngIf="displaySelectedStaff().length === 0" style="cursor: none">
         Selected Staff Will Appear Here
       </p>
-      <mat-chip-row *ngFor="let staff of displaySelectedStaff()">
-        {{ staff.name }}
-
-<p-button (click)="removeStaff(staff.name)"  icon="pi pi-times" [rounded]="true" [text]="true" />
-        <!-- <button (click)="removeStaff(staff.name)" matChipRemove>
-          <mat-icon>cancel</mat-icon>
-        </button> -->
-      </mat-chip-row>
-    </mat-chip-grid>
+      <div class="grid grid-cols-8 gap-2 mb-10">
+        <p-chip (onRemove)="removeStaff(staff.name)" *ngFor="let staff of displaySelectedStaff()" [removable]="true">{{ staff.name }}</p-chip>
+      </div>
+    </div>
   </div>
-  <div
-    style="
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 40px;
-    "
-  >
-    <button class="blue-btn submit-btn" (click)="submit()">Send</button>
+  <div class="flex justify-center">
+    <button pButton  (click)="submit()">Send</button>
   </div>
 </div>
+<p-dialog [(visible)]="display" [modal]="true" [closable]="false" [style]="{width: '60rem'}" header="🚀 Confirm Your Request" [contentStyle]="{'overflow':'auto', 'max-height':'70vh'}">
+
+    <div *ngIf="dialogData.length > 0; else noData">
+      <h3 style="display: flex; align-items: center;">
+        <i class="pi pi-clock" style="margin-right: 8px; color: #2196F3;"></i> Slot Timings
+      </h3>
+      <div class="grid grid-cols-5 gap-3 mt-2">
+        <p-chip *ngFor="let timing of dialogData[0].availableSlots[0].slots"
+          label="{{ timing.time }}"
+          removable="true"
+          class="p-m-1">
+        </p-chip>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Dates Section -->
+      <h3 style="display: flex; align-items: center;">
+        <i class="pi pi-calendar" style="margin-right: 8px; color: #4CAF50;"></i> Dates
+      </h3>
+      <div class="grid grid-cols-6 gap-2 mt-2">
+        <p-chip *ngFor="let date of dialogData[0].availableSlots"
+          label="{{ date.date | date }}"
+          removable="true"
+          class="p-m-1">
+        </p-chip>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Staff Section -->
+      <h3 style="display: flex; align-items: center;">
+        <i class="pi pi-users" style="margin-right: 8px; color: #FFC107;"></i> Staffs
+      </h3>
+      <div class="grid grid-cols-4 gap-2 mt-2">
+        <p-chip *ngFor="let staff of displaySelectedStaff()"
+          [label]="staff.id +'-'+ staff.name"
+          removable="true"
+          class="flex justify-center">
+        </p-chip>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Event Info Section -->
+      <div class="p-mt-3">
+        <h4>📋 <strong>Event Details</strong></h4>
+        <ul class="p-ml-3">
+          <li><strong>Start Date:</strong> {{ startDate | date: "shortDate" }}</li>
+          <li><strong>End Date:</strong> {{ endDate | date: "shortDate" }}</li>
+          <li><strong>Deadline:</strong> {{ responseDeadline | date: "shortDate" }}</li>
+          <li><strong>For Year:</strong> {{ forYear }}</li>
+          <li><strong>Event Type:</strong> {{ eventTypeRequest }}</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- No Data -->
+    <ng-template #noData>
+      <div class="p-text-center p-mt-4">
+        <h3>No Data Found 😕</h3>
+        <p>Looks like you've deleted everything!</p>
+      </div>
+    </ng-template>
+
+    <ng-template #footer >
+      <button pButton label="Cancel" icon="pi pi-times" class="p-button-secondary p-mr-2" (click)="display=false"></button>
+      <button pButton label="Send" severity="contrast" icon="pi pi-send" class="p-button-success" (click)="submit()" autofocus></button>
+    </ng-template>
+
+
+</p-dialog>
+

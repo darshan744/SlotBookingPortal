@@ -1,50 +1,46 @@
-import { CommonModule, DatePipe , KeyValuePipe} from '@angular/common';
-import {Component, OnInit ,ViewChild,inject} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { ChartData, ChartOptions, } from 'chart.js';
-import { BaseChartDirective, } from 'ng2-charts';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {SuperAdminService} from "../../../Services/SuperAdminServices/SlotGenerate/super-admin.service";
-import {HttpErrorResponse} from "@angular/common/http";
-import {MatPaginator} from "@angular/material/paginator";
-import {IDashboard, ISlot, IStudent , IQuery} from "../SuperAdmin.interface";
+import { SuperAdminService } from '../../../Services/SuperAdminServices/SlotGenerate/super-admin.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { IDashboard, IQuery } from '../SuperAdmin.interface';
 import { ToastrService } from '../../../Services/Toastr/toastr.service';
-import {CardModule} from 'primeng/card'
-import {ChartModule} from 'primeng/chart'
-import {InputTextModule} from 'primeng/inputtext'
-import {TableModule} from 'primeng/table'
+import { CardModule } from 'primeng/card';
+import { ChartModule } from 'primeng/chart';
+import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
+import { ChartData, ChartOptions } from 'chart.js';
+import { DropdownModule } from 'primeng/dropdown';
+import { ButtonModule } from 'primeng/button';
+import {TagModule} from 'primeng/tag'
 @Component({
   selector: 'app-dashboard',
   imports: [
-    MatCardModule,
-    MatExpansionModule,
+    MatExpansionModule,TagModule,
     FormsModule,
     CommonModule,
     CardModule,
     ChartModule,
     InputTextModule,
     TableModule,
+    DropdownModule,ButtonModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class Dashboard implements OnInit {
-method(arg0: any) {
-console.log(arg0);
-return arg0 ? arg0 : "NA"
-}
+  method(arg0: any) {
+    console.log(arg0);
+    return arg0 ? arg0 : 'NA';
+  }
   //for query form submition toast
   toastService = inject(ToastrService);
   //student's query details
   studentsQueries: IQuery[] = [];
   //query's status options
   queryStatusOptions = ['Pending', 'Resolved', 'Rejected'];
+
   //graph for each year;
   array = ['first year', 'Second Year', 'Third Year', 'Fourth Year'];
   eventTypes: string[] = [
@@ -130,8 +126,7 @@ return arg0 ? arg0 : "NA"
     this.events = events;
     // Simulated data
   }
-  ngAfterViewInit() {
-  }
+  ngAfterViewInit() {}
   setStudentData(studentData: IDashboard['students']) {
     const data = studentData.map((student) => {
       let datum: any = {
@@ -160,11 +155,15 @@ return arg0 ? arg0 : "NA"
     queryId: string
   ) {
     if (status === 'Pending') {
-      this.toastService.showToast('Please change status', "error" , "Status");
+      this.toastService.showToast('Please change status', 'error', 'Status');
       return;
     }
     if (remarks === '' || remarks === null) {
-      this.toastService.showToast('Remarks is not filled', "error" , "Fields Not filled");
+      this.toastService.showToast(
+        'Remarks is not filled',
+        'error',
+        'Fields Not filled'
+      );
       return;
     }
     this.service.postRemarksToQuery({ remarks, status, queryId });
@@ -172,4 +171,3 @@ return arg0 ? arg0 : "NA"
   eventHeaders = ['Id', 'Type', 'Date', 'For'];
   eventDetails = [] as any;
 }
-

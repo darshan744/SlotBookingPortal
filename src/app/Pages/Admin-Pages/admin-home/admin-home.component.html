@@ -1,52 +1,46 @@
 <div *ngIf="studentData.length > 0" class="shadow-md mt-5">
-
-<p-table [value]="studentData">
-  <ng-template #header>
-    <tr>
-      @for (col of displayedColumns; track $index) {
-        <th>{{col}}</th>
-      }
-    </tr>
-  </ng-template>
-  <ng-template #body let-student>
-    <tr>
-      <td> {{student.id}} </td>
-      <td> {{student.name}} </td>
-      <td><p-checkbox [binary]="true" [(ngModel)]="student.ispresent" ></p-checkbox></td>
-      <td> <p-inputNumber [(ngModel)]="student.marks" placeholder="Marks"></p-inputNumber> </td>
-      <td> <textarea pTextarea  [(ngModel)]="student.remarks" placeholder="Remarks"></textarea>
-      </td>
-      <td> <p-button  size="small" severity="contrast" label="Submit"></p-button> </td>
-    </tr>
-  </ng-template>
-</p-table>
+  <p-table [value]="studentData">
+    <ng-template #header>
+      <tr>
+        @for (col of displayedColumns; track $index) {
+        <th>{{ col }}</th>
+        }
+      </tr>
+    </ng-template>
+    <ng-template #body let-student>
+      <tr>
+        <td>{{ student.id }}</td>
+        <td>{{ student.name }}</td>
+        <td>
+          <p-checkbox
+            [binary]="true"
+            [(ngModel)]="student.ispresent"
+          ></p-checkbox>
+        </td>
+        <td>
+          <p-inputNumber
+            [(ngModel)]="student.marks"
+            placeholder="Marks"
+          ></p-inputNumber>
+        </td>
+        <td>
+          <textarea
+            pTextarea
+            [(ngModel)]="student.remarks"
+            placeholder="Remarks"
+          ></textarea>
+        </td>
+        <td>
+          <p-button size="small" severity="contrast" label="Submit"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
-<div *ngIf="studentData.length === 0" >
-  <div
-    style="
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    "
-  >
-    <div
-      style="
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 200px;
-        margin: 30px 30px 30px 30px;
-        border: 4px solid #cecccc;
-        border-radius: 5px;
-        width: 300px;
-      "
-    >
-      <span class="material-icons no-data-icon" style="font-size: 30px"
-        >folder</span
-      >
-      <p style="font-size: 18px">No Student For this Slot</p>
-    </div>
+<div class="flex justify-center p-12" *ngIf="studentData.length === 0">
+  <div class="flex flex-col items-center justify-center py-10 text-gray-500">
+    <i class="pi pi-database text-4xl mb-4"></i>
+    <p class="text-lg font-semibold">No Data Found</p>
+    <p class="text-sm text-gray-400">Please Try again after Some time</p>
   </div>
 </div>

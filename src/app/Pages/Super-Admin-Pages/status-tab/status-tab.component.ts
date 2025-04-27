@@ -8,10 +8,12 @@ import { DialogOpenService } from '../../../Services/DialogOpenService/dialog.se
 import { MatRipple } from '@angular/material/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import {DialogModule} from 'primeng/dialog'
+import {Divider} from 'primeng/divider'
+import { CardModule } from 'primeng/card';
 @Component({
     selector: 'app-status-tab',
-    imports: [MatTableModule, MatIconModule, NgClass, MatRipple, MatPaginatorModule, CommonModule],
+    imports: [DialogModule,Divider,CardModule , MatTableModule, MatIconModule, NgClass, MatRipple, MatPaginatorModule, CommonModule],
     templateUrl: './status-tab.component.html',
     styleUrl: './status-tab.component.css'
 })

@@ -1,6 +1,9 @@
-<div *ngIf="dataSource.data.length > 0;" class="table-container" style="display: flex; flex-direction: column">
+<div
+  *ngIf="dataSource.data.length > 0"
+  class="table-container"
+  style="display: flex; flex-direction: column"
+>
   <table mat-table class="table mat-elevation-z10" [dataSource]="dataSource">
-
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>Staff-id</th>
       <td mat-cell *matCellDef="let staff">{{ staff.id }}</td>
@@ -8,7 +11,7 @@
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let staff">{{ staff.name }}</td >
+      <td mat-cell *matCellDef="let staff">{{ staff.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="status">
@@ -41,30 +44,38 @@
 
     <ng-container matColumnDef="forYear">
       <th mat-header-cell *matHeaderCellDef>For Year</th>
-      <td mat-cell *matCellDef="let staff">{{staff.forYear}}</td>
+      <td mat-cell *matCellDef="let staff">{{ staff.forYear }}</td>
     </ng-container>
 
     <ng-container matColumnDef="eventType">
       <th mat-header-cell *matHeaderCellDef>Event Type</th>
-      <td mat-cell *matCellDef="let staff">{{staff.eventType}}</td>
+      <td mat-cell *matCellDef="let staff">{{ staff.eventType }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr mat-row
+    <tr
+      mat-row
       matRipple
       (click)="onClick(staff)"
       *matRowDef="let staff; columns: columns"
     ></tr>
   </table>
 
-  <mat-paginator class="mat-elevation-z8" #paginator
+  <mat-paginator
+    class="mat-elevation-z8"
+    #paginator
     [length]="statusDetails.length"
     [pageSize]="5"
-    [pageSizeOptions]="[5, 10, 15, 20, 25]">
+    [pageSizeOptions]="[5, 10, 15, 20, 25]"
+  >
   </mat-paginator>
 </div>
 
-<div class="no-data" *ngIf="dataSource.data.length === 0">
-  <p>No Response Were Found</p>
-  <span class="material-icons no-data-icon">folder</span>
+<div class="flex justify-center p-12" *ngIf="dataSource.data.length === 0">
+  <div class="flex flex-col items-center justify-center py-10 text-gray-500">
+    <i class="pi pi-database text-4xl mb-4"></i>
+    <p class="text-lg font-semibold">No Data Found</p>
+    <p class="text-sm text-gray-400">Please Try again after Some time</p>
+  </div>
 </div>
+<p-dialog header="Request Details"></p-dialog>

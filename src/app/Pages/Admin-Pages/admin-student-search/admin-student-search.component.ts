@@ -1,18 +1,14 @@
 import {  Component, inject, OnInit ,ViewChild} from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import {  MatInputModule } from '@angular/material/input';
 import {   FormsModule,  } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AdminService } from '../../../Services/AdminServices/admin-service.service';
 import { IStudentInfo } from '../../../Models/Admin.model';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
 import { environment } from '../../../../environments/environment.development';
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 import {FloatLabelModule} from 'primeng/floatlabel'
 import {InputTextModule} from 'primeng/inputtext'
 import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 interface IStudentData {
   id : string,
   name : string,
@@ -27,6 +23,7 @@ interface IStudentData {
     CommonModule,
     FormsModule,
     InputTextModule,
+    ButtonModule,
     TableModule,
     FloatLabelModule,
   ],
@@ -53,8 +50,8 @@ export class AdminStudentSearchComponent implements OnInit {
   }
   isMobile: boolean = false;
 
-  filter() {
-    
+  filter(event : Event) {
+    return (event.target as HTMLInputElement).value
   }
   ngOnDestroy() {
     if (this.breakPointSubscription) this.breakPointSubscription.unsubscribe();

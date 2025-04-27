@@ -41,94 +41,60 @@
       </ng-template>
     </p-table>
   </div>
-  <div style="margin-top: 10px;" class="table-container">
+  <div  *ngIf="studentsQueries.length > 0">
     <div>
-      <h3 style="font-weight: 500;color:gray">Event Details</h3>
+      <h3 class="text-2xl font-semibold">Queries</h3>
     </div>
-    <!-- <mat-table class="round-table" [dataSource]="eventDetails">
-      <ng-container matColumnDef="Id">
-        <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-        <mat-cell *matCellDef="let i;"> {{i['slotId']}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="Type">
-        <mat-header-cell *matHeaderCellDef>EventType</mat-header-cell>
-        <mat-cell *matCellDef="let i;"> {{i["eventType"]}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="Date">
-        <mat-header-cell *matHeaderCellDef>From-To </mat-header-cell>
-
-        <mat-cell *matCellDef="let i;">
-          @let startDate = i.startDate.split('T')[0];
-          @let endDate = i.endDate.split("T")[0];
-          {{startDate}} - {{endDate}}
-         </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="For">
-        <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
-        <mat-cell *matCellDef="let i;"> {{i['year']}} </mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="eventHeaders"></mat-header-row>
-      <mat-row *matRowDef="let i ; columns:eventHeaders"></mat-row>
-    </mat-table> -->
-  </div>
-  <div class="query-list-container" *ngIf="studentsQueries.length > 0">
-    <div>
-      <h3>Queries</h3>
-    </div>
-    @for (query of studentsQueries; track $index) {
-    <div class="query-details">
+   @for (query of studentsQueries; track $index) {
+  <p-card styleClass="query-card p-mb-3 shadow-3 p-p-4">
+    <div class="query-header">
       <div>
-        <p> <strong>Student id</strong> : {{query.raiserId}} </p>
-        <p> <strong>Query Id</strong> : {{query.queryId}} </p>
+        <p><strong>Student ID:</strong> {{ query.raiserId }}</p>
+        <p><strong>Query ID:</strong> {{ query.queryId }}</p>
       </div>
-      <div>
-        <h4>Query Title</h4>
-        <div>
-          <p>{{ query.title }}</p>
-        </div>
+      <div >
+        @if (query.status === 'Pending') {
+          <p-dropdown
+            [options]="queryStatusOptions"
+            [(ngModel)]="query.status"
+            placeholder="Status"
+            styleClass="status-dropdown">
+          </p-dropdown>
+        }
+        @else {
+          <p-tag class="status-chip" [severity]="query.status === 'Resolved' ? 'success' : 'danger'" [value]="query.status"></p-tag>
+        }
       </div>
-
-      <h4>Query Description</h4>
-      <div class="query-description">
-        <div>
-          <p>{{ query.description }}</p>
-        </div>
-        <div>
-           @if(query.status === 'Pending') {
-            <select [(ngModel)]="query.status" class="status-select"><option *ngFor="let status of queryStatusOptions" [value]="status"> {{status}} </option></select>
-           }
-           @else {
-             <p [classList]="query.status" style="font-size: medium;"
-                >
-            {{ status }}
-            </p>
-           }
-        </div>
-      </div>
-
-      <h4>Remarks</h4>
-      <div style="display: flex;justify-content: space-between;align-items: center;">
-        <div>
-          @let status = query.status;
-          <textarea [disabled]="status !== 'Pending'"  [(ngModel)]="query.remarks" class="remarks"  [placeholder]="status === 'Pending' ? 'Remarks' : query.remarks"></textarea>
-        </div>
-        <div>
-            <button (click)="postRemarks(query.remarks , query.status , query.queryId)" style="padding: 5px 10px; border-radius: 3px; background-color: #007BFF; color: white; border: none; cursor: pointer;">Submit</button>
-        </div>
-      </div>
-
     </div>
-      }
-    <div
-      style="
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-        gap: 30px;
-      "
-    >
-      <button class="page-btn">Previous</button>
-      <button class="page-btn">Next</button>
+
+    <div >
+      <h4 >📌 Query Title</h4>
+      <p >{{ query.title }}</p>
+
+      <h4 >📝 Query Description</h4>
+      <p >{{ query.description }}</p>
+
+      <h4>💬 Remarks</h4>
+      @let status = query.status;
+      <textarea
+        [disabled]="status !== 'Pending'"
+        [(ngModel)]="query.remarks"
+        class="remarks-area"
+        [placeholder]="status === 'Pending' ? 'Enter remarks here...' : query.remarks">
+      </textarea>
+
+      <div >
+        <button
+          pButton
+          label="Submit"
+          class="p-button-sm p-button-success"
+          (click)="postRemarks(query.remarks, query.status, query.queryId)">
+        </button>
+      </div>
     </div>
+  </p-card>
+}
+
+
   </div>
 </div>

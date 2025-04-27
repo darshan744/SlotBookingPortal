@@ -23,6 +23,7 @@ export interface items{
     RouterLink,
     CommonModule,
     MenubarModule,
+    RouterLinkActive
   ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.css',

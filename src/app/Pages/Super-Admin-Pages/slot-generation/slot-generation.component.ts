@@ -39,6 +39,9 @@ import { DatePickerModule } from 'primeng/datepicker';
 import {  InputNumberModule } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 import {  InputTextModule } from 'primeng/inputtext';
+import { ChipModule } from 'primeng/chip';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
 type AcceptedResponse = {
   success: boolean;
   data: {
@@ -72,12 +75,15 @@ type AcceptedResponse = {
     InputNumberModule,
     SelectModule,
     InputTextModule,
+    ChipModule,
+    ButtonModule,
+    DialogModule
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './slot-generation.component.html',
-  styleUrl: './slot-generation.component.css',
 })
 export class SlotGenerationComponent implements OnInit {
+  slotTimeDialog:boolean = false;
   form: FormGroup;
   years = ['Year 1', 'Year 2', 'Year 3', 'Year 4'];
   eventsList = ['Mock Interview', 'Self Introduction', 'Group Discussion'];
@@ -177,11 +183,12 @@ export class SlotGenerationComponent implements OnInit {
         alert('Not Valid');
         return;
       }
-      this.toast.showToast('Generated Successfully', 'info', 'Success');
-      this.dialog.open(this.dialogComp);
+      this.toast.showToast('Generated Successfully', 'success', 'Success');
+      this.slotTimeDialog = true;
     }
   }
 
+  cancelGeneratedSlost() {this.slots.set([]);this.toast.showToast('Cancelled', 'info', 'Deleted');}
   addStaff() {
     const venue = this.form.get('enteredData.venue');
     const staffs = this.form.get('enteredData.staff');
@@ -227,8 +234,9 @@ export class SlotGenerationComponent implements OnInit {
     }
   }
 
-  removeStaff(e: MatChipEvent) {
-    let val = e.chip.value;
+  removeStaff(e: string) {
+    let val = e;
+    console.log(val);
     this.venues.update((values) => {
       return values.map((el) => ({
         ...el,

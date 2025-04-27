@@ -1,20 +1,9 @@
 
 import {  ViewChild, Component,  OnInit, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
-import { MatCheckbox } from '@angular/material/checkbox';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
 import { TableModule } from 'primeng/table';
-import {
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef,
-  MatRowDef,
-  MatTableModule
-} from '@angular/material/table';
 import { AdminService } from '../../../Services/AdminServices/admin-service.service';
-import { map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Checkbox } from 'primeng/checkbox';
 import { InputNumber } from 'primeng/inputnumber';

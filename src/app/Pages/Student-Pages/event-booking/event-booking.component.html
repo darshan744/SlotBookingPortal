@@ -21,20 +21,6 @@
         (onChange)="mapSlotsToSelectedStaff()"
         optionLabel="id"
       ></p-select>
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Staff Select</mat-label>
-        <mat-select
-          [(ngModel)]="selectedStaff"
-          (selectionChange)="mapSlotsToSelectedStaff()"
-        >
-          <mat-option
-            *ngFor="let staff of selectedVenueStaffArray"
-            [value]="staff.id"
-            >{{ staff.id }}</mat-option
-          >
-        </mat-select>
-        <mat-hint>Select Instructor</mat-hint>
-      </mat-form-field> -->
     </div>
     <div class="slots-container">
       <div class="grid grid-cols-4 gap-10 mt-10">
@@ -100,16 +86,14 @@
     (alreadyBooked === null && data === null) || alreadyBooked?.slotFinished
   "
 >
-  <div
-    class="justify-self-center bg-white mt-3 text-black w-[40rem] p-3 rounded-md h-[10rem]"
-  >
-    <h2 class="font-bold text-3xl">
-      No new slots are available at the moment.
-    </h2>
-    <p class="text-gray-600 tex-2xl">
-      Please check back later or contact support if you need assistance.
-    </p>
+  <div class="flex justify-center p-12">
+  <div class="flex flex-col items-center justify-center py-10 text-gray-500">
+    <i class="pi pi-database text-4xl mb-4"></i>
+    <p class="text-lg font-semibold">No Data Found</p>
+    <p class="text-sm text-gray-400">Please Try again after Some time</p>
   </div>
+</div>
+
 </ng-container>
 
 <!-- ============== ================= ================-->

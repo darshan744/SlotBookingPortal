@@ -26,11 +26,11 @@ interface event{
 })
 export class SuperadminComponent {
   list: MenuItem[] = [
-    { label: 'Dashboard', routerLink: 'Search', icon: 'dashboard' },
-    { label: 'Request', routerLink: 'Create', icon: 'event' },
-    { label: 'Settings', routerLink: 'settings', icon: 'settings' },
-    { label: 'Status', routerLink: 'status', icon: 'pending_actions' },
-    { label: 'Create-Slot', routerLink: 'slot', icon: 'schedule' },
+    { label: 'Dashboard', routerLink: 'Search', icon: 'pi pi-objects-column' },
+    { label: 'Request', routerLink: 'Create', icon: 'pi pi-calendar-minus' },
+    { label: 'Settings', routerLink: 'settings', icon: 'pi pi-cog' },
+    { label: 'Status', routerLink: 'status', icon: 'pi pi-clock' },
+    { label: 'Create-Slot', routerLink: 'slot', icon: 'pi pi-calendar-plus' },
   ];
   role: string = 'SuperAdmin';
 }

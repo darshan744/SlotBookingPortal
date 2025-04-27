@@ -1,102 +1,148 @@
-<div class="container">
-  <!-- Main Form -->
-  <div class="slot-generate">
-    <h3>Generate Slots</h3>
-    <mat-divider></mat-divider>
-    <form class="inputs" [formGroup]="form">
-      <div formGroupName="data">
-        <p-select formControlName="selectedBreakConfig" [options]="breaks" placeholder="Interval Range" optionValue="configurationId" optionLabel="configurationId"></p-select>
+<div class="m-3 grid grid-cols-2">
+  <div>
+    <div>
+      <h3 class="text-2xl font-semibold">Generate Slots</h3>
+      <form class="w-full grid md:grid-cols-3 gap-4 grid-cols-2 mt-2" [formGroup]="form">
+        <div formGroupName="data">
+          <p-select
+            class="w-full"
+            formControlName="selectedBreakConfig"
+            [options]="breaks"
+            placeholder="Interval Range"
+            optionValue="configurationId"
+            optionLabel="configurationId"
+          ></p-select>
+        </div>
+        <div formGroupName="data">
+          <p-inputnumber
+            class="w-full"
+            formControlName="range"
+            required
+            placeholder="Interval Timing"
+            name="Intervals"
+            placeholder="Enter Intervals"
+          />
+        </div>
+        <div formGroupName="enteredData">
+          <p-inputnumber class="w-full"
+            placeholder="Enter Slot limit"
+            name="Limit" required formControlName="limit" type="number" />
+        </div>
+        <div formGroupName="enteredData">
+          <p-datepicker
+            class="w-full"
+            formControlName="startDate"
+            placeholder="Start Date"
+          />
+        </div>
+        <div formGroupName="enteredData">
+          <p-datepicker
+            class="w-full"
+            formControlName="endDate"
+            placeholder="End Date"
+          />
+        </div>
+      </form>
+      <div class="flex justify-center">
+        <button class="mt-3"
+        pButton
+        severity="contrast"
+        size="small"
+        type="button"
+        (click)="generateSlot()"
+      >
+        Generate
+      </button>
       </div>
-      <!-- <mat-form-field appearance="outline" formGroupName="data">
-        <mat-label>Break Timings</mat-label>
-        <mat-select formControlName="selectedBreakConfig">
-          <mat-option [value]="b.configurationId" *ngFor="let b of breaks">{{b.configurationId}}</mat-option>
-        </mat-select>
-      </mat-form-field> -->
-      <!-- Slot Interval -->
-      <div formGroupName="enteredData">
-        <p-inputnumber formControlName="range" type="number" required  name="Intervals" placeholder="Enter Intervals" />
-      </div>
-      <!-- Slot Limit -->
-       <div formGroupName="enteredData">
-         <p-inputnumber formControlName="limit" type="number" />
-       </div>
-      <!-- Start Date -->
-       <div formGroupName="enteredData">
-         <p-datepicker formControlName="startDate" placeholder="Start Date" />
-       </div>
-      <!-- End Date -->
-        <p-datepicker formControlName="startDate" placeholder="End Date" />
-    </form>
-    <div style="display: flex;justify-content: center;">
-      <button mat-button type="button" (click)="generateSlot()"><mat-icon>autorenew</mat-icon> Generate</button>
+    </div>
+    <div>
+      <h3 class="font-semibold text-xl">Event and Batch</h3>
+      <form [formGroup]="form" >
+        <div class="mt-2 grid grid-cols-2 gap-3">
+          <!-- Event Selection -->
+          <div formGroupName="enteredData">
+            <p-select class="w-full"
+              formControlName="selectedEvent"
+              placeholder="Event Name"
+              [options]="eventsList"
+            />
+          </div>
+          <div formGroupName="enteredData" appearance="outline">
+            <p-select class="w-full"
+              formControlName="selectedYear"
+              placeholder="Year"
+              [options]="years"
+            ></p-select>
+          </div>
+
+          <div formGroupName="enteredData" appearance="outline">
+            <input class="w-full"
+              pInputText
+              formControlName="venue"
+              placeholder="Venue"
+              name="venue"
+              type="text"
+              matInput
+            />
+          </div>
+
+          <!-- Staff Input -->
+          <div formGroupName="enteredData">
+            <p-select class="w-full"
+              formControlName="staff"
+              [options]="acceptedStaffs"
+              optionValue="id"
+              placeholder="Staffs.."
+              optionLabel="name"
+            ></p-select>
+          </div>
+        </div>
+        <div class="mt-3 mb-3 flex justify-center">
+          <button pButton icon="pi pi-user-plus" severity="info" size="small" type="button" (click)="addStaff()">
+            Add Staff
+          </button>
+        </div>
+        <button pButton (click)="submit()" size="small" class="w-full" type="button" >
+          Generate Slots
+        </button>
+      </form>
     </div>
   </div>
-
-  <form [formGroup]="form" class="event-types">
-    <h3>Event and Batch</h3>
-    <mat-divider></mat-divider>
-    <div class="event-forms">
-      <!-- Event Selection -->
-      <div formGroupName="enteredData">
-        <p-select  formControlName="selectedEvent" placeholder="Event Name" [options]="eventsList" />
+  <div class="ml-3">
+    <h2 class="text-2xl font-semibold">Generated Slots</h2>
+    <div *ngFor="let venue of venues()">
+      <div *ngIf="venue.staffs.length > 0">
+        <h3 class="mb-2 text-xl font-semibold">{{venue.venue}}</h3>
+        <div class="grid-cols-6 gap-2">
+          <p-chip
+            *ngFor="let staff of venue.staffs"
+            [removable]="true"
+            (onRemove)="removeStaff(staff)"
+          >
+            {{ staff }}
+          </p-chip>
+        </div>
       </div>
-
-      <!-- Batch Selection -->
-      <div formGroupName="enteredData" appearance="outline">
-        <p-select formControlName="selectedYear" placeholder="Year" [options]="years"></p-select>
-      </div>
-
-      <div formGroupName="enteredData" appearance="outline">
-        <input pInputText formControlName="venue" placeholder="Venue" name="venue" type="text" matInput />
-      </div>
-
-      <!-- Staff Input -->
-      <mat-form-field formGroupName="enteredData" appearance="outline">
-        <mat-label>Staff</mat-label>
-        <input [matAutocomplete]="auto" [matChipInputFor]="grid"
-        type="text" formControlName="staff" name="staff" matInput />
-        <mat-autocomplete #auto>
-          <mat-option *ngFor="let item of acceptedStaffs" [value]="item.id">
-            {{item.id}} - {{item.name}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
     </div>
-    <div style="display: flex;justify-content: center;">
-      <button mat-button type="button" (click)="addStaff()"><mat-icon>person_add</mat-icon> Add Staff</button>
-    </div>
-  </form>
-
-  <button mat-raised-button (click)="submit()" class="btns" color="primary"><mat-icon>event</mat-icon> Generate Slots</button>
-
-  <div class="slots-generated">
-    <h2>Generated Slots</h2>
-    <mat-chip-grid #grid>
-      <div style="margin: 10px;" *ngFor="let venue of venues()">
-        <ng-container *ngIf="venue.staffs.length > 0">
-          <h3>{{venue.venue}}</h3>
-          <div style="margin: 5px;" *ngFor="let staff of venue.staffs; let i = index">
-            <mat-chip (removed)="removeStaff($event)">
-              {{staff}}
-              <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-          </div>
-        </ng-container>
-      </div>
-    </mat-chip-grid>
   </div>
 </div>
-
-
+<p-dialog [visible]="slotTimeDialog" modal="true" header="Slot Timings" [style]="{width : '40rem'}">
+  <div class="grid grid-cols-4 gap-3">
+    <p-chip *ngFor="let slot of slots()"[removable]="false" class="flex justify-center" >{{slot}}</p-chip>
+  </div>
+  <ng-template #footer>
+    <button pButton severity="secondary" (click)="slotTimeDialog = false" (click)="cancelGeneratedSlost()">Cancel</button>
+    <button pButton severity="contrast" (click)="slotTimeDialog = false">Save</button>
+  </ng-template>
+</p-dialog>
 <ng-template #DialogTemplate>
   <h3 matDialogTitle>Slots</h3>
 
   <mat-dialog-content>
-    <ng-container style="margin: 10px;">
+    <ng-container style="margin: 10px">
       <mat-chip-set>
-        <div *ngFor="let slot of slots()" style="margin: 5px;">
-          <mat-chip>{{slot}}</mat-chip>
+        <div *ngFor="let slot of slots()" style="margin: 5px">
+          <mat-chip>{{ slot }}</mat-chip>
         </div>
       </mat-chip-set>
     </ng-container>

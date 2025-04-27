@@ -18,6 +18,9 @@ import { ToastrService } from '../../../Services/Toastr/toastr.service';
 import {InputTextModule} from 'primeng/inputtext'
 import {ChipModule} from 'primeng/chip'
 import {  TextareaModule } from 'primeng/textarea';
+import {FloatLabelModule} from 'primeng/floatlabel'
+import { DatePickerModule } from 'primeng/datepicker';
+import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-settings',
   imports: [
@@ -29,13 +32,14 @@ import {  TextareaModule } from 'primeng/textarea';
     CommonModule,
     MatChipsModule,
     ReactiveFormsModule,
-    NgxMatTimepickerComponent,
-    NgxMatTimepickerToggleComponent,
-    NgxMatTimepickerDirective,
     FormsModule,
     MatDialogModule,
     InputTextModule,
     ChipModule,
+    DatePickerModule,
+    FloatLabelModule,
+    ButtonModule
+
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './settings.component.html',

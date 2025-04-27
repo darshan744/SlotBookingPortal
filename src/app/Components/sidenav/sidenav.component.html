@@ -7,7 +7,7 @@
     <p-menubar [model]="items">
         <ng-template  #item let-item>
         <ng-container *ngIf="item.routerLink; else urlRef">
-            <a [routerLink]="item.routerLink" class="p-menubar-item-link">
+            <a routerLinkActive="selected-route" [routerLink]="item.routerLink" class="p-menubar-item-link">
                 <span [class]="item.icon"></span>
                 <span class="ml-2">{{ item.label }}</span>
             </a>
