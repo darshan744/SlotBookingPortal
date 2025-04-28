@@ -24,9 +24,9 @@
   <div class="mt-3">
     <div class="mb-2">
       <h3 style="margin-right: 10px;color:gray; font-weight: 500;">Students Details</h3>
-      <input type="text" pInputText >
+      <input type="text" (input)="table.filterGlobal(studentFilter($event) , 'contains')" pInputText >
     </div>
-    <p-table [columns]="events" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10 , 20]" [value]="dataSource">
+    <p-table #table [globalFilterFields]="['Id' , 'Name' , 'Department' , 'Year']" [columns]="events" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10 , 20]" [value]="dataSource">
       <ng-template #header>
         <tr>
           <th *ngFor="let row of events"> {{row}} </th>
@@ -41,13 +41,13 @@
       </ng-template>
     </p-table>
   </div>
-  <div  *ngIf="studentsQueries.length > 0">
+  <div class="mt-7" *ngIf="studentsQueries.length > 0">
     <div>
-      <h3 class="text-2xl font-semibold">Queries</h3>
+      <h3 class="text-2xl mb-3 font-semibold">Queries</h3>
     </div>
    @for (query of studentsQueries; track $index) {
   <p-card styleClass="query-card p-mb-3 shadow-3 p-p-4">
-    <div class="query-header">
+    <div class="flex justify-between gap-3">
       <div>
         <p><strong>Student ID:</strong> {{ query.raiserId }}</p>
         <p><strong>Query ID:</strong> {{ query.queryId }}</p>
@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div >
+    <div class="flex flex-col gap-2">
       <h4 >📌 Query Title</h4>
       <p >{{ query.title }}</p>
 
@@ -79,11 +79,11 @@
       <textarea
         [disabled]="status !== 'Pending'"
         [(ngModel)]="query.remarks"
-        class="remarks-area"
+        class="bg-[#2c2c2c] border-[#555] p-3 rounded"
         [placeholder]="status === 'Pending' ? 'Enter remarks here...' : query.remarks">
       </textarea>
 
-      <div >
+      <div class="flex mt-4 justify-end">
         <button
           pButton
           label="Submit"

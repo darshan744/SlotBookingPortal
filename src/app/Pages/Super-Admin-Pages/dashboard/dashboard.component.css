@@ -125,3 +125,82 @@ p {
 .Rejected{
   background-color: rgba(255, 0, 0, 0.284);
 }
+.query-card {
+  border-radius: 12px;
+  background-color: #1e1e1e;
+  /* dark background to match your page */
+  color: #f0f0f0;
+  /* light text */
+}
+
+.query-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+
+.query-status {
+  display: flex;
+  align-items: center;
+}
+
+.status-dropdown {
+  min-width: 120px;
+}
+
+.status-chip {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-chip.pending {
+  background-color: #ff9800;
+  color: #fff;
+}
+
+.status-chip.resolved {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.status-chip.rejected {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.query-body {
+  margin-top: 1rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.section-content {
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.remarks-area {
+  width: 100%;
+  min-height: 80px;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #2c2c2c;
+  border: 1px solid #555;
+  color: #ddd;
+  resize: vertical;
+}
+
+.submit-btn-wrapper {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}

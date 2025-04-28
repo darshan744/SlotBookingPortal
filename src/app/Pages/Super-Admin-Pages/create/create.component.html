@@ -68,6 +68,7 @@
         <p-chip *ngFor="let timing of dialogData[0].availableSlots[0].slots"
           label="{{ timing.time }}"
           removable="true"
+          (onRemove)="removeTiming(timing.time)"
           class="p-m-1">
         </p-chip>
       </div>
@@ -82,6 +83,7 @@
         <p-chip *ngFor="let date of dialogData[0].availableSlots"
           label="{{ date.date | date }}"
           removable="true"
+          (onRemove)="removeDate(date.date)"
           class="p-m-1">
         </p-chip>
       </div>
@@ -126,7 +128,7 @@
 
     <ng-template #footer >
       <button pButton label="Cancel" icon="pi pi-times" class="p-button-secondary p-mr-2" (click)="display=false"></button>
-      <button pButton label="Send" severity="contrast" icon="pi pi-send" class="p-button-success" (click)="submit()" autofocus></button>
+      <button pButton label="Send" severity="contrast" icon="pi pi-send" class="p-button-success" (click)="submitFinal()" autofocus></button>
     </ng-template>
 
 

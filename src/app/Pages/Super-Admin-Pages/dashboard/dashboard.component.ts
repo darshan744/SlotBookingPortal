@@ -31,7 +31,6 @@ import {TagModule} from 'primeng/tag'
 })
 export class Dashboard implements OnInit {
   method(arg0: any) {
-    console.log(arg0);
     return arg0 ? arg0 : 'NA';
   }
   //for query form submition toast
@@ -170,4 +169,8 @@ export class Dashboard implements OnInit {
   }
   eventHeaders = ['Id', 'Type', 'Date', 'For'];
   eventDetails = [] as any;
+  studentFilter(e : Event) {
+    let value = (e.target as HTMLInputElement).value;
+    return value;
+  }
 }

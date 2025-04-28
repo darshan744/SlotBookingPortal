@@ -170,8 +170,19 @@ export class CreateComponent implements OnInit {
     );
   }
   dialogData: i[] = [];
-  removeTiming() {
-    
+  removeTiming(time : string) {
+    for(const data of this.dialogData) {
+      data.availableSlots.forEach(e => {
+        e.slots.filter(slot => slot.time !== time);
+      })
+    }
   }
+  removeDate(date : string) {
+    for(const data of this.dialogData) {
+      data.availableSlots.filter(e=>e.date !== date);
+    }
+   }
+  submitFinal() { this.Service.requestSlotAvailability(this.dialogData); this.display = false;  }
+
 }
 

@@ -3,73 +3,31 @@
   class="table-container"
   style="display: flex; flex-direction: column"
 >
-  <table mat-table class="table mat-elevation-z10" [dataSource]="dataSource">
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>Staff-id</th>
-      <td mat-cell *matCellDef="let staff">{{ staff.id }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let staff">{{ staff.name }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let staff">
-        <div
-          [ngClass]="{
-            'status-accepted': staff.unmodifiedCount === 0,
-            'status-pending': staff.unmodifiedCount !== 0
-          }"
-        >
-          <mat-icon matIconSuffix>
-            @if(staff.unmodifiedCount === 0){ check_circle } @else {
-            hourglass_empty }
-          </mat-icon>
-          {{ staff.unmodifiedCount === 0 ? "Validated" : "Pending" }}
-        </div>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="phoneNumber">
-      <th mat-header-cell *matHeaderCellDef>Phone Number</th>
-      <td mat-cell *matCellDef="let staff">{{ staff.phoneNumber }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let staff">{{ staff.email }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="forYear">
-      <th mat-header-cell *matHeaderCellDef>For Year</th>
-      <td mat-cell *matCellDef="let staff">{{ staff.forYear }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="eventType">
-      <th mat-header-cell *matHeaderCellDef>Event Type</th>
-      <td mat-cell *matCellDef="let staff">{{ staff.eventType }}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr
-      mat-row
-      matRipple
-      (click)="onClick(staff)"
-      *matRowDef="let staff; columns: columns"
-    ></tr>
-  </table>
-
-  <mat-paginator
-    class="mat-elevation-z8"
-    #paginator
-    [length]="statusDetails.length"
-    [pageSize]="5"
-    [pageSizeOptions]="[5, 10, 15, 20, 25]"
-  >
-  </mat-paginator>
-</div>
+  <p-table [columns]="columns" [value]="staffStatus">
+    <ng-template #header>
+      <tr>
+        <th *ngFor="let row of columns">{{ row }}</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-staff>
+      <tr>
+        <td>{{ staff.id }}</td>
+        <td>{{ staff.name }}</td>
+        <td>{{ staff.phoneNumber }}</td>
+        <td>{{ staff.email }}</td>
+        <td>{{ staff.forYear }}</td>
+        <td>{{ staff.eventType }}</td>
+        <td>
+          @let isZero = staff.unmodifiedCount === 0;
+          <p-tag [severity]="isZero ? 'success' :'warn'">
+            <i [ngClass]="isZero ? 'pi pi-check-circle':  'pi pi-hourglass'"></i>
+          {{isZero ? 'Validated':  'Pending'}}
+          </p-tag>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  </div>
 
 <div class="flex justify-center p-12" *ngIf="dataSource.data.length === 0">
   <div class="flex flex-col items-center justify-center py-10 text-gray-500">
