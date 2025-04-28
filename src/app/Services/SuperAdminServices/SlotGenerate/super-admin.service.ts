@@ -106,9 +106,9 @@ export class SuperAdminService {
     })
   }
 
-  getIndividualResponse(staff: data) {
+  getIndividualResponse(id:string) {
     // let id = (sessionStorage.getItem('loggedInUser'))
-    let id = staff.id;
+
     return this.http.get<{ message: string, Result: Staff }>(`${environment.INDIVIDUAL_RESPONSE}/${id}`,{withCredentials:true})
   }
 

@@ -12,6 +12,8 @@ import { DialogModule } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { AccordionModule } from 'primeng/accordion';
+import { ChipModule } from 'primeng/chip';
 @Component({
   selector: 'app-status-tab',
   imports: [
@@ -23,7 +25,10 @@ import { TagModule } from 'primeng/tag';
     NgClass,
     MatPaginatorModule,
     CommonModule,
-    TagModule
+    TagModule,
+    AccordionModule,
+    DialogModule,
+    ChipModule
   ],
   templateUrl: './status-tab.component.html',
   styleUrl: './status-tab.component.css',
@@ -35,7 +40,7 @@ export class StatusTabComponent implements AfterViewInit, OnInit {
     private _dialogService: DialogOpenService,
     private _Service: SuperAdminService
   ) {}
-  staffStatus : data[] = [];
+  staffStatus: data[] = [];
   ngOnInit() {
     this._Service.getAllResponse().subscribe({
       next: (res) => {
@@ -68,15 +73,23 @@ export class StatusTabComponent implements AfterViewInit, OnInit {
     'eventType',
     'status',
   ];
-
-  onClick(staff: data) {
-    this._Service.getIndividualResponse(staff).subscribe({
-      next: (e: any) => {
-        this._dialogService.openStatusDialog(e);
-      },
-      error: (e: HttpErrorResponse) => {
-        this._dialogService.openSnackBar(e.error.message);
-      },
+  dialogData: any;
+  showDialog = false;
+  getIndividualResponse(id: string) {
+    this._Service.getIndividualResponse(id).subscribe((e) => {
+      this.dialogData = e.Result;
+      console.log(e.Result)
+      this.showDialog = true;
     });
+  }
+  onClick(staff: data) {
+    // this._Service.getIndividualResponse(staff).subscribe({
+    //   next: (e: any) => {
+    //     this._dialogService.openStatusDialog(e);
+    //   },
+    //   error: (e: HttpErrorResponse) => {
+    //     this._dialogService.openSnackBar(e.error.message);
+    //   },
+    // });
   }
 }

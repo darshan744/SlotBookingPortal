@@ -10,7 +10,7 @@
       </tr>
     </ng-template>
     <ng-template #body let-staff>
-      <tr>
+      <tr (click)="getIndividualResponse(staff.id)">
         <td>{{ staff.id }}</td>
         <td>{{ staff.name }}</td>
         <td>{{ staff.phoneNumber }}</td>
@@ -36,4 +36,17 @@
     <p class="text-sm text-gray-400">Please Try again after Some time</p>
   </div>
 </div>
-<p-dialog header="Request Details"></p-dialog>
+<p-dialog  *ngIf="dialogData !== undefined" [(visible)]="showDialog"[header]="dialogData.name" [style]="{width:'50rem'}">
+
+    <p-accordion [multiple]="true">
+      <p-accordionTab *ngFor="let slot of dialogData.availableSlots" [header]="((slot.date | date) || '')">
+        <div class="flex flex-wrap gap-2">
+          <p-chip *ngFor="let timeSlot of slot.slots"
+            label="{{ timeSlot.time }}"
+            class="bg-blue-500 text-white font-semibold rounded-full px-3 py-1 text-sm">
+          </p-chip>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+
+</p-dialog>
